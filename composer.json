@@ -1,0 +1,18 @@
+{
+	"name": "lucas/asaas-php-sdk",
+	"description": "Package to integratio Asaas",
+	"type": "library",
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"AsaasPhpSdk\\": "src/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Lucas Tonolli",
+			"email": "lucastonolli973@gmail.com"
+		}
+	],
+	"require": {}
+}
