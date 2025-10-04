@@ -12,7 +12,13 @@ use AsaasPhpSdk\Helper\ResponseHandler;
 
 final class CustomerService
 {
-	public function __construct(private Client $client) {}
+
+	private ResponseHandler $responseHandler;
+
+	public function __construct(private Client $client)
+	{
+		$this->responseHandler = new ResponseHandler();
+	}
 
 	/**
 	 * Create a new customer
@@ -28,6 +34,8 @@ final class CustomerService
 		} catch (\AsaasPhpSdk\Exceptions\InvalidCustomerDataException $e) {
 			throw new ValidationException($e->getMessage(), $e->getCode(), $e);
 		}
-		return (new CreateCustomer($this->client, new ResponseHandler))->handle($customerDTO);
+
+		$action = new CreateCustomer($this->client, $this->responseHandler);
+		return $action->handle($customerDTO);
 	}
 }
