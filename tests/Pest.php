@@ -59,7 +59,7 @@ function mockClient(array $responses = []): Client
     $mock = new MockHandler($responses);
     $handlerStack = HandlerStack::create($mock);
 
-    return new Client(['handler' => $handlerStack, 'http_errors' => false,]);
+    return new Client(['handler' => $handlerStack, 'http_errors' => false]);
 }
 
 /**

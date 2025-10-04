@@ -9,64 +9,64 @@ use GuzzleHttp\Exception\ConnectException;
 
 describe('Create Customer Action', function () {
 
-	it('creates customer successfully', function () {
-		$client = mockClient([
-			mockResponse([
-				'id' => 'cus_123',
-				'name' => 'João Silva',
-				'cpfCnpj' => '89887966088',
-			], 201)
-		]);
+    it('creates customer successfully', function () {
+        $client = mockClient([
+            mockResponse([
+                'id' => 'cus_123',
+                'name' => 'João Silva',
+                'cpfCnpj' => '89887966088',
+            ], 201),
+        ]);
 
-		$action = new CreateCustomer($client, new ResponseHandler());
+        $action = new CreateCustomer($client, new ResponseHandler);
 
-		$dto = CreateCustomerDTO::fromArray([
-			'name' => 'João Silva',
-			'cpfCnpj' => '898.879.660-88',
-		]);
+        $dto = CreateCustomerDTO::fromArray([
+            'name' => 'João Silva',
+            'cpfCnpj' => '898.879.660-88',
+        ]);
 
-		$result = $action->handle($dto);
+        $result = $action->handle($dto);
 
-		expect($result)->toBeArray()
-			->and($result['id'])->toBe('cus_123')
-			->and($result['name'])->toBe('João Silva')
-			->and($result['cpfCnpj'])->toBe('89887966088');
-	});
+        expect($result)->toBeArray()
+            ->and($result['id'])->toBe('cus_123')
+            ->and($result['name'])->toBe('João Silva')
+            ->and($result['cpfCnpj'])->toBe('89887966088');
+    });
 
-	it('throws ValidationException on 400 error', function () {
-		$client = mockClient([
-			mockErrorResponse('Input validation failed', 400, [
-				['description' => 'CPF is invalid'],
-			])
-		]);
-		$action = new CreateCustomer($client, new ResponseHandler());
+    it('throws ValidationException on 400 error', function () {
+        $client = mockClient([
+            mockErrorResponse('Input validation failed', 400, [
+                ['description' => 'CPF is invalid'],
+            ]),
+        ]);
+        $action = new CreateCustomer($client, new ResponseHandler);
 
-		$dto = CreateCustomerDTO::fromArray([
-			'name' => 'João Silva',
-			'cpfCnpj' => '11144477735',
-		]);
+        $dto = CreateCustomerDTO::fromArray([
+            'name' => 'João Silva',
+            'cpfCnpj' => '11144477735',
+        ]);
 
-		$action->handle($dto);
-	})->throws(ValidationException::class, 'CPF is invalid');
+        $action->handle($dto);
+    })->throws(ValidationException::class, 'CPF is invalid');
 
-	it('throws ApiException on network connection error', function () {
-		$mock = new GuzzleHttp\Handler\MockHandler([
-			new ConnectException(
-				'Connection failed',
-				new GuzzleHttp\Psr7\Request('POST', 'customers')
-			)
-		]);
+    it('throws ApiException on network connection error', function () {
+        $mock = new GuzzleHttp\Handler\MockHandler([
+            new ConnectException(
+                'Connection failed',
+                new GuzzleHttp\Psr7\Request('POST', 'customers')
+            ),
+        ]);
 
-		$handlerStack = GuzzleHttp\HandlerStack::create($mock);
-		$client = new GuzzleHttp\Client(['handler' => $handlerStack]);
+        $handlerStack = GuzzleHttp\HandlerStack::create($mock);
+        $client = new GuzzleHttp\Client(['handler' => $handlerStack]);
 
-		$action = new CreateCustomer($client, new ResponseHandler());
+        $action = new CreateCustomer($client, new ResponseHandler);
 
-		$dto = CreateCustomerDTO::fromArray([
-			'name' => 'João Silva',
-			'cpfCnpj' => '11144477735',
-		]);
+        $dto = CreateCustomerDTO::fromArray([
+            'name' => 'João Silva',
+            'cpfCnpj' => '11144477735',
+        ]);
 
-		$action->handle($dto);
-	})->throws(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
+        $action->handle($dto);
+    })->throws(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
 });
