@@ -33,10 +33,28 @@ final class Create
             ]);
 
             return $this->responseHandler->handle($response);
-        } catch (ConnectException $e) {
-            throw new ApiException('Failed to connect...');
         } catch (RequestException $e) {
-            $this->responseHandler->handle($e->getResponse());
+            if ($e->hasResponse()) {
+                return $this->responseHandler->handle($e->getResponse());
+            }
+
+            throw new ApiException(
+                'Request failed: ' . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        } catch (ConnectException $e) {
+            throw new ApiException(
+                'Failed to connect to Asaas API: ' . $e->getMessage(),
+                0,
+                $e
+            );
+        } catch (GuzzleException $e) {
+            throw new ApiException(
+                'HTTP client error: ' . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
         }
     }
 }
