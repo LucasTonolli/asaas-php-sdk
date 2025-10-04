@@ -68,5 +68,5 @@ describe('Create Customer Action', function () {
 		]);
 
 		$action->handle($dto);
-	})->throws(ApiException::class, 'Failed to connect...');
+	})->throws(ApiException::class, 'Failed to connect to Asaas API: Connection failed');
 });
