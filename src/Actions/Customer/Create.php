@@ -8,6 +8,8 @@ use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ApiException;
 use AsaasPhpSdk\Helper\ResponseHandler;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 
 final class Create
 {
@@ -28,12 +30,10 @@ final class Create
 			]);
 
 			return $this->responseHandler->handle($response);
-		} catch (\Throwable $e) {
-			throw new ApiException(
-				'Failed to create customer: ' . $e->getMessage(),
-				$e->getCode(),
-				$e
-			);
+		} catch (ConnectException $e) {
+			throw new ApiException('Failed to connect...');
+		} catch (GuzzleException $e) {
+			throw new ApiException('Failed to create customer...');
 		}
 	}
 }
