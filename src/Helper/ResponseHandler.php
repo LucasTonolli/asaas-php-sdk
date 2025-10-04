@@ -68,11 +68,9 @@ final class ResponseHandler
      */
     private function parseBody(ResponseInterface $response): array
     {
-        $body = $response->getBody()->getContents();
-
-        if (empty($body)) {
-            return [];
-        }
+        $body = (string) $response->getBody();
+        $body = preg_replace('/^\xEF\xBB\xBF/', '', $body);
+        $body = trim($body);
 
         $data = json_decode($body, true);
 

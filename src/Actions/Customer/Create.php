@@ -10,6 +10,7 @@ use AsaasPhpSdk\Helper\ResponseHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 
 final class Create
 {
@@ -21,7 +22,8 @@ final class Create
      * @param  CreateCustomerDTO  $data  Customer data
      * @return array Customer data from API
      *
-     * @throws AsaasException
+     * @throws AsaasException, 
+     * @throws GuzzleException
      */
     public function handle(CreateCustomerDTO $data): array
     {
@@ -33,8 +35,8 @@ final class Create
             return $this->responseHandler->handle($response);
         } catch (ConnectException $e) {
             throw new ApiException('Failed to connect...');
-        } catch (GuzzleException $e) {
-            throw new ApiException('Failed to create customer...');
+        } catch (RequestException $e) {
+            $this->responseHandler->handle($e->getResponse());
         }
     }
 }
