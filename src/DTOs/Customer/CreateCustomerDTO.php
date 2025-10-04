@@ -35,10 +35,7 @@ final class CreateCustomerDTO
 	{
 
 		$sanitizedData = self::sanitize($data);
-
-
 		self::validate($sanitizedData);
-
 		$formattedData = self::format($sanitizedData);
 
 		return new self(
@@ -66,7 +63,7 @@ final class CreateCustomerDTO
 
 	public function toArray(): array
 	{
-		return  array_filter([
+		$data = [
 			'name' => $this->name,
 			'cpfCnpj' => $this->cpfCnpj,
 			'email' => $this->email,
@@ -86,7 +83,9 @@ final class CreateCustomerDTO
 			'groupName' => $this->groupName,
 			'company' => $this->company,
 			'foreignCustomer' => $this->foreignCustomer,
-		], fn($value) => $value !== null);
+		];
+
+		return array_filter($data, fn($value) => $value !== null && $value !== false);
 	}
 
 	private static function sanitize(array $data): array
