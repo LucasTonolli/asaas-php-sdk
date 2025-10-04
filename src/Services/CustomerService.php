@@ -13,12 +13,7 @@ use AsaasPhpSdk\Helper\ResponseHandler;
 final class CustomerService
 {
 
-	private ResponseHandler $responseHandler;
-
-	public function __construct(private Client $client)
-	{
-		$this->responseHandler = new ResponseHandler();
-	}
+	public function __construct(private Client $client,  private readonly ResponseHandler $responseHandler = new ResponseHandler()) {}
 
 	/**
 	 * Create a new customer
