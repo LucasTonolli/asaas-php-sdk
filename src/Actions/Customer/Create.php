@@ -13,27 +13,28 @@ use GuzzleHttp\Exception\GuzzleException;
 
 final class Create
 {
-	public function __construct(private readonly Client $client, private readonly ResponseHandler $responseHandler) {}
+    public function __construct(private readonly Client $client, private readonly ResponseHandler $responseHandler) {}
 
-	/**
-	 * Create a new customer in Asaas
-	 * 
-	 * @param CreateCustomerDTO $data Customer data
-	 * @return array Customer data from API
-	 * @throws AsaasException
-	 */
-	public function handle(CreateCustomerDTO $data): array
-	{
-		try {
-			$response = $this->client->post('customers', [
-				'json' => $data->toArray()
-			]);
+    /**
+     * Create a new customer in Asaas
+     *
+     * @param  CreateCustomerDTO  $data  Customer data
+     * @return array Customer data from API
+     *
+     * @throws AsaasException
+     */
+    public function handle(CreateCustomerDTO $data): array
+    {
+        try {
+            $response = $this->client->post('customers', [
+                'json' => $data->toArray(),
+            ]);
 
-			return $this->responseHandler->handle($response);
-		} catch (ConnectException $e) {
-			throw new ApiException('Failed to connect...');
-		} catch (GuzzleException $e) {
-			throw new ApiException('Failed to create customer...');
-		}
-	}
+            return $this->responseHandler->handle($response);
+        } catch (ConnectException $e) {
+            throw new ApiException('Failed to connect...');
+        } catch (GuzzleException $e) {
+            throw new ApiException('Failed to create customer...');
+        }
+    }
 }

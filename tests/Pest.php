@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use AsaasPhpSdk\Config\AsaasConfig;
 use AsaasPhpSdk\AsaasClient;
+use AsaasPhpSdk\Config\AsaasConfig;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -26,20 +26,23 @@ uses()->in('Feature');
 */
 
 expect()->extend('toBeValidCpf', function () {
-	$cpf = preg_replace('/\D/', '', $this->value);
-	expect(strlen($cpf))->toBe(11);
-	return $this;
+    $cpf = preg_replace('/\D/', '', $this->value);
+    expect(strlen($cpf))->toBe(11);
+
+    return $this;
 });
 
 expect()->extend('toBeValidCnpj', function () {
-	$cnpj = preg_replace('/\D/', '', $this->value);
-	expect(strlen($cnpj))->toBe(14);
-	return $this;
+    $cnpj = preg_replace('/\D/', '', $this->value);
+    expect(strlen($cnpj))->toBe(14);
+
+    return $this;
 });
 
 expect()->extend('toBeValidEmail', function () {
-	expect(filter_var($this->value, FILTER_VALIDATE_EMAIL))->not->toBeFalse();
-	return $this;
+    expect(filter_var($this->value, FILTER_VALIDATE_EMAIL))->not->toBeFalse();
+
+    return $this;
 });
 
 /*
@@ -53,10 +56,10 @@ expect()->extend('toBeValidEmail', function () {
  */
 function mockClient(array $responses = []): Client
 {
-	$mock = new MockHandler($responses);
-	$handlerStack = HandlerStack::create($mock);
+    $mock = new MockHandler($responses);
+    $handlerStack = HandlerStack::create($mock);
 
-	return new Client(['handler' => $handlerStack]);
+    return new Client(['handler' => $handlerStack]);
 }
 
 /**
@@ -64,11 +67,11 @@ function mockClient(array $responses = []): Client
  */
 function mockResponse(array $body, int $status = 200): Response
 {
-	return new Response(
-		status: $status,
-		headers: ['Content-Type' => 'application/json'],
-		body: json_encode($body)
-	);
+    return new Response(
+        status: $status,
+        headers: ['Content-Type' => 'application/json'],
+        body: json_encode($body)
+    );
 }
 
 /**
@@ -76,19 +79,19 @@ function mockResponse(array $body, int $status = 200): Response
  */
 function mockErrorResponse(string $message, int $status = 400, array $errors = []): Response
 {
-	$body = [
-		'message' => $message,
-	];
+    $body = [
+        'message' => $message,
+    ];
 
-	if (!empty($errors)) {
-		$body['errors'] = $errors;
-	}
+    if (! empty($errors)) {
+        $body['errors'] = $errors;
+    }
 
-	return new Response(
-		status: $status,
-		headers: ['Content-Type' => 'application/json'],
-		body: json_encode($body)
-	);
+    return new Response(
+        status: $status,
+        headers: ['Content-Type' => 'application/json'],
+        body: json_encode($body)
+    );
 }
 
 /**
@@ -96,10 +99,10 @@ function mockErrorResponse(string $message, int $status = 400, array $errors = [
  */
 function testConfig(): AsaasConfig
 {
-	return new AsaasConfig(
-		token: 'test_token_123',
-		isSandbox: true
-	);
+    return new AsaasConfig(
+        token: 'test_token_123',
+        isSandbox: true
+    );
 }
 
 /**
@@ -107,14 +110,15 @@ function testConfig(): AsaasConfig
  */
 function testClient(?Client $httpClient = null): AsaasClient
 {
-	$config = testConfig();
+    $config = testConfig();
 
-	if ($httpClient) {
-		// Inject mock HTTP client for testing
-		$client = new AsaasClient($config);
-		// Note: You'll need to add a method to inject the client or use reflection
-		return $client;
-	}
+    if ($httpClient) {
+        // Inject mock HTTP client for testing
+        $client = new AsaasClient($config);
 
-	return new AsaasClient($config);
+        // Note: You'll need to add a method to inject the client or use reflection
+        return $client;
+    }
+
+    return new AsaasClient($config);
 }
