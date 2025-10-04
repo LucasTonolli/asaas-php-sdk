@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use AsaasPhpSdk\Actions\Customer\Create as CreateCustomer;
 use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Helper\ResponseHandler;
 
 final class CustomerService
 {
@@ -27,6 +28,6 @@ final class CustomerService
 		} catch (\AsaasPhpSdk\Exceptions\InvalidCustomerDataException $e) {
 			throw new ValidationException($e->getMessage(), $e->getCode(), $e);
 		}
-		return (new CreateCustomer($this->client))->handle($customerDTO);
+		return (new CreateCustomer($this->client, new ResponseHandler))->handle($customerDTO);
 	}
 }
