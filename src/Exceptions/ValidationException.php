@@ -2,28 +2,17 @@
 
 namespace AsaasPhpSdk\Exceptions;
 
+use Throwable;
 
-/**
- * Thrown when CPF validation fails
- */
-class InvalidCpfException extends AsaasException {}
+class ValidationException extends AsaasException
+{
+	public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null, public readonly array $errors = [])
+	{
+		parent::__construct($message, $code, $previous);
+	}
 
-/**
- * Thrown when CNPJ validation fails
- */
-class InvalidCnpjException extends AsaasException {}
-
-/**
- * Thrown when postal code (CEP) validation fails
- */
-class InvalidPostalCodeException extends AsaasException {}
-
-/**
- * Thrown when phone number validation fails
- */
-class InvalidPhoneException extends AsaasException {}
-
-/**
- * Thrown when email validation fails
- */
-class InvalidEmailException extends AsaasException {}
+	public function getErrors(): array
+	{
+		return $this->errors;
+	}
+}
