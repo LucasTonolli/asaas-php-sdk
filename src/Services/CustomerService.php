@@ -7,7 +7,7 @@ namespace AsaasPhpSdk\Services;
 use AsaasPhpSdk\Actions\Customer\Create as CreateCustomer;
 use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
-use AsaasPhpSdk\Helper\ResponseHandler;
+use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
 final class CustomerService

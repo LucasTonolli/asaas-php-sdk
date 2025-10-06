@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Helper\DataSanitizer;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 
 class Cpf implements FormattableContract, ValueObjectContract
 {
@@ -15,7 +15,7 @@ class Cpf implements FormattableContract, ValueObjectContract
 
 	public static function from(string $cpf): self
 	{
-		$sanitized = DataSanitizer::onlyNumbers($cpf);
+		$sanitized = DataSanitizer::onlyDigits($cpf);
 
 		if ($sanitized === null || strlen($sanitized) !== 11) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidCpfException('CPF must contain exactly 11 digits');
@@ -30,7 +30,7 @@ class Cpf implements FormattableContract, ValueObjectContract
 
 	public static function isValidCpf(string $cpf): bool
 	{
-		$cpf = DataSanitizer::onlyNumbers($cpf) ?? '';
+		$cpf = DataSanitizer::onlyDigits($cpf) ?? '';
 
 		if (strlen($cpf) !== 11) {
 			return false;

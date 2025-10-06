@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Helper\DataSanitizer;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 
 class PostalCode implements FormattableContract, ValueObjectContract
 {
@@ -15,7 +15,7 @@ class PostalCode implements FormattableContract, ValueObjectContract
 
 	public static function from(string $postalCode): self
 	{
-		$sanitized = DataSanitizer::onlyNumbers($postalCode);
+		$sanitized = DataSanitizer::onlyDigits($postalCode);
 
 		if ($sanitized === null || strlen($sanitized) !== 8) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidPostalCodeException('Postal must contain exactly 8 digits');
@@ -30,7 +30,7 @@ class PostalCode implements FormattableContract, ValueObjectContract
 
 	public static function isValidPostalCode(string $postalCode): bool
 	{
-		$postalCode = DataSanitizer::onlyNumbers($postalCode) ?? '';
+		$postalCode = DataSanitizer::onlyDigits($postalCode) ?? '';
 
 		if (strlen($postalCode) !== 8) {
 			return false;

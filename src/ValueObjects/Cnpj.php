@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Helper\DataSanitizer;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 
 class Cnpj implements FormattableContract, ValueObjectContract
 {
@@ -15,7 +15,7 @@ class Cnpj implements FormattableContract, ValueObjectContract
 
 	public static function from(string $cnpj): self
 	{
-		$sanitized = DataSanitizer::onlyNumbers($cnpj);
+		$sanitized = DataSanitizer::onlyDigits($cnpj);
 
 		if ($sanitized === null || strlen($sanitized) !== 14) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidCnpjException('Cnpj must contain exactly 14 digits');
@@ -30,7 +30,7 @@ class Cnpj implements FormattableContract, ValueObjectContract
 
 	public static function isValidCnpj(string $cnpj): bool
 	{
-		$cnpj = DataSanitizer::onlyNumbers($cnpj) ?? '';
+		$cnpj = DataSanitizer::onlyDigits($cnpj) ?? '';
 
 		if (strlen($cnpj) !== 14) {
 			return false;

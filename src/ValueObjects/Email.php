@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Helper\DataSanitizer;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 
 class Email implements ValueObjectContract
 {

@@ -2,7 +2,7 @@
 
 namespace AsaasPhpSdk\ValueObjects;
 
-use AsaasPhpSdk\Helper\DataSanitizer;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 
 class Phone implements FormattableContract, ValueObjectContract
 {
@@ -15,7 +15,7 @@ class Phone implements FormattableContract, ValueObjectContract
 
 	public static function from(string $phone): self
 	{
-		$sanitized = DataSanitizer::onlyNumbers($phone);
+		$sanitized = DataSanitizer::onlyDigits($phone);
 
 		if ($sanitized === null || strlen($sanitized) !== 11) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidPhoneException('Invalid phone number format');
