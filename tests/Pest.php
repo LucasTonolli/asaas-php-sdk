@@ -128,8 +128,10 @@ function sandboxToken(): string
 {
     return $_ENV['ASAAS_SANDBOX_TOKEN'];
 }
-
-function sandboxUrl(): string
+function sandboxConfig(): AsaasPhpSdk\Config\AsaasConfig
 {
-    return 'https://api-sandbox.asaas.com/v3/';
+    return new AsaasPhpSdk\Config\AsaasConfig(
+        token: sandboxToken(),
+        isSandbox: true
+    );
 }
