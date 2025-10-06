@@ -11,7 +11,6 @@ use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
-use AsaasPhpSdk\ValueObjects\ValueObjectContract;
 
 final class CreateCustomerDTO
 {
