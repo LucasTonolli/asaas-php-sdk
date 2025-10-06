@@ -25,7 +25,7 @@ final class HttpClientFactory
 
         $stack->push(self::createRetryMiddleware());
 
-        if ($config->isSandbox()) {
+        if ($config->isSandbox() && $config->isLogsEnabled()) {
             $stack->push(self::createLoggingMiddleware());
         }
 
@@ -79,7 +79,7 @@ final class HttpClientFactory
             error_log(sprintf(
                 '[Asaas] %s %s {%s}',
                 $request->getMethod(),
-                $request->getUri()->getPath(),
+                $request->getUri(),
                 $request->getBody()->getContents()
             ));
 
