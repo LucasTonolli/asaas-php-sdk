@@ -15,7 +15,7 @@ class Cpf implements FormattableContract, ValueObjectContract
 
 	public static function from(string $cpf): self
 	{
-		$sanitized = DataSanitizer::sanitizeString($cpf);
+		$sanitized = DataSanitizer::onlyNumbers($cpf);
 
 		if ($sanitized === null || strlen($sanitized) !== 11) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidCpfException('CPF must contain exactly 11 digits');

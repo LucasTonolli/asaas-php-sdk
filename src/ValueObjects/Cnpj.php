@@ -15,7 +15,7 @@ class Cnpj implements FormattableContract, ValueObjectContract
 
 	public static function from(string $cnpj): self
 	{
-		$sanitized = DataSanitizer::sanitizeString($cnpj);
+		$sanitized = DataSanitizer::onlyNumbers($cnpj);
 
 		if ($sanitized === null || strlen($sanitized) !== 14) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidCnpjException('Cnpj must contain exactly 14 digits');

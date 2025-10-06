@@ -41,29 +41,29 @@ final class CreateCustomerDTO
     {
 
         $sanitizedData = self::sanitize($data);
-        self::validate($sanitizedData);
+        $validatedData = self::validate($sanitizedData);
 
 
         return new self(
-            name: $sanitizedData['name'],
-            cpfCnpj: $sanitizedData['cpfCnpj'],
-            email: $sanitizedData['email'],
-            phone: $sanitizedData['phone'],
-            mobilePhone: $sanitizedData['mobilePhone'],
-            address: $sanitizedData['address'],
-            addressNumber: $sanitizedData['addressNumber'],
-            complement: $sanitizedData['complement'],
-            province: $sanitizedData['province'],
-            postalCode: $sanitizedData['postalCode'],
-            externalReference: $sanitizedData['externalReference'],
-            notificationDisabled: $sanitizedData['notificationDisabled'],
-            additionalEmails: $sanitizedData['additionalEmails'],
-            municipalInscription: $sanitizedData['municipalInscription'],
-            stateInscription: $sanitizedData['stateInscription'],
-            observations: $sanitizedData['observations'],
-            groupName: $sanitizedData['groupName'],
-            company: $sanitizedData['company'],
-            foreignCustomer: $sanitizedData['foreignCustomer']
+            name: $validatedData['name'],
+            cpfCnpj: $validatedData['cpfCnpj'],
+            email: $validatedData['email'],
+            phone: $validatedData['phone'],
+            mobilePhone: $validatedData['mobilePhone'],
+            address: $validatedData['address'],
+            addressNumber: $validatedData['addressNumber'],
+            complement: $validatedData['complement'],
+            province: $validatedData['province'],
+            postalCode: $validatedData['postalCode'],
+            externalReference: $validatedData['externalReference'],
+            notificationDisabled: $validatedData['notificationDisabled'],
+            additionalEmails: $validatedData['additionalEmails'],
+            municipalInscription: $validatedData['municipalInscription'],
+            stateInscription: $validatedData['stateInscription'],
+            observations: $validatedData['observations'],
+            groupName: $validatedData['groupName'],
+            company: $validatedData['company'],
+            foreignCustomer: $validatedData['foreignCustomer']
         );
     }
 
@@ -72,14 +72,14 @@ final class CreateCustomerDTO
         $data = [
             'name' => $this->name,
             'cpfCnpj' => $this->cpfCnpj->value(),
-            'email' => $this->email->value(),
-            'phone' => $this->phone->value(),
-            'mobilePhone' => $this->mobilePhone->value(),
+            'email' => $this->email?->value(),
+            'phone' => $this->phone?->value(),
+            'mobilePhone' => $this->mobilePhone?->value(),
             'address' => $this->address,
             'addressNumber' => $this->addressNumber,
             'complement' => $this->complement,
             'province' => $this->province,
-            'postalCode' => $this->postalCode->formatted(),
+            'postalCode' => $this->postalCode?->formatted(),
             'externalReference' => $this->externalReference,
             'notificationDisabled' => $this->notificationDisabled,
             'additionalEmails' => $this->additionalEmails,
@@ -119,7 +119,7 @@ final class CreateCustomerDTO
         ];
     }
 
-    private static function validate(array $data): void
+    private static function validate(array $data): array
     {
         if (empty($data['name'])) {
             throw InvalidCustomerDataException::missingField('name');
@@ -130,7 +130,7 @@ final class CreateCustomerDTO
         }
 
         try {
-            $documentLength = DataSanitizer::onlyNumbers($data['cpfCnpj']);
+            $documentLength = strlen(DataSanitizer::onlyNumbers($data['cpfCnpj']));
             $data['cpfCnpj'] = $documentLength === 11 ? Cpf::from($data['cpfCnpj']) : Cnpj::from($data['cpfCnpj']);
         } catch (\Exception $e) {
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
@@ -167,5 +167,7 @@ final class CreateCustomerDTO
         } catch (\Exception $e) {
             throw InvalidCustomerDataException::invalidFormat('mobilePhone', $e->getMessage());
         }
+
+        return $data;
     }
 }
