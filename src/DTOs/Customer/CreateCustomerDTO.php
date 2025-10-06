@@ -131,6 +131,9 @@ final class CreateCustomerDTO
 
         try {
             $documentLength = strlen(DataSanitizer::onlyNumbers($data['cpfCnpj']));
+            if ($documentLength !== 11 && $documentLength !== 14) {
+                throw InvalidCustomerDataException::invalidFormat('cpfCnpj', 'CPF or CNPJ must contain 11 or 14 digits');
+            }
             $data['cpfCnpj'] = $documentLength === 11 ? Cpf::from($data['cpfCnpj']) : Cnpj::from($data['cpfCnpj']);
         } catch (\Exception $e) {
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
