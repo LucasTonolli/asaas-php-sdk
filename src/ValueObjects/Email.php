@@ -17,7 +17,7 @@ class Email implements ValueObjectContract
 	{
 		$sanitized = DataSanitizer::sanitizeEmail($email);
 
-		if (filter_var($sanitized, FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($sanitized, FILTER_VALIDATE_EMAIL)) {
 			throw new \AsaasPhpSdk\Exceptions\InvalidEmailException('Email is not valid');
 		}
 

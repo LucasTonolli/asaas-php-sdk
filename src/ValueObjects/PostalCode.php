@@ -22,7 +22,7 @@ class PostalCode implements FormattableContract, ValueObjectContract
 		}
 
 		if (!self::isValidPostalCode($sanitized)) {
-			throw new \AsaasPhpSdk\Exceptions\InvalidCpfException("Invalid Postal Code: {$postalCode}");
+			throw new \AsaasPhpSdk\Exceptions\InvalidPostalCodeException("Invalid Postal Code: {$postalCode}");
 		}
 
 		return new self($sanitized);

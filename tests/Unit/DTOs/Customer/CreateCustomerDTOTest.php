@@ -11,23 +11,23 @@ describe('CreateCustomerDTO', function () {
         $data = [
             'name' => 'Test Name',
             'cpfCnpj' => '898.879.660-88',
-            'email' => 'a@b.com',
+            'email' => 'John@gmail.com',
             'mobilePhone' => '(99) 99999-9999',
         ];
 
         $dto = CreateCustomerDTO::fromArray($data);
 
         expect($dto->name)->toBe('Test Name')
-            ->and($dto->cpfCnpj)->toBe('89887966088')
-            ->and($dto->email)->toBe('a@b.com')
-            ->and($dto->mobilePhone)->toBe('99999999999');
+            ->and($dto->cpfCnpj->value())->toBe('89887966088')
+            ->and($dto->email->value())->toBe('john@gmail.com')
+            ->and($dto->mobilePhone->value())->toBe('99999999999');
     });
 
     it('fields filled were formatted, sanitized and validated', function () {
         $data = [
             'name' => '  Test Name  ',
             'cpfCnpj' => '898.879.660-88',
-            'email' => 'a@b.com',
+            'email' => 'JohN@gmail.com',
             'mobilePhone' => '(99) 99999-9999',
             'postalCode' => '12345-678',
         ];
@@ -35,10 +35,10 @@ describe('CreateCustomerDTO', function () {
         $dto = CreateCustomerDTO::fromArray($data);
 
         expect($dto->name)->toBe('Test Name')
-            ->and($dto->cpfCnpj)->toBe('89887966088')
-            ->and($dto->email)->toBe('a@b.com')
-            ->and($dto->mobilePhone)->toBe('99999999999')
-            ->and($dto->postalCode)->toBe('12345-678');
+            ->and($dto->cpfCnpj->value())->toBe('89887966088')
+            ->and($dto->email->value())->toBe('john@gmail.com')
+            ->and($dto->mobilePhone->value())->toBe('99999999999')
+            ->and($dto->postalCode->formatted())->toBe('12345-678');
     });
 
     it('fields not filled not appear in toArray', function () {
@@ -60,13 +60,13 @@ describe('CreateCustomerDTO', function () {
             'cpfCnpj' => '898.879.660-88',
         ];
 
-        expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Required field 'name' is missing.");
+        expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Required field 'name' is missing.");
 
         $data = [
             'name' => 'Test Name',
         ];
 
-        expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Required field 'cpfCnpj' is missing.");
+        expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Required field 'cpfCnpj' is missing.");
     });
 
     describe('validation for optional fields', function () {
@@ -77,7 +77,7 @@ describe('CreateCustomerDTO', function () {
                 'email' => 'test',
             ];
 
-            expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Field 'email' has invalid format.");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Email is not valid");
         });
 
         it('if value from postalCode is invalid throws exception', function () {
@@ -88,7 +88,7 @@ describe('CreateCustomerDTO', function () {
 
             ];
 
-            expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Field 'postalCode' has invalid format.");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Postal must contain exactly 8 digits");
         });
         it('if value from phone or mobilePhone is invalid throws exception', function () {
             $data = [
@@ -97,11 +97,11 @@ describe('CreateCustomerDTO', function () {
                 'phone' => '123',
                 'mobilePhone' => '123',
             ];
-            expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Field 'phone' has invalid format.");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Invalid phone number format");
 
             unset($data['phone']);
 
-            expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Field 'mobilePhone' has invalid format.");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Invalid phone number format");
         });
 
         it('if value from cpfCnpj is invalid throws exception', function () {
@@ -110,11 +110,11 @@ describe('CreateCustomerDTO', function () {
                 'cpfCnpj' => '123',
             ];
 
-            expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Field 'cpfCnpj' has invalid format.");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "CPF or CNPJ must contain 11 or 14 digits");
 
-            $data['cpfCnpj'] = '111111111111111';
+            $data['cpfCnpj'] = '11111111111111';
 
-            expect(fn () => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Field 'cpfCnpj' has invalid format.");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Invalid Cnpj: 11111111111111");
         });
 
         it('formats postalCode with hyphen after sanitization', function () {
@@ -124,7 +124,7 @@ describe('CreateCustomerDTO', function () {
                 'postalCode' => '01310000',
             ]);
 
-            expect($dto->postalCode)->toBe('01310-000');
+            expect($dto->postalCode->formatted())->toBe('01310-000');
         });
     });
 });
