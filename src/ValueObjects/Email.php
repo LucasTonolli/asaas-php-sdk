@@ -3,15 +3,11 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
 class Email implements ValueObjectContract
 {
-	private string $value;
-
-	private function __construct(string $email)
-	{
-		$this->value = $email;
-	}
+	use StringValueObject;
 
 	public static function from(string $email): self
 	{
@@ -22,25 +18,5 @@ class Email implements ValueObjectContract
 		}
 
 		return new self($sanitized);
-	}
-
-	public function value(): string
-	{
-		return $this->value;
-	}
-
-	public function jsonSerialize(): mixed
-	{
-		return $this->value;
-	}
-
-	public function __toString(): string
-	{
-		return $this->value;
-	}
-
-	public function equals(ValueObjectContract $other): bool
-	{
-		return $other instanceof self && $this->value === $other->value;
 	}
 }

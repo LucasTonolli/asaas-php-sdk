@@ -3,15 +3,11 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
 class Cpf implements FormattableContract, ValueObjectContract
 {
-	private string $value;
-
-	private function __construct(string $cpf)
-	{
-		$this->value = $cpf;
-	}
+	use StringValueObject;
 
 	public static function from(string $cpf): self
 	{
@@ -61,28 +57,8 @@ class Cpf implements FormattableContract, ValueObjectContract
 		return $digit2 === (int) $cpf[10];
 	}
 
-
-	public function value(): string
-	{
-		return $this->value;
-	}
-
 	public function formatted(): string
 	{
 		return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $this->value);
-	}
-
-	public function jsonSerialize(): mixed
-	{
-		return $this->value;
-	}
-
-	public function __toString(): string
-	{
-		return $this->formatted();
-	}
-	public function equals(ValueObjectContract $other): bool
-	{
-		return $other instanceof self && $this->value === $other->value;
 	}
 }

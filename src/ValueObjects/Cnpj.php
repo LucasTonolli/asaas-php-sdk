@@ -3,15 +3,12 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
 class Cnpj implements FormattableContract, ValueObjectContract
 {
-	private string $value;
+	use StringValueObject;
 
-	private function __construct(string $cnpj)
-	{
-		$this->value = $cnpj;
-	}
 
 	public static function from(string $cnpj): self
 	{
@@ -61,12 +58,6 @@ class Cnpj implements FormattableContract, ValueObjectContract
 		return $digit2 === (int) $cnpj[13];
 	}
 
-
-	public function value(): string
-	{
-		return $this->value;
-	}
-
 	public function formatted(): string
 	{
 		return preg_replace(
@@ -74,19 +65,5 @@ class Cnpj implements FormattableContract, ValueObjectContract
 			'$1.$2.$3/$4-$5',
 			$this->value
 		);
-	}
-
-	public function jsonSerialize(): mixed
-	{
-		return $this->value;
-	}
-
-	public function __toString(): string
-	{
-		return $this->formatted();
-	}
-	public function equals(ValueObjectContract $other): bool
-	{
-		return $other instanceof self && $this->value === $other->value;
 	}
 }

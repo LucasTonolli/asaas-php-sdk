@@ -3,15 +3,11 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
 class PostalCode implements FormattableContract, ValueObjectContract
 {
-	private string $value;
-
-	private function __construct(string $postalCode)
-	{
-		$this->value = $postalCode;
-	}
+	use StringValueObject;
 
 	public static function from(string $postalCode): self
 	{
@@ -36,34 +32,11 @@ class PostalCode implements FormattableContract, ValueObjectContract
 			return false;
 		}
 
-		/**
-		 * TODO: Request to API VIACEP || BRASIL API
-		 */
 		return true;
-	}
-
-
-	public function value(): string
-	{
-		return $this->value;
 	}
 
 	public function formatted(): string
 	{
 		return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $this->value);
-	}
-
-	public function jsonSerialize(): mixed
-	{
-		return $this->value;
-	}
-
-	public function __toString(): string
-	{
-		return $this->formatted();
-	}
-	public function equals(ValueObjectContract $other): bool
-	{
-		return $other instanceof self && $this->value === $other->value;
 	}
 }
