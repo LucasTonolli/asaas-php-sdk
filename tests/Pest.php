@@ -122,3 +122,16 @@ function testClient(?Client $httpClient = null): AsaasClient
 
     return new AsaasClient($config);
 }
+
+
+function sandboxToken(): string
+{
+    return $_ENV['ASAAS_SANDBOX_TOKEN'];
+}
+function sandboxConfig(): AsaasPhpSdk\Config\AsaasConfig
+{
+    return new AsaasPhpSdk\Config\AsaasConfig(
+        token: sandboxToken(),
+        isSandbox: true
+    );
+}

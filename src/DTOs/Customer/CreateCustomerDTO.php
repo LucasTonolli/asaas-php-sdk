@@ -118,7 +118,7 @@ final class CreateCustomerDTO
                 11 => Cpf::from($data['cpfCnpj']),
                 14 => Cnpj::from($data['cpfCnpj']),
                 default => throw new \InvalidArgumentException(
-                    " CPF or CNPJ must contain 11 or 14 digits"
+                    "CPF or CNPJ must contain 11 or 14 digits"
                 ),
             };
         } catch (\Exception $e) {
