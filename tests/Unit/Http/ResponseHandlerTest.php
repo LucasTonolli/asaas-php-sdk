@@ -7,7 +7,7 @@ use AsaasPhpSdk\Exceptions\AuthenticationException;
 use AsaasPhpSdk\Exceptions\NotFoundException;
 use AsaasPhpSdk\Exceptions\RateLimitException;
 use AsaasPhpSdk\Exceptions\ValidationException;
-use AsaasPhpSdk\Helper\ResponseHandler;
+use AsaasPhpSdk\Helpers\ResponseHandler;
 
 describe('ResponseHandler', function () {
 

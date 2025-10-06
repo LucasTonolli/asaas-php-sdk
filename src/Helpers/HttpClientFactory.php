@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Helper;
+namespace AsaasPhpSdk\Helpers;
 
 use AsaasPhpSdk\Config\AsaasConfig;
 use GuzzleHttp\Client;
@@ -37,7 +37,7 @@ final class HttpClientFactory
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,

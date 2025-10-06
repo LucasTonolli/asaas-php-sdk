@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs\Customer;
 
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
-use AsaasPhpSdk\Helper\DataSanitizer;
+use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;
 use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 final class CreateCustomerDTO
 {
@@ -130,45 +129,50 @@ final class CreateCustomerDTO
         }
 
         try {
-            $documentLength = strlen(DataSanitizer::onlyNumbers($data['cpfCnpj']));
-            if ($documentLength !== 11 && $documentLength !== 14) {
-                throw InvalidCustomerDataException::invalidFormat('cpfCnpj', 'CPF or CNPJ must contain 11 or 14 digits');
-            }
-            $data['cpfCnpj'] = $documentLength === 11 ? Cpf::from($data['cpfCnpj']) : Cnpj::from($data['cpfCnpj']);
+            $sanitized = DataSanitizer::onlyDigits($data['cpfCnpj']);
+            $length = strlen($sanitized ?? '');
+
+            $data['cpfCnpj'] = match ($length) {
+                11 => Cpf::from($data['cpfCnpj']),
+                14 => Cnpj::from($data['cpfCnpj']),
+                default => throw new \InvalidArgumentException(
+                    " CPF or CNPJ must contain 11 or 14 digits"
+                ),
+            };
         } catch (\Exception $e) {
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
         }
 
-        try {
-            if ($data['email']) {
+        if ($data['email']) {
+            try {
                 $data['email'] = Email::from($data['email']);
+            } catch (\Exception $e) {
+                throw InvalidCustomerDataException::invalidFormat('email', $e->getMessage());
             }
-        } catch (\Exception $e) {
-            throw InvalidCustomerDataException::invalidFormat('email', $e->getMessage());
         }
 
-        try {
-            if ($data['postalCode']) {
+        if ($data['postalCode']) {
+            try {
                 $data['postalCode'] = PostalCode::from($data['postalCode']);
+            } catch (\Exception $e) {
+                throw InvalidCustomerDataException::invalidFormat('postalCode', $e->getMessage());
             }
-        } catch (\Exception $e) {
-            throw InvalidCustomerDataException::invalidFormat('postalCode', $e->getMessage());
         }
 
-        try {
-            if ($data['phone']) {
+        if ($data['phone']) {
+            try {
                 $data['phone'] = Phone::from($data['phone']);
+            } catch (\Exception $e) {
+                throw InvalidCustomerDataException::invalidFormat('phone', $e->getMessage());
             }
-        } catch (\Exception $e) {
-            throw InvalidCustomerDataException::invalidFormat('phone', $e->getMessage());
         }
 
-        try {
-            if ($data['mobilePhone']) {
+        if ($data['mobilePhone']) {
+            try {
                 $data['mobilePhone'] = Phone::from($data['mobilePhone']);
+            } catch (\Exception $e) {
+                throw InvalidCustomerDataException::invalidFormat('mobilePhone', $e->getMessage());
             }
-        } catch (\Exception $e) {
-            throw InvalidCustomerDataException::invalidFormat('mobilePhone', $e->getMessage());
         }
 
         return $data;

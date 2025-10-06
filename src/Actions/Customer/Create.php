@@ -6,7 +6,7 @@ namespace AsaasPhpSdk\Actions\Customer;
 
 use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ApiException;
-use AsaasPhpSdk\Helper\ResponseHandler;
+use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -39,19 +39,19 @@ final class Create
             }
 
             throw new ApiException(
-                'Request failed: '.$e->getMessage(),
+                'Request failed: ' . $e->getMessage(),
                 $e->getCode(),
                 $e
             );
         } catch (ConnectException $e) {
             throw new ApiException(
-                'Failed to connect to Asaas API: '.$e->getMessage(),
+                'Failed to connect to Asaas API: ' . $e->getMessage(),
                 0,
                 $e
             );
         } catch (GuzzleException $e) {
             throw new ApiException(
-                'HTTP client error: '.$e->getMessage(),
+                'HTTP client error: ' . $e->getMessage(),
                 $e->getCode(),
                 $e
             );

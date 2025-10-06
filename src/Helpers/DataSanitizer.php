@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Helper;
+namespace AsaasPhpSdk\Helpers;
 
 /**
  * Helper class for common data sanitization
@@ -10,7 +10,7 @@ namespace AsaasPhpSdk\Helper;
 final class DataSanitizer
 {
 
-	public static function onlyNumbers(?string $value): ?string
+	public static function onlyDigits(?string $value): ?string
 	{
 		if ($value === null) {
 			return null;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk;
 
 use AsaasPhpSdk\Config\AsaasConfig;
-use AsaasPhpSdk\Helper\HttpClientFactory;
+use AsaasPhpSdk\Helpers\HttpClientFactory;
 use AsaasPhpSdk\Services\CustomerService;
 use GuzzleHttp\Client;
 
