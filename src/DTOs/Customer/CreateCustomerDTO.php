@@ -11,6 +11,7 @@ use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
+use AsaasPhpSdk\ValueObjects\ValueObjectContract;
 
 final class CreateCustomerDTO
 {
@@ -44,25 +45,7 @@ final class CreateCustomerDTO
 
 
         return new self(
-            name: $validatedData['name'],
-            cpfCnpj: $validatedData['cpfCnpj'],
-            email: $validatedData['email'],
-            phone: $validatedData['phone'],
-            mobilePhone: $validatedData['mobilePhone'],
-            address: $validatedData['address'],
-            addressNumber: $validatedData['addressNumber'],
-            complement: $validatedData['complement'],
-            province: $validatedData['province'],
-            postalCode: $validatedData['postalCode'],
-            externalReference: $validatedData['externalReference'],
-            notificationDisabled: $validatedData['notificationDisabled'],
-            additionalEmails: $validatedData['additionalEmails'],
-            municipalInscription: $validatedData['municipalInscription'],
-            stateInscription: $validatedData['stateInscription'],
-            observations: $validatedData['observations'],
-            groupName: $validatedData['groupName'],
-            company: $validatedData['company'],
-            foreignCustomer: $validatedData['foreignCustomer']
+            ...$validatedData
         );
     }
 
@@ -90,7 +73,7 @@ final class CreateCustomerDTO
             'foreignCustomer' => $this->foreignCustomer,
         ];
 
-        return array_filter($data, fn($value) => $value !== null && $value !== false);
+        return array_filter($data, fn($value) => $value !== null);
     }
 
     private static function sanitize(array $data): array
@@ -143,38 +126,22 @@ final class CreateCustomerDTO
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
         }
 
-        if ($data['email']) {
-            try {
-                $data['email'] = Email::from($data['email']);
-            } catch (\Exception $e) {
-                throw InvalidCustomerDataException::invalidFormat('email', $e->getMessage());
-            }
-        }
-
-        if ($data['postalCode']) {
-            try {
-                $data['postalCode'] = PostalCode::from($data['postalCode']);
-            } catch (\Exception $e) {
-                throw InvalidCustomerDataException::invalidFormat('postalCode', $e->getMessage());
-            }
-        }
-
-        if ($data['phone']) {
-            try {
-                $data['phone'] = Phone::from($data['phone']);
-            } catch (\Exception $e) {
-                throw InvalidCustomerDataException::invalidFormat('phone', $e->getMessage());
-            }
-        }
-
-        if ($data['mobilePhone']) {
-            try {
-                $data['mobilePhone'] = Phone::from($data['mobilePhone']);
-            } catch (\Exception $e) {
-                throw InvalidCustomerDataException::invalidFormat('mobilePhone', $e->getMessage());
-            }
-        }
+        self::validateValueObject($data, 'email', Email::class);
+        self::validateValueObject($data, 'postalCode', PostalCode::class);
+        self::validateValueObject($data, 'phone', Phone::class);
+        self::validateValueObject($data, 'mobilePhone', Phone::class);
 
         return $data;
+    }
+
+    private static function validateValueObject(array &$data, string $key, string $class): void
+    {
+        if (isset($data[$key])) {
+            try {
+                $data[$key] = $class::from($data[$key]);
+            } catch (\Exception $e) {
+                throw InvalidCustomerDataException::invalidFormat($key, $e->getMessage());
+            }
+        }
     }
 }
