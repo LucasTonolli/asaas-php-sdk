@@ -97,11 +97,11 @@ describe('CreateCustomerDTO', function () {
                 'phone' => '123',
                 'mobilePhone' => '123',
             ];
-            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Invalid phone number format");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Phone must contain 10 or 11 digits");
 
             unset($data['phone']);
 
-            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Invalid phone number format");
+            expect(fn() => CreateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, "Phone must contain 10 or 11 digits");
         });
 
         it('if value from cpfCnpj is invalid throws exception', function () {

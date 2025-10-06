@@ -2,10 +2,11 @@
 
 namespace AsaasPhpSdk\ValueObjects;
 
+use AsaasPhpSdk\Exceptions\InvalidPhoneException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
-class Phone implements FormattableContract, ValueObjectContract
+final class Phone implements FormattableContract, ValueObjectContract
 {
 	use StringValueObject;
 
@@ -13,14 +14,36 @@ class Phone implements FormattableContract, ValueObjectContract
 	{
 		$sanitized = DataSanitizer::onlyDigits($phone);
 
-		if ($sanitized === null || strlen($sanitized) !== 11) {
-			throw new \AsaasPhpSdk\Exceptions\InvalidPhoneException('Invalid phone number format');
+		if ($sanitized === null) {
+			throw new InvalidPhoneException('Phone number cannot be empty');
+		}
+
+		$length = strlen($sanitized);
+		if ($length !== 10 && $length !== 11) {
+			throw new InvalidPhoneException(
+				"Phone must contain 10 or 11 digits"
+			);
 		}
 
 		return new self($sanitized);
 	}
+
 	public function formatted(): string
 	{
-		return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $this->value);
+		if (strlen($this->value) === 11) {
+			return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $this->value);
+		}
+
+		return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $this->value);
+	}
+
+	public function isMobile(): bool
+	{
+		return strlen($this->value) === 11;
+	}
+
+	public function isLandline(): bool
+	{
+		return strlen($this->value) === 10;
 	}
 }
