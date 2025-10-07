@@ -11,9 +11,6 @@
 
 ## Customer
 
-### Create Customer
-
-in progress
-
-- Ver sobre implementação de interface
-  - Pensar na interface específica para cada service
+[ ] - Mudar namespace de customer → customers
+[ ] - Trabalhar na phpdocs
+[ ] - Padronizar {Verbo}{Recurso}Action
