@@ -42,13 +42,13 @@ class ListCustomersDTO
 	private static function sanitize(array $data): array
 	{
 		return [
-			'offset' => DataSanitizer::sanitizeInteger($data['offset']) ?? null,
-			'limit' => DataSanitizer::sanitizeInteger($data['limit']) ?? null,
-			'name' => DataSanitizer::sanitizeString($data['name']) ?? null,
+			'offset' => DataSanitizer::sanitizeInteger($data['offset'] ?? null),
+			'limit' => DataSanitizer::sanitizeInteger($data['limit'] ?? null),
+			'name' => DataSanitizer::sanitizeString($data['name'] ?? null),
 			'email' => self::sanitizeEmail($data['email'] ?? null),
 			'cpfCnpj' => self::sanitizeCpfCnpj($data['cpfCnpj'] ?? null),
-			'groupName' => DataSanitizer::sanitizeString($data['groupName']) ?? null,
-			'externalReference' => DataSanitizer::sanitizeString($data['externalReference']) ?? null
+			'groupName' => DataSanitizer::sanitizeString($data['groupName'] ?? null),
+			'externalReference' => DataSanitizer::sanitizeString($data['externalReference'] ?? null)
 		];
 	}
 
