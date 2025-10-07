@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Actions\Customer;
 
+use AsaasPhpSdk\Actions\AbstractAction;
 use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ApiException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
@@ -12,7 +13,7 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 
-final class Create
+final class Create extends AbstractAction
 {
     public function __construct(private readonly Client $client, private readonly ResponseHandler $responseHandler) {}
 
