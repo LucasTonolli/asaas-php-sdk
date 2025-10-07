@@ -76,10 +76,10 @@ class ListCustomersDTO
 			return null;
 		}
 
-		$lenght = strlen($sanitized);
+		$length  = strlen($sanitized);
 
 		try {
-			return match ($lenght) {
+			return match ($length) {
 				11 => Cpf::from($sanitized),
 				14 => Cnpj::from($sanitized),
 				default => null
