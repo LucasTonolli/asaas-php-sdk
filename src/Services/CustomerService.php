@@ -42,7 +42,7 @@ final class CustomerService
      */
     public function list(array $filters = []): array
     {
-        $dto = ListCustomersDTO::fromArray($filters);
+        $dto = $this->createDTO(ListCustomersDTO::class, $filters);
         $action = new ListCustomersAction($this->client, $this->responseHandler);
 
         return $action->handle($dto);
