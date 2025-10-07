@@ -42,7 +42,6 @@ final class CreateCustomerDTO
         $sanitizedData = self::sanitize($data);
         $validatedData = self::validate($sanitizedData);
 
-
         return new self(
             ...$validatedData
         );
@@ -72,7 +71,7 @@ final class CreateCustomerDTO
             'foreignCustomer' => $this->foreignCustomer,
         ];
 
-        return array_filter($data, fn($value) => $value !== null);
+        return array_filter($data, fn ($value) => $value !== null);
     }
 
     private static function sanitize(array $data): array
@@ -118,7 +117,7 @@ final class CreateCustomerDTO
                 11 => Cpf::from($data['cpfCnpj']),
                 14 => Cnpj::from($data['cpfCnpj']),
                 default => throw new \InvalidArgumentException(
-                    "CPF or CNPJ must contain 11 or 14 digits"
+                    'CPF or CNPJ must contain 11 or 14 digits'
                 ),
             };
         } catch (\Exception $e) {

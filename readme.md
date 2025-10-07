@@ -11,6 +11,4 @@
 
 ## Customer
 
-[ ] - Mudar namespace de customer → customers
 [ ] - Trabalhar na phpdocs
-[ ] - Padronizar {Verbo}{Recurso}Action

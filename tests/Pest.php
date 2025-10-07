@@ -123,7 +123,6 @@ function testClient(?Client $httpClient = null): AsaasClient
     return new AsaasClient($config);
 }
 
-
 function sandboxToken(): string
 {
     return $_ENV['ASAAS_SANDBOX_TOKEN'];

@@ -14,12 +14,11 @@ final class CreateCustomerAction extends AbstractAction
      *
      * @param  CreateCustomerDTO  $data  Customer data
      * @return array Customer data from API
-     *
      */
     public function handle(CreateCustomerDTO $data): array
     {
         return $this->executeRequest(
-            fn() => $this->client->post('customers', ['json' => $data->toArray()])
+            fn () => $this->client->post('customers', ['json' => $data->toArray()])
         );
     }
 }

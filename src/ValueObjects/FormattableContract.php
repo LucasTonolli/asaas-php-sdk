@@ -4,5 +4,5 @@ namespace AsaasPhpSdk\ValueObjects;
 
 interface FormattableContract
 {
-	public function formatted(): string;
+    public function formatted(): string;
 }

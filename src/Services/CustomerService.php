@@ -18,14 +18,14 @@ final class CustomerService
 
     /**
      * Create a new customer
-     * 
-     * @param array $data Customer data
+     *
+     * @param  array  $data  Customer data
      * @return array Created customer data
+     *
      * @throws ValidationException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      */
-
     public function create(array $data): array
     {
         $dto = $this->createDTO(CreateCustomerDTO::class, $data);
@@ -33,11 +33,13 @@ final class CustomerService
 
         return $action->handle($dto);
     }
+
     /**
      * List customers with optional filters
-     * 
-     * @param array $filters Optional filters (limit, offset, name, email, cpfCnpj)
+     *
+     * @param  array  $filters  Optional filters (limit, offset, name, email, cpfCnpj)
      * @return array Paginated list of customers
+     *
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      */
     public function list(array $filters = []): array
@@ -50,11 +52,12 @@ final class CustomerService
 
     /**
      * Helper method to create DTOs with consistent error handling
-     * 
+     *
      * @template T
-     * @param class-string<T> $dtoClass
-     * @param array $data
+     *
+     * @param  class-string<T>  $dtoClass
      * @return T
+     *
      * @throws ValidationException
      */
     private function createDTO(string $dtoClass, array $data): object

@@ -7,10 +7,10 @@ use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 
 final class ListCustomersAction extends AbstractAction
 {
-	public function handle(ListCustomersDTO $data): array
-	{
-		return $this->executeRequest(
-			fn() => $this->client->get('customers', ['query' => $data->toArray()])
-		);
-	}
+    public function handle(ListCustomersDTO $data): array
+    {
+        return $this->executeRequest(
+            fn () => $this->client->get('customers', ['query' => $data->toArray()])
+        );
+    }
 }

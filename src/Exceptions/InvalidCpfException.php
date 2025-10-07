@@ -2,7 +2,6 @@
 
 namespace AsaasPhpSdk\Exceptions;
 
-
 /**
  * Thrown when CPF validation fails
  */
