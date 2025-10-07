@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Customer\Create as CreateCustomer;
+use AsaasPhpSdk\Actions\Customer\ListCustomersAction;
 use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
+use AsaasPhpSdk\DTOs\Customer\ListCustomersDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
@@ -16,22 +18,51 @@ final class CustomerService
 
     /**
      * Create a new customer
-     *
-     * @param  array  $data  Customer data
-     * @return array Customer data from Asaas
-     *
+     * 
+     * @param array $data Customer data
+     * @return array Created customer data
      * @throws ValidationException
+     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\ApiException
      */
+
     public function create(array $data): array
     {
+        $dto = $this->createDTO(CreateCustomerDTO::class, $data);
+        $action = new CreateCustomer($this->client, $this->responseHandler);
+
+        return $action->handle($dto);
+    }
+    /**
+     * List customers with optional filters
+     * 
+     * @param array $filters Optional filters (limit, offset, name, email, cpfCnpj)
+     * @return array Paginated list of customers
+     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     */
+    public function list(array $filters = []): array
+    {
+        $dto = ListCustomersDTO::fromArray($filters);
+        $action = new ListCustomersAction($this->client, $this->responseHandler);
+
+        return $action->handle($dto);
+    }
+
+    /**
+     * Helper method to create DTOs with consistent error handling
+     * 
+     * @template T
+     * @param class-string<T> $dtoClass
+     * @param array $data
+     * @return T
+     * @throws ValidationException
+     */
+    private function createDTO(string $dtoClass, array $data): object
+    {
         try {
-            $customerDTO = CreateCustomerDTO::fromArray($data);
+            return $dtoClass::fromArray($data);
         } catch (\AsaasPhpSdk\Exceptions\InvalidCustomerDataException $e) {
             throw new ValidationException($e->getMessage(), $e->getCode(), $e);
         }
-
-        $action = new CreateCustomer($this->client, $this->responseHandler);
-
-        return $action->handle($customerDTO);
     }
 }
