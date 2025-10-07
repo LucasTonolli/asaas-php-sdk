@@ -12,8 +12,6 @@ use GuzzleHttp\Client;
 
 final class Create extends AbstractAction
 {
-    public function __construct(protected readonly Client $client, protected readonly ResponseHandler $responseHandler) {}
-
     /**
      * Create a new customer in Asaas
      *

@@ -11,6 +11,11 @@ use GuzzleHttp\Exception\RequestException;
 
 abstract class AbstractAction
 {
+	public function __construct(
+		protected readonly Client $client,
+		protected readonly ResponseHandler $responseHandler
+	) {}
+
 	protected function executeRequest(callable $request): array
 	{
 		try {

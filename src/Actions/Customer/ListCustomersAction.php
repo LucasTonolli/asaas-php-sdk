@@ -10,7 +10,6 @@ use GuzzleHttp\Client;
 
 final class ListCustomersAction extends AbstractAction
 {
-	public function __construct(protected readonly Client $client, protected readonly ResponseHandler $responseHandler) {}
 	public function handle(ListCustomersDTO $data): array
 	{
 		return $this->executeRequest(
