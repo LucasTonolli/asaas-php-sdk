@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\Actions\Customer;
+namespace AsaasPhpSdk\Actions\Customers;
 
 use AsaasPhpSdk\Actions\AbstractAction;
-use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
-use AsaasPhpSdk\Helpers\ResponseHandler;
-use GuzzleHttp\Client;
+use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 
-
-final class Create extends AbstractAction
+final class CreateCustomerAction extends AbstractAction
 {
     /**
      * Create a new customer in Asaas

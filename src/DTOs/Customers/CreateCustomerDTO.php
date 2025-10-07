@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AsaasPhpSdk\DTOs\Customer;
+namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
 use AsaasPhpSdk\Helpers\DataSanitizer;

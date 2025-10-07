@@ -1,6 +1,6 @@
 <?php
 
-namespace AsaasPhpSdk\DTOs\Customer;
+namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;

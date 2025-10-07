@@ -1,12 +1,9 @@
 <?php
 
-namespace AsaasPhpSdk\Actions\Customer;
+namespace AsaasPhpSdk\Actions\Customers;
 
 use AsaasPhpSdk\Actions\AbstractAction;
-use AsaasPhpSdk\DTOs\Customer\ListCustomersDTO;
-use AsaasPhpSdk\Helpers\ResponseHandler;
-use GuzzleHttp\Client;
-
+use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 
 final class ListCustomersAction extends AbstractAction
 {

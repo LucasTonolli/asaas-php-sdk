@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
+use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
 
 describe('CreateCustomerDTO', function () {

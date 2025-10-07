@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Services;
 
-use AsaasPhpSdk\Actions\Customer\Create as CreateCustomer;
-use AsaasPhpSdk\Actions\Customer\ListCustomersAction;
-use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
-use AsaasPhpSdk\DTOs\Customer\ListCustomersDTO;
+use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
+use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
+use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
+use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
@@ -29,7 +29,7 @@ final class CustomerService
     public function create(array $data): array
     {
         $dto = $this->createDTO(CreateCustomerDTO::class, $data);
-        $action = new CreateCustomer($this->client, $this->responseHandler);
+        $action = new CreateCustomerAction($this->client, $this->responseHandler);
 
         return $action->handle($dto);
     }
