@@ -1,7 +1,7 @@
 <?php
 
-use AsaasPhpSdk\Actions\Customer\Create as CreateCustomer;
-use AsaasPhpSdk\DTOs\Customer\CreateCustomerDTO;
+use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
+use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ApiException;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
@@ -18,7 +18,7 @@ describe('Create Customer Action', function () {
             ], 201),
         ]);
 
-        $action = new CreateCustomer($client, new ResponseHandler);
+        $action = new CreateCustomerAction($client, new ResponseHandler);
 
         $dto = CreateCustomerDTO::fromArray([
             'name' => 'João Silva',
@@ -39,7 +39,7 @@ describe('Create Customer Action', function () {
                 ['description' => 'CPF is invalid'],
             ]),
         ]);
-        $action = new CreateCustomer($client, new ResponseHandler);
+        $action = new CreateCustomerAction($client, new ResponseHandler);
 
         $dto = CreateCustomerDTO::fromArray([
             'name' => 'João Silva',
@@ -60,7 +60,7 @@ describe('Create Customer Action', function () {
         $handlerStack = GuzzleHttp\HandlerStack::create($mock);
         $client = new GuzzleHttp\Client(['handler' => $handlerStack]);
 
-        $action = new CreateCustomer($client, new ResponseHandler);
+        $action = new CreateCustomerAction($client, new ResponseHandler);
 
         $dto = CreateCustomerDTO::fromArray([
             'name' => 'João Silva',
