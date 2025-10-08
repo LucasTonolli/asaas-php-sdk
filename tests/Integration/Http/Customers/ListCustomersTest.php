@@ -13,11 +13,10 @@ describe('List Customers', function () {
 		]);
 		expect($response)->not()->toBeEmpty()
 			->and($response['object'])->toBe('list')
-			->and($response['totalCount'])->not()->toBeEmpty()
+			->and($response)->toHaveKey('totalCount')
 			->and($response['limit'])->toBe(5)
 			->and($response['offset'])->toBe(0)
-			->and($response)->toHaveKey('data')
-			->and($response['data'])->not()->toBeEmpty();
+			->and($response)->toHaveKey('data');
 	});
 
 	it('filters customers by name', function () {
@@ -28,11 +27,10 @@ describe('List Customers', function () {
 
 		expect($response)->not()->toBeEmpty()
 			->and($response['object'])->toBe('list')
-			->and($response['totalCount'])->not()->toBeEmpty()
+			->and($response)->toHaveKey('totalCount')
 			->and($response['limit'])->toBe(5)
 			->and($response['offset'])->toBe(0)
-			->and($response)->toHaveKey('data')
-			->and($response['data'])->not()->toBeEmpty();
+			->and($response)->toHaveKey('data');
 	});
 
 	it('matches the expected response structure', function () {

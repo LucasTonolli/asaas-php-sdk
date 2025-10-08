@@ -73,15 +73,12 @@ describe('List Customers Action', function () {
 	})->throws(ValidationException::class, 'Limit must be less than or equal to 100');
 
 	it('throws ApiException on network connection error', function () {
-		$mock = new GuzzleHttp\Handler\MockHandler([
+		$client = mockClient([
 			new ConnectException(
 				'Connection failed',
 				new Request('GET', 'customers')
 			),
 		]);
-
-		$handlerStack = GuzzleHttp\HandlerStack::create($mock);
-		$client = new GuzzleHttp\Client(['handler' => $handlerStack]);
 
 		$action = new ListCustomersAction($client, new ResponseHandler);
 
