@@ -21,6 +21,37 @@ uses()->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
+| Constants
+|--------------------------------------------------------------------------
+*/
+const CUSTOMER_KEYS = [
+    'object',
+    'id',
+    'dateCreated',
+    'name',
+    'email',
+    'phone',
+    'mobilePhone',
+    'address',
+    'addressNumber',
+    'complement',
+    'province',
+    'city',
+    'cityName',
+    'state',
+    'country',
+    'postalCode',
+    'cpfCnpj',
+    'personType',
+    'deleted',
+    'additionalEmails',
+    'externalReference',
+    'notificationDisabled',
+    'observations',
+];
+
+/*
+|--------------------------------------------------------------------------
 | Expectations
 |--------------------------------------------------------------------------
 */
