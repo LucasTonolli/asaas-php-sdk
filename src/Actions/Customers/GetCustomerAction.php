@@ -14,7 +14,7 @@ final class GetCustomerAction extends AbstractAction
 			throw new \InvalidArgumentException('Customer ID cannot be empty');
 		}
 		return $this->executeRequest(
-			fn() => $this->client->get("customers/{$id}")
+			fn() => $this->client->get("customers/" . rawurlencode($id))
 		);
 	}
 }
