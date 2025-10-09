@@ -61,6 +61,7 @@ final class CustomerService
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @throws \InvalidArgumentException
      */
     public function get(string $id): array
     {
@@ -78,7 +79,7 @@ final class CustomerService
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException
-     * @throws \AsaasPhpSdk\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function delete(string $id): array
     {
