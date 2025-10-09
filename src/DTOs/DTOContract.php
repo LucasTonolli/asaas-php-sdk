@@ -6,6 +6,7 @@ namespace AsaasPhpSdk\DTOs;
 
 interface DTOContract
 {
-	public function toArray(): array;
-	public static function fromArray(array $data): self;
+    public function toArray(): array;
+
+    public static function fromArray(array $data): self;
 }

@@ -8,14 +8,14 @@ use AsaasPhpSdk\Actions\AbstractAction;
 
 final class DeleteCustomerAction extends AbstractAction
 {
-	public function handle(string $id): array
-	{
-		if (empty(trim($id))) {
-			throw new \InvalidArgumentException('Customer ID cannot be empty');
-		}
+    public function handle(string $id): array
+    {
+        if (empty(trim($id))) {
+            throw new \InvalidArgumentException('Customer ID cannot be empty');
+        }
 
-		return $this->executeRequest(
-			fn() => $this->client->delete("customers/" . rawurlencode($id))
-		);
-	}
+        return $this->executeRequest(
+            fn () => $this->client->delete('customers/'.rawurlencode($id))
+        );
+    }
 }

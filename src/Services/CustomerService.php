@@ -75,11 +75,11 @@ final class CustomerService
 
     /**
      * Update a customer by ID
-     * 
+     *
      * @param  string  $id  Customer ID
      * @param  array  $data  Customer data
      * @return array Updated customer data
-     * 
+     *
      * @throws ValidationException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException
@@ -95,10 +95,10 @@ final class CustomerService
 
     /**
      * Delete a customer by ID
-     * 
+     *
      * @param  string  $id  Customer ID
      * @return array Deleted customer data
-     * 
+     *
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException
@@ -110,12 +110,13 @@ final class CustomerService
 
         return $action->handle($id);
     }
+
     /**
      * Restore a customer by ID
-     * 
+     *
      * @param  string  $id  Customer ID
      * @return array Restored customer data
-     * 
+     *
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException

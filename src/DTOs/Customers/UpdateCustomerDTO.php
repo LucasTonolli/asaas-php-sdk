@@ -17,90 +17,91 @@ use InvalidArgumentException;
 
 final class UpdateCustomerDTO extends AbstractDTO
 {
-	private function __construct(
-		public readonly ?string $name,
-		public readonly null|Cpf|Cnpj $cpfCnpj,
-		public readonly ?Email $email = null,
-		public readonly ?Phone $phone = null,
-		public readonly ?Phone $mobilePhone = null,
-		public readonly ?string $address = null,
-		public readonly ?string $addressNumber = null,
-		public readonly ?string $complement = null,
-		public readonly ?string $province = null,
-		#[ToArrayMethodAttribute('formatted')]
-		public readonly ?PostalCode $postalCode = null,
-		public readonly ?string $externalReference = null,
-		public readonly bool $notificationDisabled = false,
-		public readonly ?string $additionalEmails = null,
-		public readonly ?string $municipalInscription = null,
-		public readonly ?string $stateInscription = null,
-		public readonly ?string $observations = null,
-		public readonly ?string $groupName = null,
-		public readonly ?string $company = null,
-		public readonly bool $foreignCustomer = false
-	) {}
+    private function __construct(
+        public readonly ?string $name,
+        public readonly null|Cpf|Cnpj $cpfCnpj,
+        public readonly ?Email $email = null,
+        public readonly ?Phone $phone = null,
+        public readonly ?Phone $mobilePhone = null,
+        public readonly ?string $address = null,
+        public readonly ?string $addressNumber = null,
+        public readonly ?string $complement = null,
+        public readonly ?string $province = null,
+        #[ToArrayMethodAttribute('formatted')]
+        public readonly ?PostalCode $postalCode = null,
+        public readonly ?string $externalReference = null,
+        public readonly bool $notificationDisabled = false,
+        public readonly ?string $additionalEmails = null,
+        public readonly ?string $municipalInscription = null,
+        public readonly ?string $stateInscription = null,
+        public readonly ?string $observations = null,
+        public readonly ?string $groupName = null,
+        public readonly ?string $company = null,
+        public readonly bool $foreignCustomer = false
+    ) {}
 
-	public static function fromArray(array $data): self
-	{
-		$sanitizedData = self::sanitize($data);
-		$validatedData = self::validate($sanitizedData);
-		return new self(...$validatedData);
-	}
+    public static function fromArray(array $data): self
+    {
+        $sanitizedData = self::sanitize($data);
+        $validatedData = self::validate($sanitizedData);
 
-	protected static function sanitize(array $data): array
-	{
-		return [
-			'name' => DataSanitizer::sanitizeString($data['name'] ?? ''),
-			'cpfCnpj' => $data['cpfCnpj'] ?? null,
-			'email' => DataSanitizer::sanitizeString($data['email'] ?? null),
-			'phone' => $data['phone'] ?? null,
-			'mobilePhone' => $data['mobilePhone'] ?? null,
-			'address' => DataSanitizer::sanitizeString($data['address'] ?? null),
-			'addressNumber' => DataSanitizer::sanitizeString($data['addressNumber'] ?? null),
-			'complement' => DataSanitizer::sanitizeString($data['complement'] ?? null),
-			'province' => DataSanitizer::sanitizeString($data['province'] ?? $data['neighborhood'] ?? null),
-			'postalCode' => $data['postalCode'] ?? null,
-			'externalReference' => DataSanitizer::sanitizeString($data['externalReference'] ?? null),
-			'notificationDisabled' => DataSanitizer::sanitizeBoolean($data['notificationDisabled'] ?? false),
-			'additionalEmails' => DataSanitizer::sanitizeString($data['additionalEmails'] ?? null),
-			'municipalInscription' => DataSanitizer::sanitizeString($data['municipalInscription'] ?? null),
-			'stateInscription' => DataSanitizer::sanitizeString($data['stateInscription'] ?? null),
-			'observations' => DataSanitizer::sanitizeString($data['observations'] ?? null),
-			'groupName' => DataSanitizer::sanitizeString($data['groupName'] ?? null),
-			'company' => DataSanitizer::sanitizeString($data['company'] ?? null),
-			'foreignCustomer' => DataSanitizer::sanitizeBoolean($data['foreignCustomer'] ?? false),
-		];
-	}
+        return new self(...$validatedData);
+    }
 
-	private static function validate(array $data): array
-	{
+    protected static function sanitize(array $data): array
+    {
+        return [
+            'name' => DataSanitizer::sanitizeString($data['name'] ?? ''),
+            'cpfCnpj' => $data['cpfCnpj'] ?? null,
+            'email' => DataSanitizer::sanitizeString($data['email'] ?? null),
+            'phone' => $data['phone'] ?? null,
+            'mobilePhone' => $data['mobilePhone'] ?? null,
+            'address' => DataSanitizer::sanitizeString($data['address'] ?? null),
+            'addressNumber' => DataSanitizer::sanitizeString($data['addressNumber'] ?? null),
+            'complement' => DataSanitizer::sanitizeString($data['complement'] ?? null),
+            'province' => DataSanitizer::sanitizeString($data['province'] ?? $data['neighborhood'] ?? null),
+            'postalCode' => $data['postalCode'] ?? null,
+            'externalReference' => DataSanitizer::sanitizeString($data['externalReference'] ?? null),
+            'notificationDisabled' => DataSanitizer::sanitizeBoolean($data['notificationDisabled'] ?? false),
+            'additionalEmails' => DataSanitizer::sanitizeString($data['additionalEmails'] ?? null),
+            'municipalInscription' => DataSanitizer::sanitizeString($data['municipalInscription'] ?? null),
+            'stateInscription' => DataSanitizer::sanitizeString($data['stateInscription'] ?? null),
+            'observations' => DataSanitizer::sanitizeString($data['observations'] ?? null),
+            'groupName' => DataSanitizer::sanitizeString($data['groupName'] ?? null),
+            'company' => DataSanitizer::sanitizeString($data['company'] ?? null),
+            'foreignCustomer' => DataSanitizer::sanitizeBoolean($data['foreignCustomer'] ?? false),
+        ];
+    }
 
-		if ($data['cpfCnpj']) {
-			$sanitized = DataSanitizer::onlyDigits($data['cpfCnpj']);
-			$length = strlen($sanitized ?? '');
+    private static function validate(array $data): array
+    {
 
-			$data['cpfCnpj'] = match ($length) {
-				11 => Cpf::from($data['cpfCnpj']),
-				14 => Cnpj::from($data['cpfCnpj']),
-				default => null,
-			};
-		}
+        if ($data['cpfCnpj']) {
+            $sanitized = DataSanitizer::onlyDigits($data['cpfCnpj']);
+            $length = strlen($sanitized ?? '');
 
-		try {
-			self::validateValueObject($data, 'email', Email::class);
-			self::validateValueObject($data, 'postalCode', PostalCode::class);
-			self::validateValueObject($data, 'phone', Phone::class);
-			self::validateValueObject($data, 'mobilePhone', Phone::class);
-			if ($data['cpfCnpj'] instanceof Cpf) {
-				self::validateValueObject($data, 'cpfCnpj', Cpf::class);
-			}
-			if ($data['cpfCnpj'] instanceof Cnpj) {
-				self::validateValueObject($data, 'cpfCnpj', Cnpj::class);
-			}
-		} catch (InvalidArgumentException $e) {
-			throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
-		}
+            $data['cpfCnpj'] = match ($length) {
+                11 => Cpf::from($data['cpfCnpj']),
+                14 => Cnpj::from($data['cpfCnpj']),
+                default => null,
+            };
+        }
 
-		return $data;
-	}
+        try {
+            self::validateValueObject($data, 'email', Email::class);
+            self::validateValueObject($data, 'postalCode', PostalCode::class);
+            self::validateValueObject($data, 'phone', Phone::class);
+            self::validateValueObject($data, 'mobilePhone', Phone::class);
+            if ($data['cpfCnpj'] instanceof Cpf) {
+                self::validateValueObject($data, 'cpfCnpj', Cpf::class);
+            }
+            if ($data['cpfCnpj'] instanceof Cnpj) {
+                self::validateValueObject($data, 'cpfCnpj', Cnpj::class);
+            }
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
+        }
+
+        return $data;
+    }
 }
