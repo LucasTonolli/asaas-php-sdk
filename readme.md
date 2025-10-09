@@ -12,3 +12,4 @@
 ## Customer
 
 [ ] - Trabalhar na phpdocs
+[ ] - Refatorar `use` nas classes para padrão reduzido
