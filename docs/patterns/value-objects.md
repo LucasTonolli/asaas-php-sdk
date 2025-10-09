@@ -36,6 +36,54 @@ Para VOs que validam e armazenam uma `string`, utiliza-se a trait `StringValueOb
 
     PascalCase (ex: `Cpf`, `Email`, `Phone`)
 
+##
+
+```php
+namespace AsaasPhpSdk\ValueObjects;
+
+use AsaasPhpSdk\Contracts\ValueObjectContract;
+use AsaasPhpSdk\Contracts\FormattableContract;
+use AsaasPhpSdk\Traits\StringValueObject; // Reutilização
+
+// final: Garante que não pode ser estendido
+final class Cpf implements ValueObjectContract, FormattableContract
+{
+    // Trait cuida da implementação básica de value(), equals(), etc.
+    use StringValueObject;
+
+    // Construtor é privado para forçar o uso do `from()`
+    private function __construct(string $value)
+    {
+        $this->value = $value;
+    }
+
+    // Método estático para validação e construção
+    public static function from(string $cpf): self
+    {
+        $sanitized = preg_replace('/\D/', '', $cpf);
+
+        if (strlen($sanitized) !== 11) {
+            throw new \InvalidArgumentException('CPF must contain 11 digits');
+        }
+
+        // Validação de algoritmo do CPF (exemplo)
+        // if (! self::isValid($sanitized)) { ... }
+
+        return new self($sanitized);
+    }
+
+    // Implementação do FormattableContract
+    public function formatted(): string
+    {
+        return preg_replace(
+            "/(\d{3})(\d{3})(\d{3})(\d{2})/",
+            "$1.$2.$3-$4",
+            $this->value
+        );
+    }
+}
+```
+
 ## 🧭 Boas práticas
 
 ### ✅ Imutabilidade:
