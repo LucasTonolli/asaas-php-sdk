@@ -7,7 +7,6 @@ namespace AsaasPhpSdk\Actions\Customers;
 use AsaasPhpSdk\Actions\AbstractAction;
 
 final class RestoreCustomerAction extends AbstractAction
-
 {
 	public function handle(string $id): array
 	{
