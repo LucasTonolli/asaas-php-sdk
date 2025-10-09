@@ -8,6 +8,7 @@ use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
 use AsaasPhpSdk\Actions\Customers\DeleteCustomerAction;
 use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
 use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
+use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
@@ -84,6 +85,23 @@ final class CustomerService
     public function delete(string $id): array
     {
         $action = new DeleteCustomerAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+    /**
+     * Restore a customer by ID
+     * 
+     * @param  string  $id  Customer ID
+     * @return array Restored customer data
+     * 
+     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @throws \InvalidArgumentException
+     */
+    public function restore(string $id): array
+    {
+        $action = new RestoreCustomerAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
