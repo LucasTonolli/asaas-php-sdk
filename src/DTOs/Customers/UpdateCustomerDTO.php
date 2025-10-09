@@ -53,27 +53,29 @@ final class UpdateCustomerDTO extends AbstractDTO
     protected static function sanitize(array $data): array
     {
         return [
-            'name' => DataSanitizer::sanitizeString($data['name'] ?? ''),
+            'name' => self::optionalString($data, 'name'),
             'cpfCnpj' => $data['cpfCnpj'] ?? null,
-            'email' => DataSanitizer::sanitizeString($data['email'] ?? null),
+            'email' => self::optionalString($data, 'email'),
             'phone' => $data['phone'] ?? null,
             'mobilePhone' => $data['mobilePhone'] ?? null,
-            'address' => DataSanitizer::sanitizeString($data['address'] ?? null),
-            'addressNumber' => DataSanitizer::sanitizeString($data['addressNumber'] ?? null),
-            'complement' => DataSanitizer::sanitizeString($data['complement'] ?? null),
-            'province' => DataSanitizer::sanitizeString($data['province'] ?? $data['neighborhood'] ?? null),
+            'address' => self::optionalString($data, 'address'),
+            'addressNumber' => self::optionalString($data, 'addressNumber'),
+            'complement' => self::optionalString($data, 'complement'),
+            'province' => self::optionalString($data, 'province')
+                ?? self::optionalString($data, 'neighborhood'),
             'postalCode' => $data['postalCode'] ?? null,
-            'externalReference' => DataSanitizer::sanitizeString($data['externalReference'] ?? null),
-            'notificationDisabled' => DataSanitizer::sanitizeBoolean($data['notificationDisabled'] ?? false),
-            'additionalEmails' => DataSanitizer::sanitizeString($data['additionalEmails'] ?? null),
-            'municipalInscription' => DataSanitizer::sanitizeString($data['municipalInscription'] ?? null),
-            'stateInscription' => DataSanitizer::sanitizeString($data['stateInscription'] ?? null),
-            'observations' => DataSanitizer::sanitizeString($data['observations'] ?? null),
-            'groupName' => DataSanitizer::sanitizeString($data['groupName'] ?? null),
-            'company' => DataSanitizer::sanitizeString($data['company'] ?? null),
-            'foreignCustomer' => DataSanitizer::sanitizeBoolean($data['foreignCustomer'] ?? false),
+            'externalReference' => self::optionalString($data, 'externalReference'),
+            'notificationDisabled' => self::optionalBoolean($data, 'notificationDisabled'),
+            'additionalEmails' => self::optionalString($data, 'additionalEmails'),
+            'municipalInscription' => self::optionalString($data, 'municipalInscription'),
+            'stateInscription' => self::optionalString($data, 'stateInscription'),
+            'observations' => self::optionalString($data, 'observations'),
+            'groupName' => self::optionalString($data, 'groupName'),
+            'company' => self::optionalString($data, 'company'),
+            'foreignCustomer' => self::optionalBoolean($data, 'foreignCustomer'),
         ];
     }
+
 
     private static function validate(array $data): array
     {
