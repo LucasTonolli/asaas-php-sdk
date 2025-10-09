@@ -25,7 +25,7 @@ describe('Restore Customer Action', function () {
 		$result = $action->handle('cus_123');
 
 		expect($result)->toBeArray()
-			->and($result['deleted'])->tobeFalse()
+			->and($result['deleted'])->toBeFalse()
 			->and($result['id'])->toBe('cus_123');
 	});
 
