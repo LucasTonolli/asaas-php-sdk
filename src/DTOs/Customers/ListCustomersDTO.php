@@ -2,12 +2,13 @@
 
 namespace AsaasPhpSdk\DTOs\Customers;
 
+use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;
 use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 
-class ListCustomersDTO
+class ListCustomersDTO extends AbstractDTO
 {
     private function __construct(
         public readonly ?int $offset = null,
@@ -26,20 +27,7 @@ class ListCustomersDTO
         return new self(...$sanitizedData);
     }
 
-    public function toArray(): array
-    {
-        return array_filter([
-            'offset' => $this->offset,
-            'limit' => $this->limit,
-            'name' => $this->name,
-            'email' => $this->email?->value(),
-            'cpfCnpj' => $this->cpfCnpj?->value(),
-            'groupName' => $this->groupName,
-            'externalReference' => $this->externalReference,
-        ], fn ($value) => $value !== null);
-    }
-
-    private static function sanitize(array $data): array
+    protected static function sanitize(array $data): array
     {
         return [
             'offset' => DataSanitizer::sanitizeInteger($data['offset'] ?? null),

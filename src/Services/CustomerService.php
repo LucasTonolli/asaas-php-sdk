@@ -9,8 +9,10 @@ use AsaasPhpSdk\Actions\Customers\DeleteCustomerAction;
 use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
 use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
 use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
+use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
+use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
@@ -72,11 +74,31 @@ final class CustomerService
     }
 
     /**
+     * Update a customer by ID
+     *
+     * @param  string  $id  Customer ID
+     * @param  array  $data  Customer data
+     * @return array Updated customer data
+     *
+     * @throws ValidationException
+     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @throws \InvalidArgumentException
+     */
+    public function update(string $id, array $data): array
+    {
+        $dto = $this->createDTO(UpdateCustomerDTO::class, $data);
+        $action = new UpdateCustomerAction($this->client, $this->responseHandler);
+
+        return $action->handle($id, $dto);
+    }
+
+    /**
      * Delete a customer by ID
-     * 
+     *
      * @param  string  $id  Customer ID
      * @return array Deleted customer data
-     * 
+     *
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException
@@ -88,12 +110,13 @@ final class CustomerService
 
         return $action->handle($id);
     }
+
     /**
      * Restore a customer by ID
-     * 
+     *
      * @param  string  $id  Customer ID
      * @return array Restored customer data
-     * 
+     *
      * @throws \AsaasPhpSdk\Exceptions\ApiException
      * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
      * @throws \AsaasPhpSdk\Exceptions\NotFoundException

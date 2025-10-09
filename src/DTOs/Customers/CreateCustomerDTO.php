@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\DTOs\Customers;
 
+use AsaasPhpSdk\DTOs\AbstractDTO;
+use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;
@@ -12,7 +14,7 @@ use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
 
-final class CreateCustomerDTO
+final class CreateCustomerDTO extends AbstractDTO
 {
     private function __construct(
         public readonly string $name,
@@ -24,6 +26,7 @@ final class CreateCustomerDTO
         public readonly ?string $addressNumber = null,
         public readonly ?string $complement = null,
         public readonly ?string $province = null,
+        #[ToArrayMethodAttribute('formatted')]
         public readonly ?PostalCode $postalCode = null,
         public readonly ?string $externalReference = null,
         public readonly bool $notificationDisabled = false,
@@ -47,34 +50,7 @@ final class CreateCustomerDTO
         );
     }
 
-    public function toArray(): array
-    {
-        $data = [
-            'name' => $this->name,
-            'cpfCnpj' => $this->cpfCnpj->value(),
-            'email' => $this->email?->value(),
-            'phone' => $this->phone?->value(),
-            'mobilePhone' => $this->mobilePhone?->value(),
-            'address' => $this->address,
-            'addressNumber' => $this->addressNumber,
-            'complement' => $this->complement,
-            'province' => $this->province,
-            'postalCode' => $this->postalCode?->formatted(),
-            'externalReference' => $this->externalReference,
-            'notificationDisabled' => $this->notificationDisabled,
-            'additionalEmails' => $this->additionalEmails,
-            'municipalInscription' => $this->municipalInscription,
-            'stateInscription' => $this->stateInscription,
-            'observations' => $this->observations,
-            'groupName' => $this->groupName,
-            'company' => $this->company,
-            'foreignCustomer' => $this->foreignCustomer,
-        ];
-
-        return array_filter($data, fn ($value) => $value !== null);
-    }
-
-    private static function sanitize(array $data): array
+    protected static function sanitize(array $data): array
     {
         return [
             'name' => DataSanitizer::sanitizeString($data['name'] ?? ''),
@@ -124,22 +100,15 @@ final class CreateCustomerDTO
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
         }
 
-        self::validateValueObject($data, 'email', Email::class);
-        self::validateValueObject($data, 'postalCode', PostalCode::class);
-        self::validateValueObject($data, 'phone', Phone::class);
-        self::validateValueObject($data, 'mobilePhone', Phone::class);
+        try {
+            self::validateValueObject($data, 'email', Email::class);
+            self::validateValueObject($data, 'postalCode', PostalCode::class);
+            self::validateValueObject($data, 'phone', Phone::class);
+            self::validateValueObject($data, 'mobilePhone', Phone::class);
+        } catch (\InvalidArgumentException  $e) {
+            throw InvalidCustomerDataException::invalidFormat('customer data', $e->getMessage());
+        }
 
         return $data;
-    }
-
-    private static function validateValueObject(array &$data, string $key, string $class): void
-    {
-        if (isset($data[$key])) {
-            try {
-                $data[$key] = $class::from($data[$key]);
-            } catch (\Exception $e) {
-                throw InvalidCustomerDataException::invalidFormat($key, $e->getMessage());
-            }
-        }
     }
 }
