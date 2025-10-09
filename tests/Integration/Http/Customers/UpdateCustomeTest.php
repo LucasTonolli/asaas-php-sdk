@@ -18,7 +18,8 @@ describe('Update Customer', function () {
 			'email' => 'john_doe_updated@example.com',
 		]);
 		expect($response['name'])->toBe('John Doe Updated')
-			->and($response['email'])->toBe('john_doe_updated@example.com');
+			->and($response['email'])->toBe('john_doe_updated@example.com')
+			->and($response)->toHaveKeys(CUSTOMER_KEYS);
 	});
 
 	it('throws an exception when the customer is not found (404)', function () {
