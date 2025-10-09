@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
+use AsaasPhpSdk\Actions\Customers\DeleteCustomerAction;
 use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
 use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
@@ -64,6 +65,24 @@ final class CustomerService
     public function get(string $id): array
     {
         $action = new GetCustomerAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
+    }
+
+    /**
+     * Delete a customer by ID
+     * 
+     * @param  string  $id  Customer ID
+     * @return array Deleted customer data
+     * 
+     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @throws \AsaasPhpSdk\Exceptions\InvalidArgumentException
+     */
+    public function delete(string $id): array
+    {
+        $action = new DeleteCustomerAction($this->client, $this->responseHandler);
 
         return $action->handle($id);
     }
