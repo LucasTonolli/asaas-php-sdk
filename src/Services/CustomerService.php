@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\Services;
 
 use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
+use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
 use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
@@ -48,6 +49,23 @@ final class CustomerService
         $action = new ListCustomersAction($this->client, $this->responseHandler);
 
         return $action->handle($dto);
+    }
+
+    /**
+     * Get a customer by ID
+     *
+     * @param  string  $id  Customer ID
+     * @return array Customer data
+     *
+     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     */
+    public function get(string $id): array
+    {
+        $action = new GetCustomerAction($this->client, $this->responseHandler);
+
+        return $action->handle($id);
     }
 
     /**
