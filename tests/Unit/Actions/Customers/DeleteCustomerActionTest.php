@@ -40,7 +40,7 @@ describe('Delete Customer Action', function () {
 		$action->handle('cus_invalid');
 	})->throws(ValidationException::class, 'Customer cannot be deleted');
 
-	it('throws UnauthorizedException on 401 error', function () {
+	it('throws AuthenticationException on 401 error', function () {
 		$client = mockClient([
 			mockErrorResponse('Unauthorized', 401),
 		]);
