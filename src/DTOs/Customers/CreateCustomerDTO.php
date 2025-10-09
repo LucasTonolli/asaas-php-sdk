@@ -13,6 +13,7 @@ use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 final class CreateCustomerDTO extends AbstractDTO
 {
@@ -29,14 +30,14 @@ final class CreateCustomerDTO extends AbstractDTO
         #[ToArrayMethodAttribute('formatted')]
         public readonly ?PostalCode $postalCode = null,
         public readonly ?string $externalReference = null,
-        public readonly bool $notificationDisabled = false,
+        public readonly ?bool $notificationDisabled = null,
         public readonly ?string $additionalEmails = null,
         public readonly ?string $municipalInscription = null,
         public readonly ?string $stateInscription = null,
         public readonly ?string $observations = null,
         public readonly ?string $groupName = null,
         public readonly ?string $company = null,
-        public readonly bool $foreignCustomer = false
+        public readonly ?bool $foreignCustomer = null
     ) {}
 
     public static function fromArray(array $data): self
@@ -55,23 +56,24 @@ final class CreateCustomerDTO extends AbstractDTO
         return [
             'name' => DataSanitizer::sanitizeString($data['name'] ?? ''),
             'cpfCnpj' => $data['cpfCnpj'] ?? null,
-            'email' => DataSanitizer::sanitizeString($data['email'] ?? null),
-            'phone' => $data['phone'] ?? null,
-            'mobilePhone' => $data['mobilePhone'] ?? null,
-            'address' => DataSanitizer::sanitizeString($data['address'] ?? null),
-            'addressNumber' => DataSanitizer::sanitizeString($data['addressNumber'] ?? null),
-            'complement' => DataSanitizer::sanitizeString($data['complement'] ?? null),
-            'province' => DataSanitizer::sanitizeString($data['province'] ?? $data['neighborhood'] ?? null),
-            'postalCode' => $data['postalCode'] ?? null,
-            'externalReference' => DataSanitizer::sanitizeString($data['externalReference'] ?? null),
-            'notificationDisabled' => DataSanitizer::sanitizeBoolean($data['notificationDisabled'] ?? false),
-            'additionalEmails' => DataSanitizer::sanitizeString($data['additionalEmails'] ?? null),
-            'municipalInscription' => DataSanitizer::sanitizeString($data['municipalInscription'] ?? null),
-            'stateInscription' => DataSanitizer::sanitizeString($data['stateInscription'] ?? null),
-            'observations' => DataSanitizer::sanitizeString($data['observations'] ?? null),
-            'groupName' => DataSanitizer::sanitizeString($data['groupName'] ?? null),
-            'company' => DataSanitizer::sanitizeString($data['company'] ?? null),
-            'foreignCustomer' => DataSanitizer::sanitizeBoolean($data['foreignCustomer'] ?? false),
+            'email' => self::optionalString($data, 'email'),
+            'phone' => self::optionalOnlyDigits($data, 'phone'),
+            'mobilePhone' => self::optionalOnlyDigits($data, 'mobilePhone'),
+            'address' => self::optionalString($data, 'address'),
+            'addressNumber' => self::optionalString($data, 'addressNumber'),
+            'complement' => self::optionalString($data, 'complement'),
+            'province' => self::optionalString($data, 'province')
+                ?? self::optionalString($data, 'neighborhood'),
+            'postalCode' => self::optionalOnlyDigits($data, 'postalCode'),
+            'externalReference' => self::optionalString($data, 'externalReference'),
+            'notificationDisabled' => self::optionalBoolean($data, 'notificationDisabled'),
+            'additionalEmails' => self::optionalString($data, 'additionalEmails'),
+            'municipalInscription' => self::optionalString($data, 'municipalInscription'),
+            'stateInscription' => self::optionalString($data, 'stateInscription'),
+            'observations' => self::optionalString($data, 'observations'),
+            'groupName' => self::optionalString($data, 'groupName'),
+            'company' => self::optionalString($data, 'company'),
+            'foreignCustomer' => self::optionalBoolean($data, 'foreignCustomer'),
         ];
     }
 

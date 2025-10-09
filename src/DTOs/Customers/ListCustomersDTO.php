@@ -30,17 +30,17 @@ class ListCustomersDTO extends AbstractDTO
     protected static function sanitize(array $data): array
     {
         return [
-            'offset' => DataSanitizer::sanitizeInteger($data['offset'] ?? null),
-            'limit' => DataSanitizer::sanitizeInteger($data['limit'] ?? null),
-            'name' => DataSanitizer::sanitizeString($data['name'] ?? null),
-            'email' => self::sanitizeEmail($data['email'] ?? null),
-            'cpfCnpj' => self::sanitizeCpfCnpj($data['cpfCnpj'] ?? null),
-            'groupName' => DataSanitizer::sanitizeString($data['groupName'] ?? null),
-            'externalReference' => DataSanitizer::sanitizeString($data['externalReference'] ?? null),
+            'offset' => self::optionalInteger($data, 'offset'),
+            'limit' => self::optionalInteger($data, 'limit'),
+            'name' => self::optionalString($data, 'name'),
+            'email' => self::optionalEmail($data['email'] ?? null),
+            'cpfCnpj' => self::optionalCpfCnpj($data['cpfCnpj'] ?? null),
+            'groupName' => self::optionalString($data, 'groupName'),
+            'externalReference' => self::optionalString($data, 'externalReference'),
         ];
     }
 
-    private static function sanitizeEmail(?string $email): ?Email
+    private static function optionalEmail(?string $email): ?Email
     {
         if ($email === null) {
             return null;
@@ -53,7 +53,7 @@ class ListCustomersDTO extends AbstractDTO
         }
     }
 
-    private static function sanitizeCpfCnpj(?string $cpfCnpj): Cpf|Cnpj|null
+    private static function optionalCpfCnpj(?string $cpfCnpj): Cpf|Cnpj|null
     {
         if ($cpfCnpj === null) {
             return null;
