@@ -106,7 +106,7 @@ final class CreateCustomerDTO extends AbstractDTO
             self::validateValueObject($data, 'phone', Phone::class);
             self::validateValueObject($data, 'mobilePhone', Phone::class);
         } catch (\InvalidArgumentException  $e) {
-            throw InvalidCustomerDataException::invalidFormat($e->getMessage());
+            throw InvalidCustomerDataException::invalidFormat('customer data', $e->getMessage());
         }
 
         return $data;

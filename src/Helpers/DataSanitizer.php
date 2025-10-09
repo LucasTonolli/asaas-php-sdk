@@ -71,6 +71,10 @@ final class DataSanitizer
 
     public static function sanitizeBoolean(mixed $value): bool
     {
+        if ($value === null || $value === '') {
+            return false;
+        }
+
         if (is_bool($value)) {
             return $value;
         }
