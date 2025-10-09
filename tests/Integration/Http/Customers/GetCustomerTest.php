@@ -1,6 +1,32 @@
 <?php
 
+const EXPECTED_KEYS = [
+	'object',
+	'id',
+	'dateCreated',
+	'name',
+	'email',
+	'phone',
+	'mobilePhone',
+	'address',
+	'addressNumber',
+	'complement',
+	'province',
+	'city',
+	'cityName',
+	'state',
+	'country',
+	'postalCode',
+	'cpfCnpj',
+	'personType',
+	'deleted',
+	'additionalEmails',
+	'externalReference',
+	'notificationDisabled',
+	'observations',
+];
 describe('Get Customer', function () {
+
 	beforeEach(function () {
 		$config = sandboxConfig();
 		$this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
@@ -30,28 +56,7 @@ describe('Get Customer', function () {
 			->and($response['id'])->toBe($customerId)
 			->and($response['name'])->toBe('Maria Oliveira')
 			->and($response['cpfCnpj'])->toBe('00264272000107')
-			->and($response)->toHaveKeys([
-				'object',
-				'dateCreated',
-				'email',
-				'phone',
-				'mobilePhone',
-				'address',
-				'addressNumber',
-				'complement',
-				'province',
-				'city',
-				'cityName',
-				'state',
-				'country',
-				'postalCode',
-				'personType',
-				'deleted',
-				'additionalEmails',
-				'externalReference',
-				'notificationDisabled',
-				'observations',
-			]);
+			->and($response)->toHaveKeys(EXPECTED_KEYS);
 	});
 
 	it('throws an exception when the customer is not found (404)', function () {
@@ -72,30 +77,6 @@ describe('Get Customer', function () {
 
 		$response = $this->asaasClient->customer()->get($customerId);
 		expect($response['id'])->toBe($customerId);
-		expect($response)->toHaveKeys([
-			'object',
-			'id',
-			'dateCreated',
-			'name',
-			'email',
-			'phone',
-			'mobilePhone',
-			'address',
-			'addressNumber',
-			'complement',
-			'province',
-			'city',
-			'cityName',
-			'state',
-			'country',
-			'postalCode',
-			'cpfCnpj',
-			'personType',
-			'deleted',
-			'additionalEmails',
-			'externalReference',
-			'notificationDisabled',
-			'observations',
-		]);
+		expect($response)->toHaveKeys(EXPECTED_KEYS);
 	});
 });

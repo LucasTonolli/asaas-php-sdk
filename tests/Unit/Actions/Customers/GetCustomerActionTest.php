@@ -2,14 +2,11 @@
 
 
 use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
-use AsaasPhpSdk\Exceptions\ApiException;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Exceptions\AuthenticationException;
-use AsaasPhpSdk\Exceptions\ForbiddenException;
 use AsaasPhpSdk\Exceptions\NotFoundException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\Request;
+
 
 describe('GetCustomerAction', function () {
 
