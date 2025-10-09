@@ -67,4 +67,11 @@ describe('GetCustomerAction', function () {
 
 		$action->handle('cus_notfound');
 	})->throws(NotFoundException::class, 'Resource not found');
+
+	it('throws InvalidArgumentException when ID is empty', function () {
+		$client = mockClient([]);
+		$action = new GetCustomerAction($client, new ResponseHandler);
+
+		$action->handle('');
+	})->throws(\InvalidArgumentException::class, 'Customer ID cannot be empty');
 });
