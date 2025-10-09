@@ -7,13 +7,14 @@ namespace AsaasPhpSdk\DTOs\Customers;
 use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
+use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;
 use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
-use Symfony\Component\VarDumper\Cloner\Data;
+
 
 final class CreateCustomerDTO extends AbstractDTO
 {
@@ -94,11 +95,11 @@ final class CreateCustomerDTO extends AbstractDTO
             $data['cpfCnpj'] = match ($length) {
                 11 => Cpf::from($data['cpfCnpj']),
                 14 => Cnpj::from($data['cpfCnpj']),
-                default => throw new \InvalidArgumentException(
+                default => throw new InvalidValueObjectException(
                     'CPF or CNPJ must contain 11 or 14 digits'
                 ),
             };
-        } catch (\Exception $e) {
+        } catch (InvalidValueObjectException $e) {
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
         }
 
@@ -107,7 +108,7 @@ final class CreateCustomerDTO extends AbstractDTO
             self::validateValueObject($data, 'postalCode', PostalCode::class);
             self::validateValueObject($data, 'phone', Phone::class);
             self::validateValueObject($data, 'mobilePhone', Phone::class);
-        } catch (\InvalidArgumentException  $e) {
+        } catch (InvalidValueObjectException  $e) {
             throw InvalidCustomerDataException::invalidFormat('customer data', $e->getMessage());
         }
 

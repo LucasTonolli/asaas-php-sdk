@@ -9,13 +9,13 @@ use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
 use AsaasPhpSdk\Exceptions\InvalidCnpjException;
 use AsaasPhpSdk\Exceptions\InvalidCpfException;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
+use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;
 use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
-use InvalidArgumentException;
 
 final class UpdateCustomerDTO extends AbstractDTO
 {
@@ -89,7 +89,7 @@ final class UpdateCustomerDTO extends AbstractDTO
                     $data['cpfCnpj'] = match ($length) {
                         11 => Cpf::from($data['cpfCnpj']),
                         14 => Cnpj::from($data['cpfCnpj']),
-                        default => throw new InvalidArgumentException('CPF or CNPJ must contain 11 or 14 digits'),
+                        default => throw new InvalidValueObjectException('CPF or CNPJ must contain 11 or 14 digits'),
                     };
                 }
             }
@@ -98,11 +98,7 @@ final class UpdateCustomerDTO extends AbstractDTO
             self::validateValueObject($data, 'postalCode', PostalCode::class);
             self::validateValueObject($data, 'phone', Phone::class);
             self::validateValueObject($data, 'mobilePhone', Phone::class);
-        } catch (InvalidArgumentException $e) {
-            throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
-        } catch (InvalidCnpjException $e) {
-            throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
-        } catch (InvalidCpfException $e) {
+        } catch (InvalidValueObjectException $e) {
             throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
         }
 

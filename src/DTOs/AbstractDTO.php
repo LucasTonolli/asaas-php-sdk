@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsaasPhpSdk\DTOs;
 
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
+use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 
 abstract class AbstractDTO implements DTOContract
@@ -46,7 +47,7 @@ abstract class AbstractDTO implements DTOContract
         try {
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException(
+            throw new InvalidValueObjectException(
                 "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
