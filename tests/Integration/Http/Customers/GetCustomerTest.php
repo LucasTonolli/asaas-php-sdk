@@ -1,30 +1,6 @@
 <?php
 
-const EXPECTED_KEYS = [
-	'object',
-	'id',
-	'dateCreated',
-	'name',
-	'email',
-	'phone',
-	'mobilePhone',
-	'address',
-	'addressNumber',
-	'complement',
-	'province',
-	'city',
-	'cityName',
-	'state',
-	'country',
-	'postalCode',
-	'cpfCnpj',
-	'personType',
-	'deleted',
-	'additionalEmails',
-	'externalReference',
-	'notificationDisabled',
-	'observations',
-];
+
 describe('Get Customer', function () {
 
 	beforeEach(function () {
@@ -56,7 +32,7 @@ describe('Get Customer', function () {
 			->and($response['id'])->toBe($customerId)
 			->and($response['name'])->toBe('Maria Oliveira')
 			->and($response['cpfCnpj'])->toBe('00264272000107')
-			->and($response)->toHaveKeys(EXPECTED_KEYS);
+			->and($response)->toHaveKeys(CUSTOMER_KEYS);
 	});
 
 	it('throws an exception when the customer is not found (404)', function () {
@@ -73,10 +49,18 @@ describe('Get Customer', function () {
 			'cpfCnpj' => '00264272000107',
 		]);
 
-		$customerId = $getCustomersResponse['data'][0]['id'];
+		if (empty($getCustomersResponse['data'])) {
+			$createCustomerResponse = $this->asaasClient->customer()->create([
+				'name' => 'Maria Oliveira',
+				'cpfCnpj' => '00264272000107',
+			]);
+			$customerId = $createCustomerResponse['id'];
+		} else {
+			$customerId = $getCustomersResponse['data'][0]['id'];
+		}
 
 		$response = $this->asaasClient->customer()->get($customerId);
 		expect($response['id'])->toBe($customerId);
-		expect($response)->toHaveKeys(EXPECTED_KEYS);
+		expect($response)->toHaveKeys(CUSTOMER_KEYS);
 	});
 });
