@@ -51,6 +51,16 @@ final class CustomerService
         return $action->handle($dto);
     }
 
+    /**
+     * Get a customer by ID
+     *
+     * @param  string  $id  Customer ID
+     * @return array Customer data
+     *
+     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
+     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     */
     public function get(string $id): array
     {
         $action = new GetCustomerAction($this->client, $this->responseHandler);
