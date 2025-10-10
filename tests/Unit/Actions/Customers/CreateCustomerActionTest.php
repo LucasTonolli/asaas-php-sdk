@@ -7,9 +7,9 @@ use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Exception\ConnectException;
 
-describe('Create Customer Action', function () {
+describe('Create Customer Action', function (): void {
 
-    it('creates customer successfully', function () {
+    it('creates customer successfully', function (): void {
         $client = mockClient([
             mockResponse([
                 'id' => 'cus_123',
@@ -33,7 +33,7 @@ describe('Create Customer Action', function () {
             ->and($result['cpfCnpj'])->toBe('89887966088');
     });
 
-    it('throws ValidationException on 400 error', function () {
+    it('throws ValidationException on 400 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Input validation failed', 400, [
                 ['description' => 'CPF is invalid'],
@@ -49,7 +49,7 @@ describe('Create Customer Action', function () {
         $action->handle($dto);
     })->throws(ValidationException::class, 'CPF is invalid');
 
-    it('throws ApiException on network connection error', function () {
+    it('throws ApiException on network connection error', function (): void {
         $mock = new GuzzleHttp\Handler\MockHandler([
             new ConnectException(
                 'Connection failed',

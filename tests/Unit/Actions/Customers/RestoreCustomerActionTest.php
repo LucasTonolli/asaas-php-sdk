@@ -6,9 +6,9 @@ use AsaasPhpSdk\Exceptions\NotFoundException;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
-describe('Restore Customer Action', function () {
+describe('Restore Customer Action', function (): void {
 
-    it('Restore a customer successfully (200)', function () {
+    it('Restore a customer successfully (200)', function (): void {
         $client = mockClient([
             mockResponse([
                 'object' => 'customer',
@@ -28,7 +28,7 @@ describe('Restore Customer Action', function () {
             ->and($result['id'])->toBe('cus_123');
     });
 
-    it('throws ValidationException on 400 error', function () {
+    it('throws ValidationException on 400 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Invalid request', 400, [
                 ['description' => 'Customer cannot be restored'],
@@ -40,7 +40,7 @@ describe('Restore Customer Action', function () {
         $action->handle('cus_invalid');
     })->throws(ValidationException::class, 'Customer cannot be restored');
 
-    it('throws AuthenticationException on 401 error', function () {
+    it('throws AuthenticationException on 401 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Unauthorized', 401),
         ]);
@@ -50,7 +50,7 @@ describe('Restore Customer Action', function () {
         $action->handle('cus_unauthorized');
     })->throws(AuthenticationException::class, 'Invalid API token or unauthorized access');
 
-    it('throws NotFoundException on 404 error', function () {
+    it('throws NotFoundException on 404 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Resource not found', 404),
         ]);
@@ -60,7 +60,7 @@ describe('Restore Customer Action', function () {
         $action->handle('non-existent-id');
     })->throws(NotFoundException::class, 'Resource not found');
 
-    it('throws InvalidArgumentException when ID is empty', function () {
+    it('throws InvalidArgumentException when ID is empty', function (): void {
         $client = mockClient();
 
         $action = new RestoreCustomerAction($client, new ResponseHandler);

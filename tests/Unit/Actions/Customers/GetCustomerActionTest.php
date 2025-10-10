@@ -6,9 +6,9 @@ use AsaasPhpSdk\Exceptions\NotFoundException;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
-describe('GetCustomerAction', function () {
+describe('GetCustomerAction', function (): void {
 
-    it('retrieves a customer successfully (200)', function () {
+    it('retrieves a customer successfully (200)', function (): void {
         $customerId = 'cus_123';
 
         $client = mockClient([
@@ -31,7 +31,7 @@ describe('GetCustomerAction', function () {
             ->and($result['object'])->toBe('customer');
     });
 
-    it('throws ValidationException on 400 error', function () {
+    it('throws ValidationException on 400 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Invalid customer ID', 400, [
                 ['description' => 'ID format is invalid'],
@@ -43,7 +43,7 @@ describe('GetCustomerAction', function () {
         $action->handle('invalid-id');
     })->throws(ValidationException::class, 'ID format is invalid');
 
-    it('throws AuthenticationException on 401 error', function () {
+    it('throws AuthenticationException on 401 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Unauthorized', 401),
         ]);
@@ -53,7 +53,7 @@ describe('GetCustomerAction', function () {
         $action->handle('cus_unauth');
     })->throws(AuthenticationException::class, 'Invalid API token or unauthorized access');
 
-    it('throws NotFoundException on 404 error', function () {
+    it('throws NotFoundException on 404 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Customer not found', 404),
         ]);
@@ -63,7 +63,7 @@ describe('GetCustomerAction', function () {
         $action->handle('cus_notfound');
     })->throws(NotFoundException::class, 'Resource not found');
 
-    it('throws InvalidArgumentException when ID is empty', function () {
+    it('throws InvalidArgumentException when ID is empty', function (): void {
         $client = mockClient([]);
         $action = new GetCustomerAction($client, new ResponseHandler);
 

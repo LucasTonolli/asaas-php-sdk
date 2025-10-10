@@ -1,7 +1,7 @@
 <?php
 
-describe('Test connection', function () {
-    it('throws authentication exception with invalid token', function () {
+describe('Test connection', function (): void {
+    it('throws authentication exception with invalid token', function (): void {
         $config = new AsaasPhpSdk\Config\AsaasConfig(
             token: 'invalid_sandbox_token',
             isSandbox: true

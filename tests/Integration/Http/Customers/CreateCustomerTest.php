@@ -1,12 +1,12 @@
 <?php
 
-describe('Create Customer', function () {
-    beforeEach(function () {
+describe('Create Customer', function (): void {
+    beforeEach(function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
     });
 
-    it('creates a customer successfully', function () {
+    it('creates a customer successfully', function (): void {
         $name = 'John Doe '.uniqid();
 
         $response = $this->asaasClient->customer()->create([
@@ -18,14 +18,14 @@ describe('Create Customer', function () {
             ->and($response['cpfCnpj'])->toBe('89887966088');
     });
 
-    it('fails to create a customer with invalid cpf', function () {
+    it('fails to create a customer with invalid cpf', function (): void {
         expect(fn () => $this->asaasClient->customer()->create([
             'name' => 'Invalid CPF',
             'cpfCnpj' => '000.000.000-00',
         ]))->toThrow(\AsaasPhpSdk\Exceptions\ValidationException::class, 'Invalid CPF: 000.000.000-00');
     });
 
-    it('matches the expected response structure', function () {
+    it('matches the expected response structure', function (): void {
         $response = $this->asaasClient->customer()->create([
             'name' => 'Snapshot Test',
             'cpfCnpj' => '898.879.660-88',

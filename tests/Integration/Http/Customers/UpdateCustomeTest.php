@@ -1,12 +1,12 @@
 <?php
 
-describe('Update Customer', function () {
-    beforeEach(function () {
+describe('Update Customer', function (): void {
+    beforeEach(function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
     });
 
-    it('updates a customer successfully', function () {
+    it('updates a customer successfully', function (): void {
         $createCustomerResponse = $this->asaasClient->customer()->create([
             'name' => 'John Doe'.uniqid(),
             'email' => 'john_doe'.uniqid().'@example.com',
@@ -22,13 +22,13 @@ describe('Update Customer', function () {
             ->and($response)->toHaveKeys(CUSTOMER_KEYS);
     });
 
-    it('throws an exception when the customer is not found (404)', function () {
+    it('throws an exception when the customer is not found (404)', function (): void {
         $this->asaasClient->customer()->update('cus_notfound', [
             'name' => 'John Doe Updated',
         ]);
     })->throws(\AsaasPhpSdk\Exceptions\NotFoundException::class, 'Resource not found');
 
-    it('throws an exception when the customer ID is empty', function () {
+    it('throws an exception when the customer ID is empty', function (): void {
         $this->asaasClient->customer()->update('', [
             'name' => 'John Doe Updated',
         ]);

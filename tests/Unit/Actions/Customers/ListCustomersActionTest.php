@@ -8,9 +8,9 @@ use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
 
-describe('List Customers Action', function () {
+describe('List Customers Action', function (): void {
 
-    it('lists customers successfully', function () {
+    it('lists customers successfully', function (): void {
         $client = mockClient([
             mockResponse([
                 'object' => 'list',
@@ -56,7 +56,7 @@ describe('List Customers Action', function () {
             ->and($result['data'][1]['id'])->toBe('cus_002');
     });
 
-    it('throws ValidationException on 400 error', function () {
+    it('throws ValidationException on 400 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Invalid parameters', 400, [
                 ['description' => 'Limit must be less than or equal to 100'],
@@ -72,7 +72,7 @@ describe('List Customers Action', function () {
         $action->handle($dto);
     })->throws(ValidationException::class, 'Limit must be less than or equal to 100');
 
-    it('throws ApiException on network connection error', function () {
+    it('throws ApiException on network connection error', function (): void {
         $client = mockClient([
             new ConnectException(
                 'Connection failed',

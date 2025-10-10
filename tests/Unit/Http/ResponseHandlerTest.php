@@ -9,13 +9,13 @@ use AsaasPhpSdk\Exceptions\RateLimitException;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
-describe('ResponseHandler', function () {
+describe('ResponseHandler', function (): void {
 
-    beforeEach(function () {
+    beforeEach(function (): void {
         $this->handler = new ResponseHandler;
     });
 
-    it('handles successful 200 response', function () {
+    it('handles successful 200 response', function (): void {
         $response = mockResponse([
             'id' => 'cus_123',
             'name' => 'João Silva',
@@ -28,7 +28,7 @@ describe('ResponseHandler', function () {
             ->and($result['name'])->toBe('João Silva');
     });
 
-    it('handles successful 201 response', function () {
+    it('handles successful 201 response', function (): void {
         $response = mockResponse([
             'id' => 'cus_123',
             'created' => true,
@@ -40,7 +40,7 @@ describe('ResponseHandler', function () {
             ->and($result['id'])->toBe('cus_123');
     });
 
-    it('handles empty successful response', function () {
+    it('handles empty successful response', function (): void {
         $response = mockResponse([], 204);
 
         $result = $this->handler->handle($response);
@@ -49,13 +49,13 @@ describe('ResponseHandler', function () {
             ->and($result)->toBeEmpty();
     });
 
-    it('throws AuthenticationException on 401', function () {
+    it('throws AuthenticationException on 401', function (): void {
         $response = mockErrorResponse('Invalid API token', 401);
 
         $this->handler->handle($response);
     })->throws(AuthenticationException::class, 'Invalid API token');
 
-    it('throws ValidationException on 400', function () {
+    it('throws ValidationException on 400', function (): void {
         $response = mockErrorResponse('Invalid data', 400, [
             ['description' => 'Name is required'],
             ['description' => 'Email is invalid'],
@@ -64,7 +64,7 @@ describe('ResponseHandler', function () {
         $this->handler->handle($response);
     })->throws(ValidationException::class);
 
-    it('throws NotFoundException on 404', function () {
+    it('throws NotFoundException on 404', function (): void {
         $response = mockErrorResponse('Customer not found', 404, [
             ['description' => 'Customer not found'],
         ]);
@@ -72,13 +72,13 @@ describe('ResponseHandler', function () {
         $this->handler->handle($response);
     })->throws(NotFoundException::class, 'Customer not found');
 
-    it('throws RateLimitException on 429', function () {
+    it('throws RateLimitException on 429', function (): void {
         $response = mockErrorResponse('Rate limit exceeded', 429);
 
         $this->handler->handle($response);
     })->throws(RateLimitException::class, 'Rate limit exceeded');
 
-    it('throws ApiException on 500', function () {
+    it('throws ApiException on 500', function (): void {
         $response = mockErrorResponse('Internal server error', 500, [
             ['description' => 'Internal server error'],
         ]);
@@ -86,7 +86,7 @@ describe('ResponseHandler', function () {
         $this->handler->handle($response);
     })->throws(ApiException::class, 'Internal server error');
 
-    it('throws ApiException on 503', function () {
+    it('throws ApiException on 503', function (): void {
         $response = mockErrorResponse('Service unavailable', 503, [
             ['description' => 'Service unavailable'],
         ]);
@@ -94,7 +94,7 @@ describe('ResponseHandler', function () {
         $this->handler->handle($response);
     })->throws(ApiException::class, 'Service unavailable');
 
-    it('extracts error message from message field', function () {
+    it('extracts error message from message field', function (): void {
         $response = mockErrorResponse('Custom error message', 400, [
             ['description' => 'Custom error message'],
         ]);
@@ -106,7 +106,7 @@ describe('ResponseHandler', function () {
         }
     });
 
-    it('extracts multiple error messages from errors array', function () {
+    it('extracts multiple error messages from errors array', function (): void {
         $response = mockErrorResponse('Validation failed', 400, [
             ['description' => 'Name is required'],
             ['description' => 'Email is invalid'],
@@ -120,7 +120,7 @@ describe('ResponseHandler', function () {
         }
     });
 
-    it('throws ApiException for invalid JSON response', function () {
+    it('throws ApiException for invalid JSON response', function (): void {
         $response = new GuzzleHttp\Psr7\Response(
             200,
             ['Content-Type' => 'application/json'],
@@ -130,7 +130,7 @@ describe('ResponseHandler', function () {
         $this->handler->handle($response);
     })->throws(ApiException::class, 'Invalid JSON');
 
-    it('handles response with no error message', function () {
+    it('handles response with no error message', function (): void {
         $response = new GuzzleHttp\Psr7\Response(
             400,
             ['Content-Type' => 'application/json'],

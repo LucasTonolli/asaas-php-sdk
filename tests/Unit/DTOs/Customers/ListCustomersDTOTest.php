@@ -5,9 +5,9 @@ use AsaasPhpSdk\ValueObjects\Cnpj;
 use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 
-describe('ListCustomersDTO', function () {
+describe('ListCustomersDTO', function (): void {
 
-    it('creates DTO from valid data', function () {
+    it('creates DTO from valid data', function (): void {
         $dto = ListCustomersDTO::fromArray([
             'limit' => 10,
             'offset' => 0,
@@ -29,7 +29,7 @@ describe('ListCustomersDTO', function () {
         expect($dto->externalReference)->toBe('REF123');
     });
 
-    it('handles null and missing fields', function () {
+    it('handles null and missing fields', function (): void {
         $dto = ListCustomersDTO::fromArray([]);
 
         expect($dto->limit)->toBeNull();
@@ -41,7 +41,7 @@ describe('ListCustomersDTO', function () {
         expect($dto->externalReference)->toBeNull();
     });
 
-    it('sets invalid integer fields to null', function () {
+    it('sets invalid integer fields to null', function (): void {
         $dto = ListCustomersDTO::fromArray([
             'limit' => 'a',
             'offset' => 'b',
@@ -51,7 +51,7 @@ describe('ListCustomersDTO', function () {
         expect($dto->offset)->toBeNull();
     });
 
-    it('sets empty string fields to null', function () {
+    it('sets empty string fields to null', function (): void {
         $dto = ListCustomersDTO::fromArray([
             'name' => '',
             'groupName' => '',
@@ -63,7 +63,7 @@ describe('ListCustomersDTO', function () {
             ->and($dto->externalReference)->toBeNull();
     });
 
-    it('handles invalid email gracefully', function () {
+    it('handles invalid email gracefully', function (): void {
         $dto = ListCustomersDTO::fromArray([
             'email' => 'invalid-email',
         ]);
@@ -71,7 +71,7 @@ describe('ListCustomersDTO', function () {
         expect($dto->email)->toBeNull();
     });
 
-    it('handles CPF and CNPJ correctly', function () {
+    it('handles CPF and CNPJ correctly', function (): void {
 
         $dtoCpf = ListCustomersDTO::fromArray([
             'cpfCnpj' => '898.879.660-88',
@@ -94,7 +94,7 @@ describe('ListCustomersDTO', function () {
         expect($dtoInvalidFormat->cpfCnpj)->toBeNull();
     });
 
-    it('toArray returns only non-null fields', function () {
+    it('toArray returns only non-null fields', function (): void {
         $dto = ListCustomersDTO::fromArray([
             'name' => 'John',
             'cpfCnpj' => '898.879.660-88',

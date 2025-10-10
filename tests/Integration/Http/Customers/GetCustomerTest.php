@@ -1,13 +1,13 @@
 <?php
 
-describe('Get Customer', function () {
+describe('Get Customer', function (): void {
 
-    beforeEach(function () {
+    beforeEach(function (): void {
         $config = sandboxConfig();
         $this->asaasClient = new AsaasPhpSdk\AsaasClient($config);
     });
 
-    it('retrieves a customer successfully (200)', function () {
+    it('retrieves a customer successfully (200)', function (): void {
         $customerId = null;
 
         $getCustomersResponse = $this->asaasClient->customer()->list([
@@ -33,15 +33,15 @@ describe('Get Customer', function () {
             ->and($response)->toHaveKeys(CUSTOMER_KEYS);
     });
 
-    it('throws an exception when the customer is not found (404)', function () {
+    it('throws an exception when the customer is not found (404)', function (): void {
         expect(fn () => $this->asaasClient->customer()->get('invalid-customer-id'))->toThrow(AsaasPhpSdk\Exceptions\NotFoundException::class, 'Resource not found');
     });
 
-    it('throws an exception when the customer ID is empty', function () {
+    it('throws an exception when the customer ID is empty', function (): void {
         expect(fn () => $this->asaasClient->customer()->get(''))->toThrow(\InvalidArgumentException::class, 'Customer ID cannot be empty');
     });
 
-    it('matches the expected response structure', function () {
+    it('matches the expected response structure', function (): void {
         $getCustomersResponse = $this->asaasClient->customer()->list([
             'limit' => 1,
             'cpfCnpj' => '00264272000107',

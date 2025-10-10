@@ -5,9 +5,9 @@ use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 
-describe('Update Customer Action', function () {
+describe('Update Customer Action', function (): void {
 
-    it('update customer successfully', function () {
+    it('update customer successfully', function (): void {
         $client = mockClient([
             mockResponse([
                 'id' => 'cus_123',
@@ -30,7 +30,7 @@ describe('Update Customer Action', function () {
             ->and($result['cpfCnpj'])->toBe('89887966088');
     });
 
-    it('throws ValidationException on 400 error', function () {
+    it('throws ValidationException on 400 error', function (): void {
         $client = mockClient([
             mockErrorResponse('Input validation failed', 400, [
                 ['description' => 'CPF is invalid'],

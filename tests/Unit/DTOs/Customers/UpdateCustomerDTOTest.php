@@ -5,9 +5,9 @@ declare(strict_types=1);
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
 
-describe('UpdateCustomerDTO', function () {
+describe('UpdateCustomerDTO', function (): void {
 
-    it('creates DTO from valid data', function () {
+    it('creates DTO from valid data', function (): void {
         $data = [
             'name' => 'Test Name',
             'cpfCnpj' => '898.879.660-88',
@@ -25,7 +25,7 @@ describe('UpdateCustomerDTO', function () {
             ->and($dto)->not()->toHaveKey('foreignCustomer');
     });
 
-    it('fields filled were formatted, sanitized and validated', function () {
+    it('fields filled were formatted, sanitized and validated', function (): void {
         $data = [
             'name' => '  Test Name  ',
             'cpfCnpj' => '898.879.660-88',
@@ -43,7 +43,7 @@ describe('UpdateCustomerDTO', function () {
             ->and($dto->postalCode->formatted())->toBe('12345-678');
     });
 
-    it('fields not filled not appear in toArray', function () {
+    it('fields not filled not appear in toArray', function (): void {
         $data = [
             'name' => 'Test Name',
             'cpfCnpj' => '898.879.660-88',
@@ -57,8 +57,8 @@ describe('UpdateCustomerDTO', function () {
         ]);
     });
 
-    describe('validation for optional fields', function () {
-        it('if value from email is invalid throws exception', function () {
+    describe('validation for optional fields', function (): void {
+        it('if value from email is invalid throws exception', function (): void {
             $data = [
                 'name' => 'Test Name',
                 'cpfCnpj' => '898.879.660-88',
@@ -68,7 +68,7 @@ describe('UpdateCustomerDTO', function () {
             expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Email is not valid');
         });
 
-        it('if value from postalCode is invalid throws exception', function () {
+        it('if value from postalCode is invalid throws exception', function (): void {
             $data = [
                 'name' => 'Test Name',
                 'cpfCnpj' => '898.879.660-88',
@@ -78,7 +78,7 @@ describe('UpdateCustomerDTO', function () {
 
             expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Postal code must contain exactly 8 digits');
         });
-        it('if value from phone or mobilePhone is invalid throws exception', function () {
+        it('if value from phone or mobilePhone is invalid throws exception', function (): void {
             $data = [
                 'name' => 'Test Name',
                 'cpfCnpj' => '898.879.660-88',
@@ -92,7 +92,7 @@ describe('UpdateCustomerDTO', function () {
             expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Phone must contain 10 or 11 digits');
         });
 
-        it('if value from cpfCnpj is invalid throws exception', function () {
+        it('if value from cpfCnpj is invalid throws exception', function (): void {
             $data = [
                 'name' => 'Test Name',
                 'cpfCnpj' => '123',
@@ -105,7 +105,7 @@ describe('UpdateCustomerDTO', function () {
             expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Invalid Cnpj: 11111111111111');
         });
 
-        it('formats postalCode with hyphen after sanitization', function () {
+        it('formats postalCode with hyphen after sanitization', function (): void {
             $dto = UpdateCustomerDTO::fromArray([
                 'name' => 'Test Name',
                 'cpfCnpj' => '898.879.660-88',
