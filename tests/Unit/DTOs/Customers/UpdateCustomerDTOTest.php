@@ -65,7 +65,7 @@ describe('UpdateCustomerDTO', function (): void {
                 'email' => 'test',
             ];
 
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Email is not valid');
+            expect(fn () => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Email is not valid');
         });
 
         it('if value from postalCode is invalid throws exception', function (): void {
@@ -76,7 +76,7 @@ describe('UpdateCustomerDTO', function (): void {
 
             ];
 
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Postal code must contain exactly 8 digits');
+            expect(fn () => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Postal code must contain exactly 8 digits');
         });
         it('if value from phone or mobilePhone is invalid throws exception', function (): void {
             $data = [
@@ -85,11 +85,11 @@ describe('UpdateCustomerDTO', function (): void {
                 'phone' => '123',
                 'mobilePhone' => '123',
             ];
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Phone must contain 10 or 11 digits');
+            expect(fn () => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Phone must contain 10 or 11 digits');
 
             unset($data['phone']);
 
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Phone must contain 10 or 11 digits');
+            expect(fn () => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Phone must contain 10 or 11 digits');
         });
 
         it('if value from cpfCnpj is invalid throws exception', function (): void {
@@ -98,11 +98,11 @@ describe('UpdateCustomerDTO', function (): void {
                 'cpfCnpj' => '123',
             ];
 
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'CPF or CNPJ must contain 11 or 14 digits');
+            expect(fn () => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'CPF or CNPJ must contain 11 or 14 digits');
 
             $data['cpfCnpj'] = '11111111111111';
 
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Invalid Cnpj: 11111111111111');
+            expect(fn () => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Invalid Cnpj: 11111111111111');
         });
 
         it('formats postalCode with hyphen after sanitization', function (): void {
