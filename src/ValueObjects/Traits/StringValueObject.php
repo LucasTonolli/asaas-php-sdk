@@ -2,6 +2,8 @@
 
 namespace AsaasPhpSdk\ValueObjects\Traits;
 
+use AsaasPhpSdk\ValueObjects\ValueObjectContract;
+
 /**
  * Provides a standard implementation for string-based Value Objects.
  *
@@ -39,10 +41,10 @@ trait StringValueObject
     /**
      * Compares this Value Object with another for value equality.
      *
-     * @param  self  $other  The other Value Object to compare with.
+     * @param  ValueObjectContract   $other  The other Value Object to compare with.
      * @return bool True if the objects are of the same type and their values are identical.
      */
-    public function equals(self $other): bool
+    public function equals(ValueObjectContract $other): bool
     {
         return $other instanceof static && $this->value === $other->value;
     }
