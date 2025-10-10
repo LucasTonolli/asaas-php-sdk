@@ -56,8 +56,8 @@ final class AsaasClient
         if ($this->customerService !== null) {
             return $this->customerService;
         }
-
-        return new CustomerService($this->httpClient);
+        $this->customerService = new CustomerService($this->httpClient);
+        return $this->customerService;
     }
 
     /**

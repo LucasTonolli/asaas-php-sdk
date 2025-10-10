@@ -20,7 +20,7 @@ Um DTO robusto segue um ciclo de vida claro, orquestrado pelo método estático 
 | Método                   | Responsabilidade                                                                                                                                                                 |
 | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `fromArray(array $data)` | **Ponto de entrada público**. Orquestra o fluxo de sanitização e validação para criar uma instância válida do DTO.                                                               |
-| `sanitize(array $data)`  | **(Privado)** Primeira etapa. **Prepara e normaliza** os dados de entrada (ex: remove caracteres, ajusta tipos) antes da validação. Não lança exceções.                          |
+| `sanitize(array $data)`  | **(Protegido)** Primeira etapa. **Prepara e normaliza** os dados de entrada (ex: remove caracteres, ajusta tipos) antes da validação. Não lança exceções.                        |
 | `validate(array $data)`  | **(Privado)** Segunda etapa. **Valida as regras** e a integridade dos dados já sanitizados, **lançando exceções** em caso de falha. É aqui que `Value Objects` são instanciados. |
 | `toArray(): array`       | Converte o DTO em um array limpo, pronto para transporte ou integração externa (ex: payload de API).                                                                             |
 
@@ -60,7 +60,7 @@ interface DTOContract
   - Caso contrário, tentará chamar o método padrão `->value()`.
   - Propriedades com valor `null` são omitidas do resultado.
 
-- **Helpers de Validação (`validateValueObject`)**: Oferece um método robusto para tentar instanciar um `Value Object`. Se a criação falhar, ele lança uma `InvalidArgumentException` padronizada, simplificando o bloco `validate()` dos DTOs filhos.
+- **Helpers de Validação (`validateValueObject`)**: Oferece um método robusto para tentar instanciar um `Value Object`. Se a criação falhar, ele lança uma `InvalidValueObjectException` padronizada, simplificando o bloco `validate()` dos DTOs filhos.
 
 - **Helpers de Sanitização (`optional...`)**: Fornece uma série de métodos (`optionalString`, `optionalOnlyDigits`, etc.) que simplificam a sanitização de dados opcionais, tornando o método `sanitize()` dos filhos mais limpo e legível.
 
@@ -131,7 +131,7 @@ class ListCustomersDTO extends AbstractDTO
     {
         return [
             'limit' => self::optionalInteger($data, 'limit'),
-            'email' => self::quietlyCreateVO(Email::class, $data['email'] ?? null),
+            'email' => self::optionalEmail($data['email'] ?? null),
             // ...
         ];
     }

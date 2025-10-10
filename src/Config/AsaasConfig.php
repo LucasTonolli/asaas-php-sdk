@@ -18,7 +18,7 @@ class AsaasConfig
 
     private bool $isSandbox;
 
-    private bool $logsEnabled = true;
+    private bool $logsEnabled = false;
 
     /**
      * AsaasConfig constructor.
@@ -60,10 +60,10 @@ class AsaasConfig
         $tokenKey = $isSandbox ? 'ASAAS_SANDBOX_TOKEN' : 'ASAAS_PROD_TOKEN';
         $urlKey = $isSandbox ? 'ASAAS_SANDBOX_URL' : 'ASAAS_PROD_URL';
 
-        $token = $_ENV[$tokenKey] ?? $_SERVER[$tokenKey] ?? null;
+        $token =  $_ENV[$tokenKey] ?? $_SERVER[$tokenKey] ?? (getenv($tokenKey) ?: null);
 
         if (! $token) {
-            throw new \RuntimeException("Enviroment variable {$tokenKey} is not set");
+            throw new \RuntimeException("Environment variable {$tokenKey} is not set");
         }
 
         $customUrl = $_ENV[$urlKey] ?? getenv($urlKey) ?: null;

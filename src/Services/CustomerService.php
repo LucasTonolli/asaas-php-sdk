@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Services;
 
-use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
-use AsaasPhpSdk\Actions\Customers\DeleteCustomerAction;
-use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
-use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
-use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
-use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
-use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
-use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
-use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
+use AsaasPhpSdk\Actions\Customers\{CreateCustomerAction, DeleteCustomerAction, GetCustomerAction, ListCustomersAction, RestoreCustomerAction, UpdateCustomerAction};
+use AsaasPhpSdk\DTOs\Customers\{CreateCustomerDTO, ListCustomersDTO, UpdateCustomerDTO};
 use AsaasPhpSdk\Exceptions\ValidationException;
+use AsaasPhpSdk\Exceptions\AuthenticationException;
+use AsaasPhpSdk\Exceptions\ApiException;
+use AsaasPhpSdk\Exceptions\NotFoundException;
+use AsaasPhpSdk\Exceptions\RateLimitException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
@@ -31,11 +28,18 @@ use GuzzleHttp\Client;
 final class CustomerService
 {
     /**
+     * @internal
+     */
+    private readonly ResponseHandler $responseHandler;
+    /**
      * CustomerService constructor.
      *
      * @internal
      */
-    public function __construct(private Client $client, private readonly ResponseHandler $responseHandler = new ResponseHandler) {}
+    public function __construct(private Client $client, ?ResponseHandler $responseHandler = null)
+    {
+        $this->responseHandler = $responseHandler ?? new ResponseHandler();
+    }
 
     /**
      * Creates a new customer.
@@ -47,6 +51,7 @@ final class CustomerService
      *
      * @throws ValidationException
      * @throws AuthenticationException
+     * @throws RateLimitException
      * @throws ApiException
      */
     public function create(array $data): array
@@ -66,6 +71,7 @@ final class CustomerService
      * @return array A paginated list of customers.
      *
      * @throws AuthenticationException
+     * @throws RateLimitException
      * @throws ApiException
      */
     public function list(array $filters = []): array
@@ -87,6 +93,7 @@ final class CustomerService
      * @throws \InvalidArgumentException
      * @throws NotFoundException
      * @throws AuthenticationException
+     * @throws RateLimitException
      * @throws ApiException
      */
     public function get(string $id): array
@@ -109,6 +116,7 @@ final class CustomerService
      * @throws ValidationException
      * @throws NotFoundException
      * @throws AuthenticationException
+     * @throws RateLimitException
      * @throws ApiException
      */
     public function update(string $id, array $data): array
@@ -130,6 +138,7 @@ final class CustomerService
      * @throws \InvalidArgumentException
      * @throws NotFoundException
      * @throws AuthenticationException
+     * @throws RateLimitException
      * @throws ApiException
      */
     public function delete(string $id): array
@@ -150,6 +159,7 @@ final class CustomerService
      * @throws \InvalidArgumentException
      * @throws NotFoundException
      * @throws AuthenticationException
+     * @throws RateLimitException
      * @throws ApiException
      */
     public function restore(string $id): array
@@ -164,7 +174,7 @@ final class CustomerService
      *
      * @internal
      *
-     * @template T of AbstractDTO
+     * @template T of of \AsaasPhpSdk\DTOs\AbstractDTO
      *
      * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
      * @param  array<string, mixed>  $data  The raw data for the DTO.

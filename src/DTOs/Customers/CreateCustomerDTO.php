@@ -160,14 +160,28 @@ final class CreateCustomerDTO extends AbstractDTO
         } catch (InvalidValueObjectException $e) {
             throw InvalidCustomerDataException::invalidFormat('cpfCnpj', $e->getMessage());
         }
-
         try {
             self::validateValueObject($data, 'email', Email::class);
+        } catch (InvalidValueObjectException $e) {
+            throw InvalidCustomerDataException::invalidFormat('email', $e->getMessage());
+        }
+
+        try {
             self::validateValueObject($data, 'postalCode', PostalCode::class);
+        } catch (InvalidValueObjectException $e) {
+            throw InvalidCustomerDataException::invalidFormat('postalCode', $e->getMessage());
+        }
+
+        try {
             self::validateValueObject($data, 'phone', Phone::class);
+        } catch (InvalidValueObjectException $e) {
+            throw InvalidCustomerDataException::invalidFormat('phone', $e->getMessage());
+        }
+
+        try {
             self::validateValueObject($data, 'mobilePhone', Phone::class);
-        } catch (InvalidValueObjectException  $e) {
-            throw InvalidCustomerDataException::invalidFormat('customer data', $e->getMessage());
+        } catch (InvalidValueObjectException $e) {
+            throw InvalidCustomerDataException::invalidFormat('mobilePhone', $e->getMessage());
         }
 
         return $data;

@@ -41,10 +41,10 @@ trait StringValueObject
     /**
      * Compares this Value Object with another for value equality.
      *
-     * @param  ValueObjectContract  $other  The other Value Object to compare with.
+     * @param  self  $other  The other Value Object to compare with.
      * @return bool True if the objects are of the same type and their values are identical.
      */
-    public function equals(ValueObjectContract $other): bool
+    public function equals(self $other): bool
     {
         return $other instanceof static && $this->value === $other->value;
     }

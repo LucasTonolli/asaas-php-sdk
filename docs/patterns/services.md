@@ -40,8 +40,8 @@ namespace AsaasPhpSdk\Services;
 use AsaasPhpSdk\Actions\Customers\{CreateCustomerAction, GetCustomerAction, ListCustomersAction};
 use AsaasPhpSdk\DTOs\Customers\{CreateCustomerDTO, ListCustomersDTO};
 use AsaasPhpSdk\Exceptions\ValidationException;
-use AsaasPhpSdk\Http\Client;
-use AsaasPhpSdk\Http\ResponseHandler;
+use GuzzleHttp\Client;
+use AsaasPhpSdk\Helpers\ResponseHandler;
 
 final class CustomerService
 {

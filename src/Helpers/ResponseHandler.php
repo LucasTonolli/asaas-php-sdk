@@ -68,7 +68,11 @@ final class ResponseHandler
             return;
         }
 
-        $body = $this->parseBody($response);
+        try {
+            $body = $this->parseBody($response);
+        } catch (ApiException) {
+            $body = [];
+        }
         $errorMessage = $this->extractErrorMessage($body);
 
         match (true) {
@@ -121,7 +125,7 @@ final class ResponseHandler
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ApiException(
-                'Invalid JSON response from API: '.json_last_error_msg()
+                'Invalid JSON response from API: ' . json_last_error_msg()
             );
         }
 
@@ -142,7 +146,7 @@ final class ResponseHandler
 
         if (isset($body['errors']) && is_array($body['errors'])) {
             $errors = array_map(
-                fn ($error) => is_array($error)
+                fn($error) => is_array($error)
                     ? ($error['description'] ?? $error['message'] ?? 'Unknown error')
                     : (string) $error,
                 $body['errors']

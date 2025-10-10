@@ -26,12 +26,13 @@ final class GetCustomerAction extends AbstractAction
      */
     public function handle(string $id): array
     {
-        if (empty(trim($id))) {
+        $normalizedId = trim($id);
+        if ($normalizedId === '') {
             throw new \InvalidArgumentException('Customer ID cannot be empty');
         }
 
         return $this->executeRequest(
-            fn () => $this->client->get('customers/'.rawurlencode($id))
+            fn() => $this->client->get('customers/' . rawurlencode($normalizedId))
         );
     }
 }

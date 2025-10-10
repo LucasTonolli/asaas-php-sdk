@@ -54,7 +54,7 @@ final class HttpClientFactory
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,
@@ -114,11 +114,16 @@ final class HttpClientFactory
     private static function createLoggingMiddleware(): callable
     {
         return Middleware::mapRequest(function (RequestInterface $request): RequestInterface {
+            $stream = $request->getBody();
+            $body = (string) $stream;
+            if ($stream->isSeekable()) {
+                $stream->rewind();
+            }
             error_log(sprintf(
                 '[Asaas] %s %s {%s}',
                 $request->getMethod(),
                 $request->getUri(),
-                $request->getBody()->getContents()
+                $body
             ));
 
             return $request;

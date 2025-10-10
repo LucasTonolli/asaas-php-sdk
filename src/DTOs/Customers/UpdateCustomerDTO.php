@@ -126,7 +126,7 @@ final class UpdateCustomerDTO extends AbstractDTO
      *
      * @internal
      *
-     * @throws InvalidCustomerDataException|InvalidValueObjectException
+     * @throws InvalidCustomerDataException
      */
     private static function validate(array $data): array
     {

@@ -61,7 +61,7 @@ final class DataSanitizer
             return null;
         }
 
-        $normalized = preg_replace('/\s+/', ' ', $value);
+        $normalized = preg_replace('/\s+/', ' ', trim($value));
 
         return $normalized === '' ? null : $normalized;
     }
