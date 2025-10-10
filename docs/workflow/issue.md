@@ -1,37 +1,30 @@
----
-name: 🚀 Feature
-about: Criação de uma nova feature (Action + DTO + Tests + Docs)
-title: "feat: [NOME DA FEATURE]"
-labels: feature
----
+# 📌 [Feature Name]
 
-## 📌 Nome da Feature
+## 🧠 Description / Context
 
-Ex: **Create Payment**
-
-## 🧠 Descrição / Contexto
-
-Explique brevemente o objetivo da feature e o que será implementado.
+Brief description of the feature, its context, and what it is intended to achieve.
 
 ---
 
-## ✅ Checklist de Tarefas
+## ✅ Tasks
 
-- [ ] DTOs criados e sanitizados
-- [ ] Actions implementadas
-- [ ] Testes unitários
-- [ ] Testes de integração
-- [ ] Documentação atualizada (docs/patterns + phpdocs)
-- [ ] Revisão final
+### Feature Implementation
+
+- [ ] Create DTO(s) (e.g., `Create[Resource]DTO`)
+- [ ] Create Action(s) (e.g., `Create[Resource]Action`)
+- [ ] Create/Edit Service(s) (e.g., add relevant methods)
+- [ ] Add/Review PHPDocs in the new classes
+
+### Tests
+
+- [ ] Unit tests for DTO(s)
+- [ ] Unit tests for Action(s)
+- [ ] Integration tests (HTTP / SDK)
+
+### Documentation
+
+- [ ] Add/update documentation (e.g., README, `docs/patterns/`, `docs/workflow/`)
 
 ---
 
-## 📝 Observações Técnicas
-
-- Edge cases importantes
-- Decisões de design
-- Links de referência
-
----
-
-📅 **Milestone**: `v0.x.x - Nome do Módulo`
+📅 **Milestone:** `[Milestone Name / Version]`
