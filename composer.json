@@ -1,5 +1,5 @@
 {
-	"name": "lucas/asaas-php-sdk",
+	"name": "lucas-tonolli/asaas-php-sdk",
 	"description": "PHP SDK for Asaas payment gateway",
 	"type": "library",
 	"version": "0.1.0-alpha",
