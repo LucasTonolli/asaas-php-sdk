@@ -21,6 +21,6 @@
         </exclude>
     </source>
 		<php>
-        <env name="SANDBOX_API_KEY" value="CHANGE_ME"/>
+        <env name="ASAAS_SANDBOX_TOKEN" value="CHANGE_ME"/>
     </php>
 </phpunit>
