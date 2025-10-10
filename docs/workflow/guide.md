@@ -91,29 +91,10 @@ v1.0.0 - Production Ready
 **Customer Module**
 
 ```
-#1 Create Customer DTO ✅
-#2 Create Customer Actions ✅
-#3 Integration tests 🚧
-#4 Documentation 📝
-#5 Error handling ⏳
-```
-
-**Payment Module**
+#1 Create Customer
+#2 Update Customer
 
 ```
-#6 Payment DTOs ⏳
-#7 Payment Actions ⏳
-#8 Payment tests ⏳
-```
-
-Legenda:
-
-- ✅ Concluído
-- 🚧 Em progresso
-- 📝 Em revisão
-- ⏳ Pendente
-
----
 
 ## 🧪 **Tests & Documentation**
 
