@@ -10,15 +10,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        php: [8.3]
+
     steps:
+      # 1️⃣ Checkout do código
       - uses: actions/checkout@v3
+
+      # 2️⃣ Configurar PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: ${{ matrix.php }}
+          coverage: xdebug # Habilita Xdebug para cobertura
+          extensions: mbstring, xml, curl, intl
+
+      # 3️⃣ Instalar dependências
       - name: Install dependencies
-        run: composer install
+        run: composer install --no-interaction --prefer-dist
+
+      # 4️⃣ Linter
       - name: Lint code
         run: vendor/bin/pint
+
+      # 5️⃣ Rodar testes
       - name: Run tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --coverage --coverage-text
+
+      # 6️⃣ Opcional: gerar cobertura HTML
+      - name: Generate HTML coverage
+        if: success()
+        run: vendor/bin/pest --coverage-html=coverage
