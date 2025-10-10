@@ -16,7 +16,7 @@ final class DeleteCustomerAction extends AbstractAction
      *
      * @see https://docs.asaas.com/reference/remover-cliente Official Asaas API Documentation
      *
-     * @param  string  $id The unique identifier of the customer to be deleted.
+     * @param  string  $id  The unique identifier of the customer to be deleted.
      * @return array An array confirming the deletion, typically containing a 'deleted' flag.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
@@ -31,7 +31,7 @@ final class DeleteCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->delete('customers/' . rawurlencode($id))
+            fn () => $this->client->delete('customers/'.rawurlencode($id))
         );
     }
 }

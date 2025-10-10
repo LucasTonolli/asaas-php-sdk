@@ -17,7 +17,7 @@ final class InvalidCustomerDataException extends AsaasException
     /**
      * Creates an exception for a missing required field.
      *
-     * @param  string  $field The name of the required field that is missing.
+     * @param  string  $field  The name of the required field that is missing.
      * @return self A new instance of the exception.
      */
     public static function missingField(string $field): self
@@ -28,8 +28,8 @@ final class InvalidCustomerDataException extends AsaasException
     /**
      * Creates an exception for a field with an invalid format.
      *
-     * @param  string  $field The name of the field with the invalid format.
-     * @param  ?string  $message An optional, more specific error message. A default is used if not provided.
+     * @param  string  $field  The name of the field with the invalid format.
+     * @param  ?string  $message  An optional, more specific error message. A default is used if not provided.
      * @return self A new instance of the exception.
      */
     public static function invalidFormat(string $field, ?string $message = null): self

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Helpers;
 
-use AsaasPhpSdk\Exceptions\{ApiException, AuthenticationException, NotFoundException, RateLimitException, ValidationException};
+use AsaasPhpSdk\Exceptions\ApiException;
+use AsaasPhpSdk\Exceptions\AuthenticationException;
+use AsaasPhpSdk\Exceptions\NotFoundException;
+use AsaasPhpSdk\Exceptions\RateLimitException;
+use AsaasPhpSdk\Exceptions\ValidationException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -26,7 +30,7 @@ final class ResponseHandler
      * parses and returns the JSON body. If the status indicates an error, it will
      * throw a specific exception.
      *
-     * @param  ResponseInterface  $response The PSR-7 response from the HTTP client.
+     * @param  ResponseInterface  $response  The PSR-7 response from the HTTP client.
      * @return array<string, mixed> The decoded JSON body as an associative array.
      *
      * @throws AuthenticationException
@@ -48,7 +52,7 @@ final class ResponseHandler
      * If the status is successful (2xx), the method does nothing. If it's an
      * error code (4xx or 5xx), it throws a corresponding SDK exception.
      *
-     * @param  ResponseInterface  $response The response to validate.
+     * @param  ResponseInterface  $response  The response to validate.
      *
      * @throws AuthenticationException
      * @throws NotFoundException
@@ -100,7 +104,7 @@ final class ResponseHandler
     /**
      * Parses the JSON response body into an associative array.
      *
-     * @param  ResponseInterface  $response The response containing the body.
+     * @param  ResponseInterface  $response  The response containing the body.
      * @return array<string, mixed> The decoded data.
      *
      * @throws ApiException If the response body contains invalid JSON.
@@ -117,7 +121,7 @@ final class ResponseHandler
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ApiException(
-                'Invalid JSON response from API: ' . json_last_error_msg()
+                'Invalid JSON response from API: '.json_last_error_msg()
             );
         }
 
@@ -127,7 +131,7 @@ final class ResponseHandler
     /**
      * Extracts a concatenated error message from the response body.
      *
-     * @param  array<string, mixed>  $body The decoded response body.
+     * @param  array<string, mixed>  $body  The decoded response body.
      * @return ?string A single string with all error messages, or null if none are found.
      */
     private function extractErrorMessage(array $body): ?string
@@ -138,7 +142,7 @@ final class ResponseHandler
 
         if (isset($body['errors']) && is_array($body['errors'])) {
             $errors = array_map(
-                fn($error) => is_array($error)
+                fn ($error) => is_array($error)
                     ? ($error['description'] ?? $error['message'] ?? 'Unknown error')
                     : (string) $error,
                 $body['errors']
@@ -153,7 +157,7 @@ final class ResponseHandler
     /**
      * Extracts the 'Retry-After' header value from the response.
      *
-     * @param  ResponseInterface  $response The PSR-7 response.
+     * @param  ResponseInterface  $response  The PSR-7 response.
      * @return ?int The number of seconds to wait, or null if the header is not present.
      */
     private function extractRetryAfter(ResponseInterface $response): ?int

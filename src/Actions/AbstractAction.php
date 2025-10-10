@@ -5,7 +5,9 @@ namespace AsaasPhpSdk\Actions;
 use AsaasPhpSdk\Exceptions\ApiException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\{ConnectException, GuzzleException, RequestException};
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Base class for all SDK Actions.
@@ -16,14 +18,13 @@ use GuzzleHttp\Exception\{ConnectException, GuzzleException, RequestException};
  *
  * @internal This is an internal class and should not be used directly by SDK consumers.
  */
-
 abstract class AbstractAction
 {
     /**
      * AbstractAction constructor.
      *
-     * @param  Client  $client The configured Guzzle HTTP client.
-     * @param  ResponseHandler  $responseHandler The handler responsible for parsing API responses.
+     * @param  Client  $client  The configured Guzzle HTTP client.
+     * @param  ResponseHandler  $responseHandler  The handler responsible for parsing API responses.
      */
     public function __construct(
         protected readonly Client $client,
@@ -38,7 +39,7 @@ abstract class AbstractAction
      * responses to the ResponseHandler. Unhandled exceptions are wrapped in
      * a generic ApiException to provide a consistent error contract.
      *
-     * @param  callable  $request A callable function that executes the Guzzle request and returns a ResponseInterface.
+     * @param  callable  $request  A callable function that executes the Guzzle request and returns a ResponseInterface.
      * @return array The associative array parsed from the API response body by the ResponseHandler.
      *
      * @throws ApiException if a connection error or an unhandled client error occurs.
@@ -54,19 +55,19 @@ abstract class AbstractAction
                 return $this->responseHandler->handle($e->getResponse());
             }
             throw new ApiException(
-                'Request failed: ' . $e->getMessage(),
+                'Request failed: '.$e->getMessage(),
                 $e->getCode(),
                 $e
             );
         } catch (ConnectException $e) {
             throw new ApiException(
-                'Failed to connect to Asaas API: ' . $e->getMessage(),
+                'Failed to connect to Asaas API: '.$e->getMessage(),
                 0,
                 $e
             );
         } catch (GuzzleException $e) {
             throw new ApiException(
-                'HTTP client error: ' . $e->getMessage(),
+                'HTTP client error: '.$e->getMessage(),
                 $e->getCode(),
                 $e
             );

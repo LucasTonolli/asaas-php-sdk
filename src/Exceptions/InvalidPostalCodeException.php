@@ -9,5 +9,4 @@ namespace AsaasPhpSdk\Exceptions;
  * given string does not conform to a valid postal code format (e.g., incorrect
  * number of digits).
  */
-
 class InvalidPostalCodeException extends InvalidValueObjectException {}

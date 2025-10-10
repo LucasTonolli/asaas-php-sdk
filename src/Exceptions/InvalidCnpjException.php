@@ -9,5 +9,4 @@ namespace AsaasPhpSdk\Exceptions;
  * string does not conform to a valid CNPJ format (e.g., incorrect number of
  * digits or an invalid checksum).
  */
-
 class InvalidCnpjException extends InvalidValueObjectException {}

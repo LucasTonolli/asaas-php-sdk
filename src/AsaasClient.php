@@ -34,7 +34,8 @@ final class AsaasClient
     /**
      * AsaasClient constructor.
      *
-     * @param  AsaasConfig  $config The configuration object with API token and environment settings.
+     * @param  AsaasConfig  $config  The configuration object with API token and environment settings.
+     *
      * @throws \InvalidArgumentException if the API token in the config is empty.
      */
     public function __construct(private readonly AsaasConfig $config)

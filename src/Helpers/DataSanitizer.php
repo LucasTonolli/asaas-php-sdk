@@ -13,16 +13,14 @@ namespace AsaasPhpSdk\Helpers;
  *
  * @internal This is an internal helper class and is not intended for public use by SDK consumers.
  */
-
 final class DataSanitizer
 {
     /**
      * Removes all non-digit characters from a string.
      *
-     * @param  ?string  $value The string to sanitize.
+     * @param  ?string  $value  The string to sanitize.
      * @return ?string The sanitized string containing only digits, or null.
      */
-
     public static function onlyDigits(?string $value): ?string
     {
         if ($value === null) {
@@ -37,10 +35,9 @@ final class DataSanitizer
     /**
      * Trims whitespace from the beginning and end of a string.
      *
-     * @param  ?string  $value The string to sanitize.
+     * @param  ?string  $value  The string to sanitize.
      * @return ?string The trimmed string, or null if the result is empty.
      */
-
     public static function sanitizeString(?string $value): ?string
     {
         if ($value === null) {
@@ -55,10 +52,9 @@ final class DataSanitizer
     /**
      * Normalizes whitespace in a string, replacing multiple spaces with a single one.
      *
-     * @param  ?string  $value The string to normalize.
+     * @param  ?string  $value  The string to normalize.
      * @return ?string The normalized string, or null if the result is empty.
      */
-
     public static function normalizeWhitespace(?string $value): ?string
     {
         if ($value === null) {
@@ -73,7 +69,7 @@ final class DataSanitizer
     /**
      * Trims and converts a string to lowercase.
      *
-     * @param  ?string  $value The string to sanitize.
+     * @param  ?string  $value  The string to sanitize.
      * @return ?string The sanitized lowercase string, or null.
      */
     public static function sanitizeLowercase(?string $value): ?string
@@ -90,7 +86,7 @@ final class DataSanitizer
     /**
      * Sanitizes a string intended to be an email address (trims and converts to lowercase).
      *
-     * @param  ?string  $value The email string to sanitize.
+     * @param  ?string  $value  The email string to sanitize.
      * @return ?string The sanitized email string, or null.
      */
     public static function sanitizeEmail(?string $value): ?string
@@ -101,7 +97,7 @@ final class DataSanitizer
     /**
      * Removes all non-alphanumeric characters from a string.
      *
-     * @param  ?string  $value The string to sanitize.
+     * @param  ?string  $value  The string to sanitize.
      * @return ?string The sanitized alphanumeric string, or null.
      */
     public static function onlyAlphaNumeric(?string $value): ?string
@@ -120,7 +116,7 @@ final class DataSanitizer
      *
      * It correctly interprets string values like 'true', '1', 'on', 'yes', 'sim'.
      *
-     * @param  mixed  $value The value to convert.
+     * @param  mixed  $value  The value to convert.
      * @return ?bool The sanitized boolean value, or null for empty inputs.
      */
     public static function sanitizeBoolean(mixed $value): ?bool
@@ -145,7 +141,7 @@ final class DataSanitizer
     /**
      * Sanitizes a mixed value into an integer.
      *
-     * @param  mixed  $value The value to convert.
+     * @param  mixed  $value  The value to convert.
      * @return ?int The sanitized integer value, or null if not numeric.
      */
     public static function sanitizeInteger(mixed $value): ?int
@@ -170,7 +166,7 @@ final class DataSanitizer
      *
      * It correctly handles string numbers with both '.' and ',' as decimal separators.
      *
-     * @param  mixed  $value The value to convert.
+     * @param  mixed  $value  The value to convert.
      * @return ?float The sanitized float value, or null if not numeric.
      */
     public static function sanitizeFloat(mixed $value): ?float

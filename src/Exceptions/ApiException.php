@@ -15,15 +15,14 @@ use Throwable;
  * It serves as a general catch-all for API communication failures that are not
  * more specific, like AuthenticationException or NotFoundException.
  */
-
 class ApiException extends AsaasException
 {
     /**
      * ApiException constructor.
      *
-     * @param  string  $message The Exception message to throw.
-     * @param  int  $code The Exception code, often corresponding to the HTTP status code.
-     * @param  ?Throwable  $previous The previous throwable used for the exception chaining.
+     * @param  string  $message  The Exception message to throw.
+     * @param  int  $code  The Exception code, often corresponding to the HTTP status code.
+     * @param  ?Throwable  $previous  The previous throwable used for the exception chaining.
      */
     public function __construct(string $message = 'An API error occurred', int $code = 0, ?Throwable $previous = null)
     {

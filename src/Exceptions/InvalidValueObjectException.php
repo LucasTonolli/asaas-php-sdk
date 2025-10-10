@@ -20,5 +20,4 @@ namespace AsaasPhpSdk\Exceptions;
  * log_vo_error($e->getMessage());
  * }
  */
-
 class InvalidValueObjectException extends AsaasException {}

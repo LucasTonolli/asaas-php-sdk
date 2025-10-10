@@ -17,7 +17,6 @@ use AsaasPhpSdk\Helpers\DataSanitizer;
  *
  * @internal This is an internal framework class and should not be used directly.
  */
-
 abstract class AbstractDTO implements DTOContract
 {
     /**
@@ -64,9 +63,9 @@ abstract class AbstractDTO implements DTOContract
      * Attempts to create a VO using its `from()` static constructor. If creation
      * fails, it wraps the original exception in an `InvalidValueObjectException`.
      *
-     * @param  array<string, mixed>  &$data The data array, passed by reference.
-     * @param  string  $key The key in the data array to validate.
-     * @param  class-string  $valueObjectClass The fully qualified class name of the Value Object.
+     * @param  array<string, mixed>  &$data  The data array, passed by reference.
+     * @param  string  $key  The key in the data array to validate.
+     * @param  class-string  $valueObjectClass  The fully qualified class name of the Value Object.
      *
      * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
      */
@@ -80,7 +79,7 @@ abstract class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': " . $e->getMessage(),
+                "Invalid format for '{$key}': ".$e->getMessage(),
                 0,
                 $e
             );
@@ -90,8 +89,8 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Sanitizes an optional string value from the data array.
      *
-     * @param  array<string, mixed>  $data The source data array.
-     * @param  string  $key The key to look for.
+     * @param  array<string, mixed>  $data  The source data array.
+     * @param  string  $key  The key to look for.
      * @return ?string The sanitized string, or null if the key doesn't exist or the value is empty.
      */
     protected static function optionalString(array $data, string $key): ?string
@@ -104,8 +103,8 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Sanitizes an optional boolean value from the data array.
      *
-     * @param  array<string, mixed>  $data The source data array.
-     * @param  string  $key The key to look for.
+     * @param  array<string, mixed>  $data  The source data array.
+     * @param  string  $key  The key to look for.
      * @return ?bool The sanitized boolean, or null if the key doesn't exist or the value is empty.
      */
     protected static function optionalBoolean(array $data, string $key): ?bool
@@ -118,13 +117,13 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Sanitizes an optional string value from the data array, keeping only digits.
      *
-     * @param  array<string, mixed>  $data The source data array.
-     * @param  string  $key The key to look for.
+     * @param  array<string, mixed>  $data  The source data array.
+     * @param  string  $key  The key to look for.
      * @return ?string The sanitized string of digits, or null if the key doesn't exist or the value is empty.
      */
     protected static function optionalOnlyDigits(array $data, string $key): ?string
     {
-        if (!array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
+        if (! array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
             return null;
         }
 
@@ -134,15 +133,16 @@ abstract class AbstractDTO implements DTOContract
     /**
      * Sanitizes an optional integer value from the data array.
      *
-     * @param  array<string, mixed>  $data The source data array.
-     * @param  string  $key The key to look for.
+     * @param  array<string, mixed>  $data  The source data array.
+     * @param  string  $key  The key to look for.
      * @return ?int The sanitized integer, or null if the key doesn't exist or the value is empty.
      */
     protected static function optionalInteger(array $data, string $key): ?int
     {
-        if (!array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
+        if (! array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
             return null;
         }
+
         return DataSanitizer::sanitizeInteger($data[$key]);
     }
 
@@ -152,7 +152,7 @@ abstract class AbstractDTO implements DTOContract
      * Each concrete DTO class must implement this method to clean and normalize
      * its specific set of properties before any validation occurs.
      *
-     * @param  array<string, mixed>  $data The raw input data.
+     * @param  array<string, mixed>  $data  The raw input data.
      * @return array<string, mixed> The sanitized data array.
      */
     abstract protected static function sanitize(array $data): array;

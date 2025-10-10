@@ -16,7 +16,7 @@ final class GetCustomerAction extends AbstractAction
      *
      * @see https://docs.asaas.com/reference/recuperar-um-unico-cliente Official Asaas API Documentation
      *
-     * @param  string  $id The unique identifier of the customer to be retrieved.
+     * @param  string  $id  The unique identifier of the customer to be retrieved.
      * @return array An array containing the data of the specified customer.
      *
      * @throws \InvalidArgumentException if the provided customer ID is empty.
@@ -31,7 +31,7 @@ final class GetCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->get('customers/' . rawurlencode($id))
+            fn () => $this->client->get('customers/'.rawurlencode($id))
         );
     }
 }

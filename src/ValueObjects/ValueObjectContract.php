@@ -26,7 +26,7 @@ interface ValueObjectContract extends \JsonSerializable, \Stringable
      * Checks if this Value Object is equal to another by comparing their
      * underlying values, not their object identities.
      *
-     * @param  self  $other The other Value Object to compare against.
+     * @param  self  $other  The other Value Object to compare against.
      * @return bool True if the values are equal, false otherwise.
      */
     public function equals(self $other): bool;

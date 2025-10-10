@@ -22,7 +22,7 @@ class Email implements ValueObjectContract
      * This method sanitizes the email (trims whitespace, converts to lowercase)
      * and validates it against the `FILTER_VALIDATE_EMAIL` standard.
      *
-     * @param  string  $email The email address to validate and encapsulate.
+     * @param  string  $email  The email address to validate and encapsulate.
      * @return self A new, validated Email instance.
      *
      * @throws InvalidEmailException if the email address is not in a valid format.

@@ -23,7 +23,6 @@ use Attribute;
  * public readonly ?Date $dueDate = null;
  * }
  */
-
 #[Attribute(\Attribute::TARGET_PROPERTY)]
 final class ToArrayMethodAttribute
 {

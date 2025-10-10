@@ -23,7 +23,7 @@ final class Phone implements FormattableContract, ValueObjectContract
      * This method sanitizes the input to keep only digits and validates that
      * the length is either 10 or 11 characters.
      *
-     * @param  string  $phone The phone number, which can be formatted or unformatted.
+     * @param  string  $phone  The phone number, which can be formatted or unformatted.
      * @return self A new, validated Phone instance.
      *
      * @throws InvalidPhoneException if the phone number is empty or has an invalid length.

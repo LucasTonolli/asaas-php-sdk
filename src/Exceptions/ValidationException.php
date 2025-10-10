@@ -14,16 +14,15 @@ use Throwable;
  * 2. As a wrapper for internal validation errors (like `InvalidCustomerDataException`)
  * to provide a consistent, public-facing validation exception to the SDK user.
  */
-
 class ValidationException extends AsaasException
 {
     /**
      * ValidationException constructor.
      *
-     * @param  string  $message The Exception message to throw.
-     * @param  int  $code The Exception code.
-     * @param  ?Throwable  $previous The previous throwable used for the exception chaining.
-     * @param  array<int, array<string, string>>  $errors A detailed list of validation errors, often from the API.
+     * @param  string  $message  The Exception message to throw.
+     * @param  int  $code  The Exception code.
+     * @param  ?Throwable  $previous  The previous throwable used for the exception chaining.
+     * @param  array<int, array<string, string>>  $errors  A detailed list of validation errors, often from the API.
      */
     public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null, public readonly array $errors = [])
     {
@@ -37,7 +36,7 @@ class ValidationException extends AsaasException
      * to display to an end-user.
      *
      * @return array<int, array<string, string>> An array of error details. Each error is typically
-     * an associative array with keys like 'code' and 'description'.
+     *                                           an associative array with keys like 'code' and 'description'.
      *
      * @example
      * try {

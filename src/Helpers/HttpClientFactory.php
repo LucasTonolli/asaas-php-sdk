@@ -33,7 +33,7 @@ final class HttpClientFactory
     /**
      * Creates and configures a new Guzzle Client instance based on the provided settings.
      *
-     * @param  AsaasConfig  $config The configuration object with API token and environment settings.
+     * @param  AsaasConfig  $config  The configuration object with API token and environment settings.
      * @return Client A fully configured GuzzleHttp\Client instance.
      */
     public static function make(AsaasConfig $config): Client
@@ -54,7 +54,7 @@ final class HttpClientFactory
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,
@@ -69,6 +69,7 @@ final class HttpClientFactory
      * The delay between retries increases linearly.
      *
      * @return callable The Guzzle retry middleware.
+     *
      * @internal
      */
     private static function createRetryMiddleware(): callable
@@ -107,6 +108,7 @@ final class HttpClientFactory
      * It is only intended for use in the sandbox environment for debugging purposes.
      *
      * @return callable The Guzzle logging middleware.
+     *
      * @internal
      */
     private static function createLoggingMiddleware(): callable

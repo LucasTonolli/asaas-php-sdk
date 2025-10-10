@@ -22,7 +22,7 @@ class PostalCode implements FormattableContract, ValueObjectContract
      * This method sanitizes the input to keep only digits and validates that
      * the length is exactly 8 characters.
      *
-     * @param  string  $postalCode The postal code (CEP), which can be formatted or unformatted.
+     * @param  string  $postalCode  The postal code (CEP), which can be formatted or unformatted.
      * @return self A new, validated PostalCode instance.
      *
      * @throws InvalidPostalCodeException if the postal code is empty or has an invalid length.

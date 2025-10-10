@@ -11,7 +11,6 @@ namespace AsaasPhpSdk\DTOs;
  * array and constructible from a raw data array, providing a consistent
  * interface for data handling across the application.
  */
-
 interface DTOContract
 {
     /**
@@ -31,7 +30,7 @@ interface DTOContract
      * It is responsible for taking raw input and initiating the object's
      * sanitization and validation process.
      *
-     * @param  array<string, mixed>  $data The raw data array.
+     * @param  array<string, mixed>  $data  The raw data array.
      * @return static A new instance of the implementing DTO class.
      */
     public static function fromArray(array $data): self;

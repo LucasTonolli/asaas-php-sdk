@@ -12,7 +12,6 @@ use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
  * the input and validating its length and checksum digits according to the
  * official algorithm. It internally stores the CNPJ as a digits-only string.
  */
-
 class Cnpj implements FormattableContract, ValueObjectContract
 {
     use StringValueObject;
@@ -23,7 +22,7 @@ class Cnpj implements FormattableContract, ValueObjectContract
      * This method sanitizes the input to keep only digits and then validates
      * its format and checksum.
      *
-     * @param  string  $cnpj The CNPJ number, which can be formatted or unformatted.
+     * @param  string  $cnpj  The CNPJ number, which can be formatted or unformatted.
      * @return self A new, validated Cnpj instance.
      *
      * @throws InvalidCnpjException if the CNPJ is invalid.
@@ -50,7 +49,7 @@ class Cnpj implements FormattableContract, ValueObjectContract
      * valid CNPJ, including the checksum digits. It automatically handles and
      * ignores non-digit characters.
      *
-     * @param  string  $cnpj The CNPJ string to validate.
+     * @param  string  $cnpj  The CNPJ string to validate.
      * @return bool True if the CNPJ is valid, false otherwise.
      */
     public static function isValidCnpj(string $cnpj): bool

@@ -16,13 +16,13 @@ use AsaasPhpSdk\ValueObjects\ValueObjectContract;
  *
  * @property-read string $value The raw, underlying string value.
  */
-
 trait StringValueObject
 {
     private readonly string $value;
 
     /**
      * Private constructor to enforce immutability and the factory pattern.
+     *
      * @internal Should only be called from a static factory method like `from()`.
      */
     private function __construct(string $value)
@@ -41,7 +41,7 @@ trait StringValueObject
     /**
      * Compares this Value Object with another for value equality.
      *
-     * @param  ValueObjectContract  $other The other Value Object to compare with.
+     * @param  ValueObjectContract  $other  The other Value Object to compare with.
      * @return bool True if the objects are of the same type and their values are identical.
      */
     public function equals(ValueObjectContract $other): bool
@@ -51,6 +51,7 @@ trait StringValueObject
 
     /**
      * Specifies the data which should be serialized to JSON.
+     *
      * @see \JsonSerializable
      */
     public function jsonSerialize(): string
@@ -60,6 +61,7 @@ trait StringValueObject
 
     /**
      * Returns the string representation of the object.
+     *
      * @see \Stringable
      */
     public function __toString(): string

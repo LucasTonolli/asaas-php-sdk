@@ -17,7 +17,7 @@ final class CreateCustomerAction extends AbstractAction
      *
      * @see https://docs.asaas.com/reference/criar-novo-cliente Official Asaas API Documentation
      *
-     * @param  CreateCustomerDTO  $data A Data Transfer Object containing the validated customer data.
+     * @param  CreateCustomerDTO  $data  A Data Transfer Object containing the validated customer data.
      * @return array An array representing the newly created customer as returned by the API.
      *
      * @throws \AsaasPhpSdk\Exceptions\ApiException
@@ -27,7 +27,7 @@ final class CreateCustomerAction extends AbstractAction
     public function handle(CreateCustomerDTO $data): array
     {
         return $this->executeRequest(
-            fn() => $this->client->post('customers', ['json' => $data->toArray()])
+            fn () => $this->client->post('customers', ['json' => $data->toArray()])
         );
     }
 }

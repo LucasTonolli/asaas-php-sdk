@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Services;
 
-use AsaasPhpSdk\Actions\Customers\{CreateCustomerAction, DeleteCustomerAction, GetCustomerAction, ListCustomersAction, RestoreCustomerAction, UpdateCustomerAction};
-use AsaasPhpSdk\DTOs\Customers\{CreateCustomerDTO, ListCustomersDTO, UpdateCustomerDTO};
+use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
+use AsaasPhpSdk\Actions\Customers\DeleteCustomerAction;
+use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
+use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
+use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
+use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
+use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
+use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
+use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
@@ -21,11 +28,11 @@ use GuzzleHttp\Client;
  * $asaas = new AsaasPhpSdk\Asaas('YOUR_API_KEY', 'sandbox');
  * $customers = $asaas->customer->list();
  */
-
 final class CustomerService
 {
     /**
      * CustomerService constructor.
+     *
      * @internal
      */
     public function __construct(private Client $client, private readonly ResponseHandler $responseHandler = new ResponseHandler) {}
@@ -35,7 +42,7 @@ final class CustomerService
      *
      * @see https://docs.asaas.com/reference/criar-novo-cliente
      *
-     * @param  array<string, mixed>  $data Customer data (e.g., ['name' => 'John Doe', 'cpfCnpj' => '123...']).
+     * @param  array<string, mixed>  $data  Customer data (e.g., ['name' => 'John Doe', 'cpfCnpj' => '123...']).
      * @return array An array representing the newly created customer.
      *
      * @throws ValidationException
@@ -55,7 +62,7 @@ final class CustomerService
      *
      * @see https://docs.asaas.com/reference/listar-clientes
      *
-     * @param  array<string, mixed>  $filters Optional filters (e.g., ['name' => 'John', 'limit' => 10]).
+     * @param  array<string, mixed>  $filters  Optional filters (e.g., ['name' => 'John', 'limit' => 10]).
      * @return array A paginated list of customers.
      *
      * @throws AuthenticationException
@@ -74,7 +81,7 @@ final class CustomerService
      *
      * @see https://docs.asaas.com/reference/recuperar-um-unico-cliente
      *
-     * @param  string  $id The unique identifier of the customer.
+     * @param  string  $id  The unique identifier of the customer.
      * @return array An array containing the customer's data.
      *
      * @throws \InvalidArgumentException
@@ -94,8 +101,8 @@ final class CustomerService
      *
      * @see https://docs.asaas.com/reference/atualizar-cliente-existente
      *
-     * @param  string  $id The unique identifier of the customer.
-     * @param  array<string, mixed>  $data The customer data to be updated.
+     * @param  string  $id  The unique identifier of the customer.
+     * @param  array<string, mixed>  $data  The customer data to be updated.
      * @return array An array representing the updated customer.
      *
      * @throws \InvalidArgumentException
@@ -117,7 +124,7 @@ final class CustomerService
      *
      * @see https://docs.asaas.com/reference/remover-cliente
      *
-     * @param  string  $id The unique identifier of the customer.
+     * @param  string  $id  The unique identifier of the customer.
      * @return array An array confirming the deletion.
      *
      * @throws \InvalidArgumentException
@@ -137,7 +144,7 @@ final class CustomerService
      *
      * @see https://docs.asaas.com/reference/restaurar-cliente-removido
      *
-     * @param  string  $id The unique identifier of the customer.
+     * @param  string  $id  The unique identifier of the customer.
      * @return array An array containing the restored customer's data.
      *
      * @throws \InvalidArgumentException
@@ -156,10 +163,11 @@ final class CustomerService
      * Helper method to create DTOs with consistent error handling.
      *
      * @internal
+     *
      * @template T of AbstractDTO
      *
-     * @param  class-string<T>  $dtoClass The DTO class to instantiate.
-     * @param  array<string, mixed>  $data The raw data for the DTO.
+     * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
+     * @param  array<string, mixed>  $data  The raw data for the DTO.
      * @return T The created DTO instance.
      *
      * @throws ValidationException Wraps internal validation exceptions.

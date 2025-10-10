@@ -22,7 +22,7 @@ class Cpf implements FormattableContract, ValueObjectContract
      * This method sanitizes the input to keep only digits and then validates
      * its format and checksum.
      *
-     * @param  string  $cpf The CPF number, which can be formatted or unformatted.
+     * @param  string  $cpf  The CPF number, which can be formatted or unformatted.
      * @return self A new, validated Cpf instance.
      *
      * @throws InvalidCpfException if the CPF is invalid.
@@ -49,7 +49,7 @@ class Cpf implements FormattableContract, ValueObjectContract
      * valid CPF, including the checksum digits. It automatically handles and
      * ignores non-digit characters.
      *
-     * @param  string  $cpf The CPF string to validate.
+     * @param  string  $cpf  The CPF string to validate.
      * @return bool True if the CPF is valid, false otherwise.
      */
     public static function isValidCpf(string $cpf): bool
