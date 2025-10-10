@@ -1,10 +1,14 @@
 {
 	"name": "lucas/asaas-php-sdk",
-	"description": "Package to integratio Asaas",
+	"description": "PHP SDK for Asaas payment gateway",
+	"type": "library",
+	"version": "0.1.0-alpha",
 	"keywords": [
-		"php",
-		"integratio",
-		"asaas"
+		"asaas",
+		"payment",
+		"gateway",
+		"sdk",
+		"brazil"
 	],
 	"license": "MIT",
 	"authors": [
