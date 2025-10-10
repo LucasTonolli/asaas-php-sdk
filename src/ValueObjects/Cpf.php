@@ -5,10 +5,28 @@ namespace AsaasPhpSdk\ValueObjects;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
+/**
+ * A Value Object representing a Brazilian Individual Taxpayer Registry (CPF).
+ *
+ * This class ensures that a CPF is always valid upon creation by sanitizing
+ * the input and validating its length and checksum digits according to the
+ * official algorithm. It internally stores the CPF as a digits-only string.
+ */
 class Cpf implements FormattableContract, ValueObjectContract
 {
     use StringValueObject;
 
+    /**
+     * Creates a Cpf instance from a string.
+     *
+     * This method sanitizes the input to keep only digits and then validates
+     * its format and checksum.
+     *
+     * @param  string  $cpf  The CPF number, which can be formatted or unformatted.
+     * @return self A new, validated Cpf instance.
+     *
+     * @throws InvalidCpfException if the CPF is invalid.
+     */
     public static function from(string $cpf): self
     {
         $sanitized = DataSanitizer::onlyDigits($cpf);
@@ -24,6 +42,16 @@ class Cpf implements FormattableContract, ValueObjectContract
         return new self($sanitized);
     }
 
+    /**
+     * Validates a CPF number based on the official Brazilian algorithm.
+     *
+     * This static helper method checks if a given string is a mathematically
+     * valid CPF, including the checksum digits. It automatically handles and
+     * ignores non-digit characters.
+     *
+     * @param  string  $cpf  The CPF string to validate.
+     * @return bool True if the CPF is valid, false otherwise.
+     */
     public static function isValidCpf(string $cpf): bool
     {
         $cpf = DataSanitizer::onlyDigits($cpf) ?? '';
@@ -57,6 +85,11 @@ class Cpf implements FormattableContract, ValueObjectContract
         return $digit2 === (int) $cpf[10];
     }
 
+    /**
+     * Returns the CPF formatted as XXX.XXX.XXX-XX.
+     *
+     * @return string The formatted CPF string.
+     */
     public function formatted(): string
     {
         return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $this->value);

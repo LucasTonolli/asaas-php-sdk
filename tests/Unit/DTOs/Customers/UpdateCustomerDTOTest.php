@@ -76,7 +76,7 @@ describe('UpdateCustomerDTO', function () {
 
             ];
 
-            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Postal must contain exactly 8 digits');
+            expect(fn() => UpdateCustomerDTO::fromArray($data))->toThrow(InvalidCustomerDataException::class, 'Postal code must contain exactly 8 digits');
         });
         it('if value from phone or mobilePhone is invalid throws exception', function () {
             $data = [

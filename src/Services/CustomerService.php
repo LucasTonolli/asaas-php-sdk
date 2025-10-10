@@ -13,23 +13,54 @@ use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
 use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
 use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
 use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
+use AsaasPhpSdk\Exceptions\ApiException;
+use AsaasPhpSdk\Exceptions\AuthenticationException;
+use AsaasPhpSdk\Exceptions\NotFoundException;
+use AsaasPhpSdk\Exceptions\RateLimitException;
 use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
+/**
+ * Provides a user-friendly interface for all customer-related operations.
+ *
+ * This service acts as the main entry point for managing customers in the Asaas API.
+ * It abstracts the underlying complexity of DTOs and Actions, providing a clean
+ * and simple API for the SDK consumer.
+ *
+ * @example
+ * $asaas = new AsaasPhpSdk\Asaas('YOUR_API_KEY', 'sandbox');
+ * $customers = $asaas->customer->list();
+ */
 final class CustomerService
 {
-    public function __construct(private Client $client, private readonly ResponseHandler $responseHandler = new ResponseHandler) {}
+    /**
+     * @internal
+     */
+    private readonly ResponseHandler $responseHandler;
 
     /**
-     * Create a new customer
+     * CustomerService constructor.
      *
-     * @param  array  $data  Customer data
-     * @return array Created customer data
+     * @internal
+     */
+    public function __construct(private Client $client, ?ResponseHandler $responseHandler = null)
+    {
+        $this->responseHandler = $responseHandler ?? new ResponseHandler;
+    }
+
+    /**
+     * Creates a new customer.
+     *
+     * @see https://docs.asaas.com/reference/criar-novo-cliente
+     *
+     * @param  array<string, mixed>  $data  Customer data (e.g., ['name' => 'John Doe', 'cpfCnpj' => '123...']).
+     * @return array An array representing the newly created customer.
      *
      * @throws ValidationException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function create(array $data): array
     {
@@ -40,12 +71,16 @@ final class CustomerService
     }
 
     /**
-     * List customers with optional filters
+     * Retrieves a paginated list of customers.
      *
-     * @param  array  $filters  Optional filters (limit, offset, name, email, cpfCnpj)
-     * @return array Paginated list of customers
+     * @see https://docs.asaas.com/reference/listar-clientes
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
+     * @param  array<string, mixed>  $filters  Optional filters (e.g., ['name' => 'John', 'limit' => 10]).
+     * @return array A paginated list of customers.
+     *
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function list(array $filters = []): array
     {
@@ -56,15 +91,18 @@ final class CustomerService
     }
 
     /**
-     * Get a customer by ID
+     * Retrieves a single customer by their ID.
      *
-     * @param  string  $id  Customer ID
-     * @return array Customer data
+     * @see https://docs.asaas.com/reference/recuperar-um-unico-cliente
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @param  string  $id  The unique identifier of the customer.
+     * @return array An array containing the customer's data.
+     *
      * @throws \InvalidArgumentException
+     * @throws NotFoundException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function get(string $id): array
     {
@@ -74,16 +112,20 @@ final class CustomerService
     }
 
     /**
-     * Update a customer by ID
+     * Updates an existing customer by their ID.
      *
-     * @param  string  $id  Customer ID
-     * @param  array  $data  Customer data
-     * @return array Updated customer data
+     * @see https://docs.asaas.com/reference/atualizar-cliente-existente
      *
-     * @throws ValidationException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @param  string  $id  The unique identifier of the customer.
+     * @param  array<string, mixed>  $data  The customer data to be updated.
+     * @return array An array representing the updated customer.
+     *
      * @throws \InvalidArgumentException
+     * @throws ValidationException
+     * @throws NotFoundException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function update(string $id, array $data): array
     {
@@ -94,15 +136,18 @@ final class CustomerService
     }
 
     /**
-     * Delete a customer by ID
+     * Deletes a customer by their ID.
      *
-     * @param  string  $id  Customer ID
-     * @return array Deleted customer data
+     * @see https://docs.asaas.com/reference/remover-cliente
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @param  string  $id  The unique identifier of the customer.
+     * @return array An array confirming the deletion.
+     *
      * @throws \InvalidArgumentException
+     * @throws NotFoundException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function delete(string $id): array
     {
@@ -112,15 +157,18 @@ final class CustomerService
     }
 
     /**
-     * Restore a customer by ID
+     * Restores a previously deleted customer by their ID.
      *
-     * @param  string  $id  Customer ID
-     * @return array Restored customer data
+     * @see https://docs.asaas.com/reference/restaurar-cliente-removido
      *
-     * @throws \AsaasPhpSdk\Exceptions\ApiException
-     * @throws \AsaasPhpSdk\Exceptions\AuthenticationException
-     * @throws \AsaasPhpSdk\Exceptions\NotFoundException
+     * @param  string  $id  The unique identifier of the customer.
+     * @return array An array containing the restored customer's data.
+     *
      * @throws \InvalidArgumentException
+     * @throws NotFoundException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     * @throws ApiException
      */
     public function restore(string $id): array
     {
@@ -130,14 +178,17 @@ final class CustomerService
     }
 
     /**
-     * Helper method to create DTOs with consistent error handling
+     * Helper method to create DTOs with consistent error handling.
      *
-     * @template T
+     * @internal
      *
-     * @param  class-string<T>  $dtoClass
-     * @return T
+     * @template T of of \AsaasPhpSdk\DTOs\AbstractDTO
      *
-     * @throws ValidationException
+     * @param  class-string<T>  $dtoClass  The DTO class to instantiate.
+     * @param  array<string, mixed>  $data  The raw data for the DTO.
+     * @return T The created DTO instance.
+     *
+     * @throws ValidationException Wraps internal validation exceptions.
      */
     private function createDTO(string $dtoClass, array $data): object
     {

@@ -6,19 +6,48 @@ namespace AsaasPhpSdk\DTOs\Customers;
 
 use AsaasPhpSdk\DTOs\AbstractDTO;
 use AsaasPhpSdk\DTOs\Attributes\ToArrayMethodAttribute;
-use AsaasPhpSdk\Exceptions\InvalidCnpjException;
-use AsaasPhpSdk\Exceptions\InvalidCpfException;
 use AsaasPhpSdk\Exceptions\InvalidCustomerDataException;
+use AsaasPhpSdk\Exceptions\InvalidValueObjectException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Cnpj;
 use AsaasPhpSdk\ValueObjects\Cpf;
 use AsaasPhpSdk\ValueObjects\Email;
 use AsaasPhpSdk\ValueObjects\Phone;
 use AsaasPhpSdk\ValueObjects\PostalCode;
-use InvalidArgumentException;
 
+/**
+ * A "Strict" Data Transfer Object for updating an existing customer.
+ *
+ * This DTO is designed for partial updates, meaning all its properties are
+ * optional. However, any data that is provided will be strictly validated.
+ * An `InvalidCustomerDataException` is thrown if any of the provided fields
+ * are malformed.
+ */
 final class UpdateCustomerDTO extends AbstractDTO
 {
+    /**
+     * UpdateCustomerDTO private constructor.
+     *
+     * @param  ?string  $name  The customer's new full name.
+     * @param  null|Cpf|Cnpj  $cpfCnpj  The customer's new document (CPF or CNPJ).
+     * @param  ?Email  $email  The customer's new primary email address.
+     * @param  ?Phone  $phone  The customer's new landline phone.
+     * @param  ?Phone  $mobilePhone  The customer's new mobile phone.
+     * @param  ?string  $address  The new street address.
+     * @param  ?string  $addressNumber  The new address number.
+     * @param  ?string  $complement  New additional address information.
+     * @param  ?string  $province  The new neighborhood or province.
+     * @param  ?PostalCode  $postalCode  The new postal code.
+     * @param  ?string  $externalReference  A new unique external identifier.
+     * @param  ?bool  $notificationDisabled  New setting to disable notifications.
+     * @param  ?string  $additionalEmails  A new comma-separated list of additional emails.
+     * @param  ?string  $municipalInscription  The new municipal registration number.
+     * @param  ?string  $stateInscription  The new state registration number.
+     * @param  ?string  $observations  New observations about the customer.
+     * @param  ?string  $groupName  The new name of the customer's group.
+     * @param  ?string  $company  The new company name.
+     * @param  ?bool  $foreignCustomer  The new setting for foreign customer status.
+     */
     private function __construct(
         public readonly ?string $name,
         public readonly null|Cpf|Cnpj $cpfCnpj,
@@ -42,6 +71,17 @@ final class UpdateCustomerDTO extends AbstractDTO
         public readonly ?bool $foreignCustomer = null
     ) {}
 
+    /**
+     * Creates a new UpdateCustomerDTO instance from a raw array of data.
+     *
+     * This factory method takes a raw array of data to be updated. It sanitizes
+     * and validates only the fields that are provided in the array.
+     *
+     * @param  array<string, mixed>  $data  Raw data for the fields to be updated.
+     * @return self A new, validated instance of the DTO.
+     *
+     * @throws InvalidCustomerDataException if any of the provided data is malformed.
+     */
     public static function fromArray(array $data): self
     {
         $sanitizedData = self::sanitize($data);
@@ -50,6 +90,11 @@ final class UpdateCustomerDTO extends AbstractDTO
         return new self(...$validatedData);
     }
 
+    /**
+     * Sanitizes the raw input data array for the update operation.
+     *
+     * @internal
+     */
     protected static function sanitize(array $data): array
     {
         return [
@@ -76,7 +121,13 @@ final class UpdateCustomerDTO extends AbstractDTO
         ];
     }
 
-
+    /**
+     * Validates the sanitized data for the update operation.
+     *
+     * @internal
+     *
+     * @throws InvalidCustomerDataException
+     */
     private static function validate(array $data): array
     {
 
@@ -89,7 +140,7 @@ final class UpdateCustomerDTO extends AbstractDTO
                     $data['cpfCnpj'] = match ($length) {
                         11 => Cpf::from($data['cpfCnpj']),
                         14 => Cnpj::from($data['cpfCnpj']),
-                        default => throw new InvalidArgumentException('CPF or CNPJ must contain 11 or 14 digits'),
+                        default => throw new InvalidValueObjectException('CPF or CNPJ must contain 11 or 14 digits'),
                     };
                 }
             }
@@ -98,11 +149,7 @@ final class UpdateCustomerDTO extends AbstractDTO
             self::validateValueObject($data, 'postalCode', PostalCode::class);
             self::validateValueObject($data, 'phone', Phone::class);
             self::validateValueObject($data, 'mobilePhone', Phone::class);
-        } catch (InvalidArgumentException $e) {
-            throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
-        } catch (InvalidCnpjException $e) {
-            throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
-        } catch (InvalidCpfException $e) {
+        } catch (InvalidValueObjectException $e) {
             throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
         }
 

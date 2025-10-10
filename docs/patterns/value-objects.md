@@ -36,6 +36,58 @@ Para VOs que validam e armazenam uma `string`, utiliza-se a trait `StringValueOb
 
     PascalCase (ex: `Cpf`, `Email`, `Phone`)
 
+```php
+<?php
+
+namespace AsaasPhpSdk\ValueObjects;
+
+useAsaasPhpSdk\ValueObjects\ValueObjectContract;
+use AsaasPhpSdk\ValueObjects\FormattableContract;
+use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
+use AsaasPhpSdk\Helpers\DataSanitizer;
+use AsaasPhpSdk\Exceptions\InvalidCpfException;
+
+// final: Garante que não pode ser estendido
+final class Cpf implements ValueObjectContract, FormattableContract
+{
+    // Trait cuida da implementação básica de value(), equals(), etc.
+    use StringValueObject;
+
+    // Método estático para validação e construção
+    public static function from(string $cpf): self
+    {
+        $sanitized = DataSanitizer::onlyDigits($cpf);
+
+        if ($sanitized === null || strlen($sanitized) !== 11) {
+            throw new InvalidCpfException('CPF must contain exactly 11 digits');
+        }
+
+        if (! self::isValidCpf($sanitized)) {
+           throw new InvalidCpfException("Invalid CPF: {$cpf}");
+        }
+
+        return new self($sanitized);
+    }
+
+    // Validação de algoritmo do CPF
+    public static function isValidCpf(string $cpf): bool
+    {
+        // Implementação completa do algoritmo
+        // (ver src/ValueObjects/Cpf.php para detalhes)
+    }
+
+    // Implementação do FormattableContract
+    public function formatted(): string
+    {
+        return preg_replace(
+            "/(\d{3})(\d{3})(\d{3})(\d{2})/",
+            "$1.$2.$3-$4",
+            $this->value
+        );
+    }
+}
+```
+
 ## 🧭 Boas práticas
 
 ### ✅ Imutabilidade:
