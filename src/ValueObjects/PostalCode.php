@@ -5,10 +5,28 @@ namespace AsaasPhpSdk\ValueObjects;
 use AsaasPhpSdk\Helpers\DataSanitizer;
 use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
 
+/**
+ * A Value Object representing a Brazilian postal code (CEP).
+ *
+ * This class ensures that a postal code is always valid upon creation by
+ * sanitizing the input and validating that it contains exactly 8 digits.
+ * It stores the value internally as a digits-only string.
+ */
 class PostalCode implements FormattableContract, ValueObjectContract
 {
     use StringValueObject;
 
+    /**
+     * Creates a PostalCode instance from a string.
+     *
+     * This method sanitizes the input to keep only digits and validates that
+     * the length is exactly 8 characters.
+     *
+     * @param  string  $postalCode The postal code (CEP), which can be formatted or unformatted.
+     * @return self A new, validated PostalCode instance.
+     *
+     * @throws InvalidPostalCodeException if the postal code is empty or has an invalid length.
+     */
     public static function from(string $postalCode): self
     {
         $sanitized = DataSanitizer::onlyDigits($postalCode);
@@ -20,6 +38,11 @@ class PostalCode implements FormattableContract, ValueObjectContract
         return new self($sanitized);
     }
 
+    /**
+     * Returns the postal code formatted as XXXXX-XXX.
+     *
+     * @return string The formatted postal code string.
+     */
     public function formatted(): string
     {
         return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $this->value);
