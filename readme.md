@@ -42,13 +42,11 @@ $config = new AsaasConfig('your_token', true);
 
 $client = new AsaasClient($config);
 
-$dto = CreateCustomerDTO::fromArray([
+$response = $client->customer()->create([
     'name' => 'John Doe',
     'cpfCnpj' => '12345678901',
     'email' => 'john@example.com',
 ]);
-
-$response = $client->customer()->create($dto->toArray());
 print_r($response);
 ```
 
