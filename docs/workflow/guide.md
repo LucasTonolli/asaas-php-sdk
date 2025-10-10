@@ -74,10 +74,10 @@ Cada milestone agrupa um conjunto de entregas relacionadas.
 #### 📦 **Milestones**
 
 ```
-v0.1.0 - Customer Module (Due: Dec 15)
-v0.2.0 - Payment Module (Due: Dec 30)
-v0.3.0 - Subscription Module (Due: Jan 15)
-v1.0.0 - Production Ready (Due: Jan 31)
+v0.1.0 - Customer Module
+v0.2.0 - Payment Module
+v0.3.0 - Subscription Module
+v1.0.0 - Production Ready
 ```
 
 #### 📝 **Issues**
