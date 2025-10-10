@@ -54,7 +54,7 @@ final class HttpClientFactory
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'access_token' => $config->getToken(),
-                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/' . phpversion(),
+                'User-Agent' => 'AsaasPhpSdk/1.0 PHP/'.phpversion(),
             ],
             'handler' => $stack,
             'http_errors' => false,

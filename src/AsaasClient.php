@@ -57,6 +57,7 @@ final class AsaasClient
             return $this->customerService;
         }
         $this->customerService = new CustomerService($this->httpClient);
+
         return $this->customerService;
     }
 

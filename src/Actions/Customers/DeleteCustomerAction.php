@@ -32,7 +32,7 @@ final class DeleteCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->delete('customers/' . rawurlencode($normalizedId))
+            fn () => $this->client->delete('customers/'.rawurlencode($normalizedId))
         );
     }
 }

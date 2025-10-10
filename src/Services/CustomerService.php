@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace AsaasPhpSdk\Services;
 
-use AsaasPhpSdk\Actions\Customers\{CreateCustomerAction, DeleteCustomerAction, GetCustomerAction, ListCustomersAction, RestoreCustomerAction, UpdateCustomerAction};
-use AsaasPhpSdk\DTOs\Customers\{CreateCustomerDTO, ListCustomersDTO, UpdateCustomerDTO};
-use AsaasPhpSdk\Exceptions\ValidationException;
-use AsaasPhpSdk\Exceptions\AuthenticationException;
+use AsaasPhpSdk\Actions\Customers\CreateCustomerAction;
+use AsaasPhpSdk\Actions\Customers\DeleteCustomerAction;
+use AsaasPhpSdk\Actions\Customers\GetCustomerAction;
+use AsaasPhpSdk\Actions\Customers\ListCustomersAction;
+use AsaasPhpSdk\Actions\Customers\RestoreCustomerAction;
+use AsaasPhpSdk\Actions\Customers\UpdateCustomerAction;
+use AsaasPhpSdk\DTOs\Customers\CreateCustomerDTO;
+use AsaasPhpSdk\DTOs\Customers\ListCustomersDTO;
+use AsaasPhpSdk\DTOs\Customers\UpdateCustomerDTO;
 use AsaasPhpSdk\Exceptions\ApiException;
+use AsaasPhpSdk\Exceptions\AuthenticationException;
 use AsaasPhpSdk\Exceptions\NotFoundException;
 use AsaasPhpSdk\Exceptions\RateLimitException;
+use AsaasPhpSdk\Exceptions\ValidationException;
 use AsaasPhpSdk\Helpers\ResponseHandler;
 use GuzzleHttp\Client;
 
@@ -31,6 +38,7 @@ final class CustomerService
      * @internal
      */
     private readonly ResponseHandler $responseHandler;
+
     /**
      * CustomerService constructor.
      *
@@ -38,7 +46,7 @@ final class CustomerService
      */
     public function __construct(private Client $client, ?ResponseHandler $responseHandler = null)
     {
-        $this->responseHandler = $responseHandler ?? new ResponseHandler();
+        $this->responseHandler = $responseHandler ?? new ResponseHandler;
     }
 
     /**

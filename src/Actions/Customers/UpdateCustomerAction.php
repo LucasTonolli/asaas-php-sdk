@@ -35,7 +35,7 @@ final class UpdateCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->put('customers/' . rawurlencode($normalizedId), ['json' => $data->toArray()])
+            fn () => $this->client->put('customers/'.rawurlencode($normalizedId), ['json' => $data->toArray()])
         );
     }
 }

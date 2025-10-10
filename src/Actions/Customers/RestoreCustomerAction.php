@@ -32,7 +32,7 @@ final class RestoreCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->post('customers/' . rawurlencode($normalizedId) . '/restore')
+            fn () => $this->client->post('customers/'.rawurlencode($normalizedId).'/restore')
         );
     }
 }

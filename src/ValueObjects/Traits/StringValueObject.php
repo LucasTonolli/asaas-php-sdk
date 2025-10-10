@@ -2,8 +2,6 @@
 
 namespace AsaasPhpSdk\ValueObjects\Traits;
 
-use AsaasPhpSdk\ValueObjects\ValueObjectContract;
-
 /**
  * Provides a standard implementation for string-based Value Objects.
  *

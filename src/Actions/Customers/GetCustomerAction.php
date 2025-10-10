@@ -32,7 +32,7 @@ final class GetCustomerAction extends AbstractAction
         }
 
         return $this->executeRequest(
-            fn() => $this->client->get('customers/' . rawurlencode($normalizedId))
+            fn () => $this->client->get('customers/'.rawurlencode($normalizedId))
         );
     }
 }

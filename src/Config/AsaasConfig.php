@@ -60,7 +60,7 @@ class AsaasConfig
         $tokenKey = $isSandbox ? 'ASAAS_SANDBOX_TOKEN' : 'ASAAS_PROD_TOKEN';
         $urlKey = $isSandbox ? 'ASAAS_SANDBOX_URL' : 'ASAAS_PROD_URL';
 
-        $token =  $_ENV[$tokenKey] ?? $_SERVER[$tokenKey] ?? (getenv($tokenKey) ?: null);
+        $token = $_ENV[$tokenKey] ?? $_SERVER[$tokenKey] ?? (getenv($tokenKey) ?: null);
 
         if (! $token) {
             throw new \RuntimeException("Environment variable {$tokenKey} is not set");
