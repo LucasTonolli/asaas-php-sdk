@@ -36,7 +36,7 @@ jobs:
 
       # 5️⃣ Rodar testes
       - name: Run tests
-        run: vendor/bin/pest --coverage --coverage-text
+        run: vendor/bin/pest
 
       # 6️⃣ Opcional: gerar cobertura HTML
       - name: Generate HTML coverage
