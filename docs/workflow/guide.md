@@ -64,6 +64,12 @@ git tag v0.1.0
 git push --tags
 ```
 
+    v0.x.x = Alpha/Beta (breaking changes OK)
+    v1.0.0 = First stable release
+    v1.1.0 = New features (backward compatible)
+    v1.1.1 = Bug fixes
+    v2.0.0 = Breaking changes
+
 ## 🧱 **Project Organization**
 
 ### 📂 **GitHub Issues + Milestones**
