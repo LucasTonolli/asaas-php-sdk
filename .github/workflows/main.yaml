@@ -37,8 +37,3 @@ jobs:
       # 5️⃣ Rodar testes
       - name: Run tests
         run: vendor/bin/pest --configuration phpunit.xml.dist --exclude-filter=integration
-
-      # 6️⃣ Opcional: gerar cobertura HTML
-      - name: Generate HTML coverage
-        if: success()
-        run: vendor/bin/pest --coverage-html=coverage
