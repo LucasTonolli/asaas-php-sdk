@@ -7,6 +7,7 @@ namespace AsaasPhpSdk;
 use AsaasPhpSdk\Config\AsaasConfig;
 use AsaasPhpSdk\Helpers\HttpClientFactory;
 use AsaasPhpSdk\Services\CustomerService;
+use AsaasPhpSdk\Services\PaymentService;
 use GuzzleHttp\Client;
 
 /**
@@ -30,6 +31,8 @@ final class AsaasClient
     private Client $httpClient;
 
     private ?CustomerService $customerService = null;
+
+    private ?PaymentService $paymentService = null;
 
     /**
      * AsaasClient constructor.
@@ -59,6 +62,16 @@ final class AsaasClient
         $this->customerService = new CustomerService($this->httpClient);
 
         return $this->customerService;
+    }
+
+    public function payment(): PaymentService
+    {
+        if ($this->paymentService !== null) {
+            return $this->paymentService;
+        }
+        $this->paymentService = new PaymentService($this->httpClient);
+
+        return $this->paymentService;
     }
 
     /**

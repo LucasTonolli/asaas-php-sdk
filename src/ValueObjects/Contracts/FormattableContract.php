@@ -1,6 +1,6 @@
 <?php
 
-namespace AsaasPhpSdk\ValueObjects;
+namespace AsaasPhpSdk\ValueObjects\Contracts;
 
 /**
  * Defines a contract for Value Objects that have a user-friendly formatted representation.

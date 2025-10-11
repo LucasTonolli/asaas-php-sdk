@@ -45,8 +45,10 @@ abstract class AbstractDTO implements DTOContract
 
             $attributes = $property->getAttributes(ToArrayMethodAttribute::class);
             if (! empty($attributes)) {
-                $method = $attributes[0]->newInstance()->method;
-                $result[$key] = $value->{$method}();
+                $attr = $attributes[0]->newInstance();
+                $method = $attr->method;
+                $args = $attr->args ?? [];
+                $result[$key] = $value->{$method}(...$args);
             } elseif (is_object($value) && method_exists($value, 'value')) {
                 $result[$key] = $value->value();
             } else {
@@ -69,7 +71,7 @@ abstract class AbstractDTO implements DTOContract
      *
      * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
      */
-    protected static function validateValueObject(array &$data, string $key, string $valueObjectClass): void
+    protected static function validateSimpleValueObject(array &$data, string $key, string $valueObjectClass): void
     {
         if (! isset($data[$key]) || $data[$key] === null) {
             return;
@@ -79,10 +81,25 @@ abstract class AbstractDTO implements DTOContract
             $data[$key] = $valueObjectClass::from($data[$key]);
         } catch (\Exception $e) {
             throw new InvalidValueObjectException(
-                "Invalid format for '{$key}': ".$e->getMessage(),
+                "Invalid format for '{$key}': " . $e->getMessage(),
                 0,
                 $e
             );
+        }
+    }
+
+    protected static function validateStructuredValueObject(array &$data, string $key, string $voClass): void
+    {
+        if (isset($data[$key]) && is_array($data[$key])) {
+            try {
+                $data[$key] = $voClass::fromArray($data[$key]);
+            } catch (\Exception $e) {
+                throw new InvalidValueObjectException(
+                    "Invalid format for '{$key}': " . $e->getMessage(),
+                    0,
+                    $e
+                );
+            }
         }
     }
 
@@ -146,6 +163,14 @@ abstract class AbstractDTO implements DTOContract
         return DataSanitizer::sanitizeInteger($data[$key]);
     }
 
+    protected static function optionalFloat(array $data, string $key): ?float
+    {
+        if (! array_key_exists($key, $data) || $data[$key] === null || $data[$key] === '') {
+            return null;
+        }
+
+        return DataSanitizer::sanitizeFloat($data[$key]);
+    }
     /**
      * Defines the contract for sanitizing the DTO's raw input data.
      *

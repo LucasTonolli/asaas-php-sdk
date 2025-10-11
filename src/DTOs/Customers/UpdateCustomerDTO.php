@@ -145,10 +145,10 @@ final class UpdateCustomerDTO extends AbstractDTO
                 }
             }
 
-            self::validateValueObject($data, 'email', Email::class);
-            self::validateValueObject($data, 'postalCode', PostalCode::class);
-            self::validateValueObject($data, 'phone', Phone::class);
-            self::validateValueObject($data, 'mobilePhone', Phone::class);
+            self::validateSimpleValueObject($data, 'email', Email::class);
+            self::validateSimpleValueObject($data, 'postalCode', PostalCode::class);
+            self::validateSimpleValueObject($data, 'phone', Phone::class);
+            self::validateSimpleValueObject($data, 'mobilePhone', Phone::class);
         } catch (InvalidValueObjectException $e) {
             throw new InvalidCustomerDataException($e->getMessage(), 0, $e);
         }

@@ -3,7 +3,9 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
+use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
+use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
+
 
 /**
  * A Value Object representing a Brazilian Individual Taxpayer Registry (CPF).
@@ -12,10 +14,8 @@ use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
  * the input and validating its length and checksum digits according to the
  * official algorithm. It internally stores the CPF as a digits-only string.
  */
-class Cpf implements FormattableContract, ValueObjectContract
+class Cpf extends AbstractSimpleValueObject implements FormattableContract
 {
-    use StringValueObject;
-
     /**
      * Creates a Cpf instance from a string.
      *
