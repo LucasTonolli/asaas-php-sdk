@@ -92,10 +92,10 @@ final class CreatePaymentDTO extends AbstractDTO
 			throw new InvalidPaymentDataException('Invalid billing type');
 		}
 		try {
-			self::validateSimpleValueObject($data, 'discount', Discount::class);
-			self::validateSimpleValueObject($data, 'interest', Interest::class);
-			self::validateSimpleValueObject($data, 'split', Split::class);
-			self::validateSimpleValueObject($data, 'callback', Callback::class);
+			self::validateStructuredValueObject($data, 'discount', Discount::class);
+			self::validateStructuredValueObject($data, 'interest', Interest::class);
+			self::validateStructuredValueObject($data, 'split', Split::class);
+			self::validateStructuredValueObject($data, 'callback', Callback::class);
 		} catch (InvalidValueObjectException $e) {
 			throw new InvalidPaymentDataException($e->getMessage(), 0, $e);
 		}
