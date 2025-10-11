@@ -3,7 +3,8 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
+use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
+use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
 
 /**
  * A Value Object representing a Brazilian postal code (CEP).
@@ -12,10 +13,8 @@ use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
  * sanitizing the input and validating that it contains exactly 8 digits.
  * It stores the value internally as a digits-only string.
  */
-class PostalCode implements FormattableContract, ValueObjectContract
+class PostalCode extends AbstractSimpleValueObject implements FormattableContract
 {
-    use StringValueObject;
-
     /**
      * Creates a PostalCode instance from a string.
      *

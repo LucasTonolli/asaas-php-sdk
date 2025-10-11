@@ -3,7 +3,7 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
+use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
 
 /**
  * A Value Object representing a valid email address.
@@ -12,10 +12,8 @@ use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
  * format (lowercase, trimmed). It validates the format upon creation using
  * PHP's native email filter.
  */
-class Email implements ValueObjectContract
+class Email extends AbstractSimpleValueObject
 {
-    use StringValueObject;
-
     /**
      * Creates an Email instance from a string.
      *

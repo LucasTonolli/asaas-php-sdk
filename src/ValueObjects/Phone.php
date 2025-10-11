@@ -4,7 +4,8 @@ namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Exceptions\InvalidPhoneException;
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
+use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
+use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
 
 /**
  * A Value Object representing a Brazilian phone number.
@@ -13,10 +14,8 @@ use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
  * digits after sanitization. It stores the value internally as a digits-only
  * string and provides methods for formatting and type checking.
  */
-final class Phone implements FormattableContract, ValueObjectContract
+final class Phone extends AbstractSimpleValueObject implements FormattableContract
 {
-    use StringValueObject;
-
     /**
      * Creates a Phone instance from a string.
      *

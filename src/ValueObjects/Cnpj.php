@@ -3,7 +3,8 @@
 namespace AsaasPhpSdk\ValueObjects;
 
 use AsaasPhpSdk\Helpers\DataSanitizer;
-use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
+use AsaasPhpSdk\ValueObjects\Base\AbstractSimpleValueObject;
+use AsaasPhpSdk\ValueObjects\Contracts\FormattableContract;
 
 /**
  * A Value Object representing a Brazilian Corporate Taxpayer Registry (CNPJ).
@@ -12,10 +13,8 @@ use AsaasPhpSdk\ValueObjects\Traits\StringValueObject;
  * the input and validating its length and checksum digits according to the
  * official algorithm. It internally stores the CNPJ as a digits-only string.
  */
-class Cnpj implements FormattableContract, ValueObjectContract
+class Cnpj extends AbstractSimpleValueObject implements FormattableContract
 {
-    use StringValueObject;
-
     /**
      * Creates a Cnpj instance from a string.
      *
