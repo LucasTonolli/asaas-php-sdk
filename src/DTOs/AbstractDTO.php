@@ -71,7 +71,7 @@ abstract class AbstractDTO implements DTOContract
      *
      * @throws InvalidValueObjectException if the value is invalid and the VO cannot be created.
      */
-    protected static function validateValueObject(array &$data, string $key, string $valueObjectClass): void
+    protected static function validateSimpleValueObject(array &$data, string $key, string $valueObjectClass): void
     {
         if (! isset($data[$key]) || $data[$key] === null) {
             return;
@@ -85,6 +85,21 @@ abstract class AbstractDTO implements DTOContract
                 0,
                 $e
             );
+        }
+    }
+
+    protected static function validateStructuredValueObject(array &$data, string $key, string $voClass): void
+    {
+        if (isset($data[$key]) && is_array($data[$key])) {
+            try {
+                $data[$key] = $voClass::fromArray($data[$key]);
+            } catch (\Exception $e) {
+                throw new InvalidValueObjectException(
+                    "Invalid format for '{$key}': " . $e->getMessage(),
+                    0,
+                    $e
+                );
+            }
         }
     }
 
