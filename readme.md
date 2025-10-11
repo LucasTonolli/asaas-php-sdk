@@ -48,6 +48,7 @@ $response = $client->customer()->create([
     'email' => 'john@example.com',
 ]);
 print_r($response);
+
 ```
 
 ---
